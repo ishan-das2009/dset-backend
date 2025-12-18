@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSET | Cybersecurity Module</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-blue: #00f2ff;
+      --neon-purple: #a100ff;
+      --neon-pink: #ff00e6;
+      --neon-green: #00ff88;
+      --dark-bg: #0a0e1a;
+      --darker-bg: #050811;
+      --glow-intensity: 0 0 15px;
+      --terminal-cursor: #00ff41;
+    }
+    
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark-bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #ffffff;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+
+
+  .translate-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(161, 0, 255, 0.5);
+}
+.translate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+}
+
+    /* ===== CYBERPUNK NAVBAR ===== */
+    .navbar-custom {
+      background: rgba(10, 14, 26, 0.95) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+      padding: 0.8rem 2rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 2.4rem !important;
+      font-weight: 900 !important;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--glow-intensity) rgba(161, 0, 255, 0.7);
+      letter-spacing: 3px;
+      position: relative;
+      padding-right: 20px;
+      margin-right: 1rem;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .navbar-brand:hover {
+      text-shadow: 0 0 25px var(--neon-purple), 
+                   0 0 20px var(--neon-blue),
+                   0 0 35px rgba(161, 0, 255, 0.5);
+      transform: scale(1.05) !important;
+    }
+
+    .navbar-brand::after {
+      content: '_';
+      position: absolute;
+      right: 0;
+      animation: blink 1s step-end infinite;
+      color: var(--terminal-cursor);
+      font-weight: 400;
+    }
+
+    .nav-link {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700 !important;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: white !important;
+      margin: 0 12px;
+      position: relative;
+      padding: 8px 0 !important;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      transition: width 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--neon-blue) !important;
+      text-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+      box-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    .nav-link.active {
+      color: var(--neon-green) !important;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+    }
+
+    .nav-link.active::before {
+      width: 100%;
+      background: var(--neon-green);
+      box-shadow: 0 0 20px var(--neon-green);
+    }
+
+    .navbar-toggler {
+      border: 1px solid var(--neon-blue);
+      padding: 0.5rem;
+    }
+        .code-block {
+      background: rgba(0, 242, 255, 0.1);
+      border: 1px solid rgba(0, 242, 255, 0.3);
+      border-radius: 4px;
+      padding: 15px;
+      font-family: 'Fira Code', monospace;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .note-box {
+      background: rgba(0, 255, 136, 0.1);
+      border-left: 3px solid var(--neon-green);
+      padding: 15px;
+      margin: 20px 0;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 242, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* ===== MODULE PAGE LAYOUT ===== */
+    .module-container {
+      display: flex;
+      padding-top: 100px;
+      min-height: calc(100vh - 100px);
+    }
+
+    /* ===== SIDEBAR NAVIGATION ===== */
+    .module-sidebar {
+      width: 280px;
+      padding: 30px 20px;
+      position: fixed;
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      background: rgba(5, 8, 17, 0.8);
+      border-right: 1px solid rgba(0, 242, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      top: 100px;
+    }
+
+.sidebar-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+  position: sticky;
+  top: 0;
+  background: var(--darker-bg);
+  z-index: 10;
+  padding-top: 10px;
+  box-shadow: 0 5px 15px rgba(5, 8, 17, 0.9);
+}
+
+.sidebar-header h2 {
+  display: flex;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.module-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--neon-purple);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.progress-container {
+  margin-top: 20px;
+  position: sticky;
+  top: 120px;
+  background: var(--darker-bg);
+  padding-bottom: 10px;
+  z-index: 5;
+}
+
+    .progress-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: var(--neon-green);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #0a1a2a;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+      width: 25%;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+.topic-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.topic-nav li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.topic-nav li::before {
+  content: none;
+  display: none;
+}
+
+    .topic-nav a {
+      display: block;
+      padding: 10px 15px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: #b2f5ea;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .topic-nav a:hover, .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.1);
+      color: var(--neon-blue);
+      border-left: 3px solid var(--neon-blue);
+      text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+    .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.2);
+      color: var(--neon-green);
+      border-left: 3px solid var(--neon-green);
+    }
+    .module-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.module-sidebar::-webkit-scrollbar-track {
+  background: rgba(5, 8, 17, 0.8);
+}
+
+.module-sidebar::-webkit-scrollbar-thumb {
+  background: var(--neon-purple);
+  border-radius: 4px;
+}
+
+.module-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-blue);
+}
+
+.module-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) rgba(5, 8, 17, 0.8);
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--neon-blue), var(--neon-purple));
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--neon-green), var(--neon-pink));
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) var(--darker-bg);
+}
+
+    /* ===== MAIN CONTENT ===== */
+    .module-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 40px;
+      max-width: 900px;
+      position: relative;
+      padding-bottom: 100px;
+    }
+
+    .module-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      color: var(--neon-blue);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      white-space: nowrap;
+    }
+
+    .topic-section {
+      margin-bottom: 60px;
+      padding: 30px;
+      background: rgba(5, 8, 17, 0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 242, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .topic-section:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+    }
+
+    .topic-section h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--neon-purple);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .topic-content {
+      font-family: 'Rajdhani', sans-serif;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .topic-content p {
+      margin-bottom: 20px;
+    }
+
+    .topic-content ul {
+      padding-left: 25px;
+      margin-bottom: 20px;
+      list-style-type: none;
+    }
+
+    .topic-content li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .topic-content li::before {
+      content: '■';
+      color: var(--neon-green);
+      position: absolute;
+      left: 0;
+      font-size: 0.8rem;
+    }
+
+    .btn-next {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: var(--darker-bg);
+      color: var(--neon-blue);
+      border: 2px solid var(--neon-blue);
+      border-radius: 0;
+      position: fixed;
+      bottom: 30px;
+      right: 40px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 15px rgba(0, 242, 255, 0.6),
+                  0 0 10px rgba(0, 242, 255, 0.3);
+      text-decoration: none;
+      z-index: 100;
+    }
+
+    .btn-next:hover {
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      background: var(--dark-bg);
+      text-shadow: 0 0 10px var(--neon-green);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.8),
+                  0 0 15px rgba(0, 255, 136, 0.4);
+      transform: translateY(-3px);
+    }
+    /* ===== RESPONSIVE ADJUSTMENTS ===== */
+    @media (max-width: 1200px) {
+      .module-sidebar {
+        width: 240px;
+      }
+      .module-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .module-container {
+        flex-direction: column;
+      }
+      .module-sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        top: 0;
+      }
+      .module-content {
+        margin-left: 0;
+        padding: 30px;
+      }
+      .progress-container {
+        position: static;
+      }
+      .btn-next {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .module-title {
+        font-size: 1.8rem;
+        white-space: normal;
+      }
+      .topic-section h2 {
+        font-size: 1.5rem;
+      }
+      .module-content {
+        padding: 20px;
+      }
+      .btn-next {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .module-title {
+        font-size: 1.6rem;
+      }
+      .topic-section {
+        padding: 20px;
+      }
+    }
+      .btn-prev {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: var(--darker-bg);
+  color: var(--neon-blue);
+  border: 2px solid var(--neon-blue);
+  border-radius: 0;
+  position: fixed;
+  bottom: 30px;
+  left: 27px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.6),
+              0 0 10px rgba(0, 242, 255, 0.3);
+  text-decoration: none;
+  z-index: 100;
+}
+
+.btn-prev:hover {
+  color: var(--neon-green);
+  border-color: var(--neon-green);
+  background: var(--dark-bg);
+  text-shadow: 0 0 10px var(--neon-green);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.8),
+              0 0 15px rgba(0, 255, 136, 0.4);
+  transform: translateY(-3px);
+}
+
+@media (max-width: 992px) {
+  .btn-prev {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-prev {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+  </style>
+<style>
+   .cyber-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.95); z-index: 2000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .cyber-popup-content { background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 50px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 420px; padding: 2.5rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; border-radius: 12px; overflow: hidden; }
+  .cyber-popup h2 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 2rem; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 15px var(--neon-green); }
+  .cyber-popup input { width: 100%; padding: 14px 16px; margin-bottom: 1.2rem; background: rgba(0, 242, 255, 0.08); border: 1px solid var(--neon-blue); color: white; font-family: 'Fira Code', monospace; font-size: 0.95rem; border-radius: 6px; transition: all 0.3s; }
+  .cyber-popup input:focus { border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); background: rgba(0, 255, 136, 0.1); outline: none; }
+  .close-btn { position: absolute; top: 15px; right: 20px; color: var(--neon-pink); font-size: 1.8rem; cursor: pointer; transition: all 0.3s; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .close-btn:hover { transform: rotate(90deg); text-shadow: 0 0 15px var(--neon-pink); background: rgba(255, 0, 230, 0.1); }
+  .user-display { display: flex; align-items: center; margin-left: 20px; position: relative; padding: 8px 15px; border-radius: 30px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--neon-blue); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); transition: all 0.3s; }
+  .user-display:hover { background: rgba(0, 242, 255, 0.2); box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); }
+  .username-display { color: var(--neon-green); font-family: 'Fira Code', monospace; margin-right: 15px; text-shadow: 0 0 8px var(--neon-green); font-size: 0.95rem; letter-spacing: 1px; position: relative; padding-right: 15px; }
+  .username-display::after { content: '|'; position: absolute; right: 0; color: var(--neon-blue); animation: blink 1s step-end infinite; }
+  .btn-logout { background: transparent; border: none; color: var(--neon-pink); padding: 5px 10px; font-family: 'Fira Code', monospace; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; border-radius: 4px; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-logout:hover { color: white; background: rgba(255, 0, 230, 0.2); box-shadow: 0 0 15px var(--neon-pink); }
+  .btn-logout::before { content: '⌫'; margin-right: 5px; font-size: 1.1rem; }
+  .cyber-alert { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3000; background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 40px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 350px; padding: 2rem; border-radius: 10px; text-align: center; display: none; backdrop-filter: blur(5px); }
+  .cyber-alert.active { display: block; animation: alertFadeIn 0.4s ease-out; }
+  .alert-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.8); z-index: 2999; display: none; }
+  .alert-overlay.active { display: block; }
+  .cyber-alert h3 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 1.5rem; font-size: 1.5rem; text-shadow: 0 0 10px var(--neon-green); }
+  .cyber-alert p { color: #b2f5ea; font-family: 'Fira Code', monospace; margin-bottom: 2rem; line-height: 1.6; }
+  .cyber-alert-btn { background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 0.7rem 1.8rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; border-radius: 4px; margin: 0 10px; }
+  .cyber-alert-btn.confirm { border-color: var(--neon-green); color: var(--neon-green); }
+  .cyber-alert-btn.danger { border-color: var(--neon-pink); color: var(--neon-pink); }
+  #login-btn { background: rgba(0, 242, 255, 0.15); border: 1px solid var(--neon-blue); border-radius: 4px; padding: 8px 20px !important; margin-left: 15px; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 242, 255, 0.3); position: relative; overflow: hidden; }
+  #login-btn:hover { background: rgba(0, 242, 255, 0.3); box-shadow: 0 0 20px var(--neon-blue); transform: translateY(-2px); }
+  .nav-item.locked .nav-link { color: rgba(255, 255, 255, 0.3) !important; cursor: not-allowed; }
+  .nav-item.locked .nav-link:hover::before { width: 0; }
+</style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">DSET</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item locked" id="course-nav-item"><a class="nav-link" href="../about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="../course.html">Course</a></li>
+          <li class="nav-item" id="quiz-nav-item"><a class="nav-link" href="../quiz.html">Quiz</a></li>
+          <li class="nav-item locked" id="resources-nav-item"><a class="nav-link" href="../resources.html">Resources</a></li>
+          <li class="nav-item" id="login-nav-item"><a class="nav-link" href="#" id="login-btn">Login</a></li>
+          <li class="nav-item" id="user-nav-item" style="display:none;">
+            <div class="user-display">
+              <span class="username-display" id="username-nav-display"></span>
+              <button id="logout-btn" class="btn-logout">LOGOUT</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="module-container">
+    <!-- Sidebar Navigation -->
+    <aside class="module-sidebar">
+      <div class="sidebar-header">
+        <h2><span class="module-number">4</span> Cybersecurity in Action</h2>
+        <button id="translateBtn" class="translate-btn">বাংলা</button>
+        <div class="progress-container">
+          <div class="progress-text">
+            <span>Progress</span>
+            <span>25%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <ul class="topic-nav">
+        <li><a href="#what-is-cybersecurity" class="active">When a single click costed million</a></li>
+        <li><a href="#data-protection">Ransomware Nightmares</a></li>
+        <li><a href="#common-threats">The insider who broke the rules</a></li>
+        <li><a href="#security-principles">Social media secrets that backfired</a></li>
+        <li><a href="#jobs-roles">Cyber attacks that changed companies forever</a></li>
+        <li><a href="#certifications">How hackers think: A day in the life</a></li>
+        <li><a href="#what-is-a-network">Everyday heroes: Cybersecurity saves the day</a></li>
+        <li><a href="#network-devices">From Curiosity to Career: How Beginners Start</a></li>
+        <li><a href="#security-protocols">Cybersecurity Careers Uncovered</a></li>
+        <li><a href="#firewalls-vpns">The human factor: Your skills can outperform technology</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="module-content">
+      <h1 class="module-title">Module 4: Cybersecurity in Action</h1>
+
+      <section id="what-is-cybersecurity" class="topic-section">
+<h2>When a Single Click Costs Millions</h2>
+
+<p>In 2009, a single employee at Experi-Metal clicked a phishing link that looked like a legitimate bank email. Within hours, attackers siphoned away <strong>$1.9 million</strong> through 93 fraudulent wire transfers. One careless click was all it took to drain their accounts.</p>
+
+<p>In 2015, Ubiquiti Networks lost nearly <strong>$47 million</strong> after staff fell for an email impersonating one of their business partners. Money was wired straight to fraudsters, and only a fraction was ever recovered. A forged message and one click on “send” triggered one of the biggest corporate phishing losses in history.</p>
+
+<p>And in 2021, Colonial Pipeline wasn’t even hacked with complex tools—a single compromised VPN password without multi-factor authentication let attackers in. The result? A <strong>$4.4 million ransom payment</strong>, fuel shortages across states, and a public crisis. One weak link in one account nearly shut down critical infrastructure.</p>
+
+<p>These aren’t theories—they’re real incidents that prove how fast millions can vanish from just one mistake. Whether it’s clicking a link, opening an attachment, or trusting the wrong email, cyberattacks often don’t start with code—they start with a person letting their guard down.</p>
+
+</section>
+
+      <section id="data-protection" class="topic-section">
+
+<h2>Ransomware Nightmares</h2>
+
+<p>In 2017, the world watched as <strong>WannaCry</strong> ransomware spread across 150 countries in a matter of hours. Hospitals in the UK’s National Health Service had to cancel surgeries and divert patients because medical systems were locked. The global cost was estimated in the billions—all from one ransomware strain that exploited unpatched computers.</p>
+
+<p>Then came <strong>NotPetya</strong> later that same year, disguised as a software update in Ukraine. Within a day, it crippled shipping giant Maersk, pharmaceutical company Merck, and even FedEx’s TNT Express. Maersk alone faced losses of <strong>$300 million</strong> and had to rebuild 45,000 PCs and 4,000 servers from scratch.</p>
+
+<p>Fast forward to 2021, when the <strong>Colonial Pipeline</strong> attack showed how ransomware can hit critical infrastructure. A single compromised password let hackers shut down fuel supply lines, causing gas shortages and panic buying across the U.S. East Coast. Colonial paid a <strong>$4.4 million ransom</strong> just to restore operations.</p>
+
+<p>These real cases reveal the nightmare power of ransomware: it doesn’t just lock files—it can shut down hospitals, stop global shipping, or cut off fuel supplies. One infected machine can ripple into national crises, proving why ransomware is one of the most feared threats in cybersecurity today.</p>
+
+      </section>
+
+      <section id="common-threats" class="topic-section">
+        <div class="topic-content">
+<h2>The Insider Who Broke the Rules</h2>
+
+<p>Not every cyber threat comes from the outside. In 2013, an IT administrator at the U.S. Army named <strong>Edward Snowden</strong> copied and leaked thousands of classified NSA files. With legitimate access and insider knowledge, he bypassed security controls that no hacker on the outside could touch—shaking global intelligence operations to their core.</p>
+
+<p>In another case, a <strong>Cisco engineer in 2018</strong> went rogue after leaving the company. Using his still-active credentials, he deleted hundreds of virtual machines running critical applications, causing <strong>$1.4 million in damages</strong> and weeks of recovery for Cisco’s cloud services.</p>
+
+<p>Even small actions can have massive effects. At Tesla, a <strong>disgruntled employee in 2018</strong> admitted to altering code in the manufacturing system and exfiltrating gigabytes of sensitive data to outsiders. One insider nearly compromised the future of the world’s biggest electric car maker.</p>
+
+<p>These stories prove that sometimes the biggest threats don’t break in—they already have the keys. Insider threats are among the hardest to defend against, because trust, once broken, can cost companies millions and damage that no firewall can stop.</p>
+
+</div>
+</section>
+
+  <section id="security-principles" class="topic-section">
+<h2>Social Media Secrets That Backfired</h2>
+
+<p>Oversharing on social media isn't just about revealing personal details—it can lead to significant security breaches. Here are some real-world incidents where social media activity had unintended consequences:</p>
+
+<p><strong>1. Instagram Influencer Data Leak (2019)</strong><br>
+In May 2019, a massive database containing the contact information of over 49 million Instagram influencers, celebrities, and brand accounts was found online. The unsecured database, hosted by Amazon Web Services, included sensitive data such as email addresses, phone numbers, and user locations. This exposure highlighted the risks associated with oversharing on social media platforms.</p>
+
+<p><strong>2. Jessica Alba's Instagram Account Hacked (2019)</strong><br>
+In July 2019, actress Jessica Alba's Instagram account was hacked, just days after her Twitter account had been compromised. The hacker posted inappropriate content on her account, which remained visible for several hours before being removed. This incident underscores the importance of securing social media accounts to prevent unauthorized access.</p>
+
+<p><strong>3. Cardi B's Husband's Instagram DMs Leaked (2019)</strong><br>
+In December 2019, the Instagram account of rapper Offset, husband of Cardi B, was hacked, leading to the leak of private direct messages. The leaked messages caused public controversy and were widely discussed on social media platforms. This breach demonstrates how unauthorized access to social media accounts can lead to the exposure of private communications.</p>
+
+<p>These incidents serve as a reminder of the potential security risks associated with social media activity. It's crucial to be mindful of the information shared online and to take steps to protect personal and professional accounts from unauthorized access.</p>
+
+</section>
+
+<section id="jobs-roles" class="topic-section">
+<h2>Cyberattacks That Changed Companies Forever</h2>
+
+<p>Some cyberattacks leave companies permanently altered—financially, operationally, and culturally. Here are a few real-world examples:</p>
+
+<p><strong>1. Target Data Breach (2013)</strong><br>
+Hackers gained access to Target's network via stolen credentials from a third-party HVAC vendor. The breach exposed the payment card information of over <strong>40 million customers</strong> and personal data of 70 million more. Target spent over $200 million in recovery, and the incident led to massive improvements in supply chain security and internal monitoring. ([Source](https://www.csoonline.com/article/2130877/target-breach-faq-how-the-breach-happened-and-what-target-is-doing-about-it.html))</p>
+
+<p><strong>2. Equifax Breach (2017)</strong><br>
+Equifax suffered a breach exposing the personal data of <strong>147 million people</strong>, including Social Security numbers, birth dates, and addresses. The attack cost the company over $700 million in settlements and legal fees, and it completely changed Equifax’s approach to cybersecurity, forcing stronger vulnerability management and data protection protocols. ([Source](https://www.ftc.gov/enforcement/cases-proceedings/refunds/equifax-data-breach-settlement))</p>
+
+<p><strong>3. Sony Pictures Hack (2014)</strong><br>
+A cyberattack attributed to North Korean hackers led to the leak of unreleased films, employee personal information, and embarrassing internal emails. The attack caused financial losses, canceled film releases, and a public relations crisis. Sony rebuilt its security infrastructure and adopted much stricter internal controls as a direct result. ([Source](https://www.bbc.com/news/technology-30103804))</p>
+
+<p>These cases prove that cyberattacks aren’t just temporary setbacks—they can permanently reshape corporate security, policies, and public perception. One breach can change the way a company operates forever.</p>
+</section>
+      
+
+      <section id="certifications" class="topic-section">
+<h2>How Hackers Think: A Day in the Life</h2>
+
+<p>Ever wonder what goes on in a hacker’s mind? It’s not always about wearing hoodies and typing furiously in a dark room. Hackers think like problem-solvers and detectives—they look for weaknesses in systems, websites, and even people.</p>
+
+<p>Imagine starting your day like a hacker: first, you scan the digital world for targets. This could be a company with weak passwords, an email that looks real but isn’t, or a website with outdated software. Every little vulnerability is a clue, like pieces of a puzzle waiting to be solved.</p>
+
+<p>Next, you plan your approach. Hackers ask questions like: "What do I want to get?" and "How can I reach it without being noticed?" They might use social tricks, like sending an email that looks official, or technical tricks, like writing a small program to test a website for flaws.</p>
+
+<p>Throughout the day, a hacker constantly tests, adapts, and watches. If one method fails, they try another. They think ahead, imagining every possible defense the target might have, and finding creative ways around it.</p>
+
+<p>Finally, it’s all about timing and patience. Hackers know that even small mistakes can alert their target, so they move carefully. Some attacks take minutes, others months of planning. But the mindset is always the same: curiosity, observation, and exploiting weaknesses before anyone else notices.</p>
+
+<p>Understanding how hackers think doesn’t mean you have to become one—it helps you see the digital world differently. By thinking like a hacker, you can better protect yourself, your data, and the systems you use every day.</p>
+
+</section>
+
+      <section id="what-is-a-network" class="topic-section">
+<h2>Everyday Heroes: Cybersecurity Saves the Day</h2>
+
+<p>Cybersecurity professionals might not wear capes, but their work often prevents disasters that could cost millions, or even protect lives. Here are some real-world examples where cybersecurity stopped attacks before they caused serious damage:</p>
+
+<p><strong>1. Stop the WannaCry Spread (2017)</strong><br>
+When the WannaCry ransomware outbreak started affecting hospitals and companies worldwide, a cybersecurity researcher known as <strong>“MalwareTech”</strong> discovered a “kill switch” in the malware. By activating it, he slowed the spread of the ransomware, saving thousands of computers and preventing further chaos in healthcare systems. ([Source](https://www.bbc.com/news/technology-39920141))</p>
+
+<p><strong>2. Facebook Bug Bounty Saves Millions (2019)</strong><br>
+A security researcher discovered a flaw in Facebook’s system that could have allowed attackers to take over millions of accounts. By reporting it through Facebook’s bug bounty program, the issue was fixed before it was exploited, preventing potential theft of personal data on a massive scale. ([Source](https://www.facebook.com/whitehat))</p>
+
+<p><strong>3. Microsoft Stops Massive Email Scam (2020)</strong><br>
+Microsoft’s cybersecurity team detected and disabled a global email phishing campaign targeting organizations during the COVID-19 pandemic. Their early intervention prevented sensitive information, including financial and personal data, from falling into the hands of cybercriminals. ([Source](https://blogs.microsoft.com/on-the-issues/2020/07/13/keeping-covid-19-scams-at-bay/))</p>
+
+<p>These “everyday heroes” show that cybersecurity isn’t just about code—it’s about vigilance, quick thinking, and protecting people and businesses from real threats every single day.</p>
+
+</section>
+
+
+      <section id="network-devices" class="topic-section">
+<h2>From Curiosity to Career: How Beginners Start</h2>
+
+<p>Many cybersecurity professionals begin not with degrees or certifications, but with curiosity. They ask simple questions like, “How does this website stay online?” or “How do hackers break into accounts?” That curiosity often leads to experimentation in safe environments, such as virtual labs, home networks, or online simulators.</p>
+
+<p>For beginners, the first step is often learning the basics of computers and networking. Free resources like <strong>Cybrary</strong>, <strong>TryHackMe</strong>, and <strong>Hack The Box</strong> let newcomers explore cybersecurity hands-on without risking real systems. These platforms provide tutorials on topics like password cracking, web vulnerabilities, and malware analysis, giving beginners practical skills.</p>
+
+<p>The reality is that cybersecurity is not glamorous. It requires patience, attention to detail, and constant learning. Beginners should expect to spend months understanding networking, operating systems, and programming fundamentals before they can tackle real security challenges. Certifications like <strong>CompTIA Security+</strong> or <strong>CEH (Certified Ethical Hacker)</strong> are often pursued after gaining basic skills, and they help prove knowledge to employers.</p>
+<p>Importantly, curiosity must be combined with ethics. Many hackers start curious, but successful cybersecurity professionals learn to apply that curiosity legally—testing systems only with permission and reporting vulnerabilities responsibly. This ethical mindset separates hobbyists from a career-ready cybersecurity expert.</p>
+
+<p>So, for beginners: start small, learn consistently, practice in safe labs, and focus on building skills and ethical habits. Curiosity is the spark, but patience, practice, and integrity are what turn it into a real career in cybersecurity.</p>
+
+
+      </section>
+      <section id="security-protocols" class="topic-section">
+<h2>Cybersecurity Careers Uncovered</h2>
+
+<p>Cybersecurity isn’t just about stopping hackers—it’s a broad field with diverse career paths. Every organization that uses computers, networks, or the internet needs professionals to protect their data, systems, and users. The field offers both technical and non-technical roles, and there’s a place for almost any skill set.</p>
+
+<p><strong>Why cybersecurity careers matter:</strong> Cyberattacks are rising every year, and companies face financial, reputational, and legal consequences from breaches. Skilled cybersecurity professionals help prevent attacks, respond to incidents, and ensure businesses run safely. For example, security teams at companies like Microsoft, Amazon, and banks detect threats daily, stopping potential attacks that could cost millions.</p>
+
+<p><strong>Common Cybersecurity Job Roles:</strong></p>
+<ul>
+  <li><strong>Security Analyst:</strong> Monitors networks, detects threats, and responds to incidents.</li>
+  <li><strong>Penetration Tester (Ethical Hacker):</strong> Tests systems legally to find vulnerabilities before attackers do.</li>
+  <li><strong>Security Engineer:</strong> Builds and maintains secure systems and infrastructure.</li>
+  <li><strong>Incident Responder:</strong> Investigates and mitigates cyberattacks in real time.</li>
+  <li><strong>Threat Intelligence Analyst:</strong> Studies hacker behavior and attack patterns to predict future threats.</li>
+  <li><strong>Forensic Analyst:</strong> Examines digital evidence after breaches or cybercrimes.</li>
+  <li><strong>Security Consultant:</strong> Advises companies on improving cybersecurity strategies and compliance.</li>
+</ul>
+
+<p><strong>Reality Check:</strong> Cybersecurity is not all glamorous hacking scenes from movies. Many roles involve monitoring, documentation, analysis, and continuous learning. Professionals often work long hours, keep up with evolving threats, and handle high-pressure situations. However, the career is rewarding, with high demand, competitive salaries, and opportunities to make a real impact.</p>
+
+<p>For beginners interested in cybersecurity, the key is to start with fundamentals—networking, operating systems, programming, and ethical practices—and gradually explore specialized roles. Certifications, hands-on labs, and continuous practice are essential for growth.</p>
+
+</section>
+
+      <section id="firewalls-vpns" class="topic-section">
+<h2>The Human Factor: Your Skills Can Outperform Technology</h2>
+
+<p>While technology provides strong defenses, the human element is often the most important in cybersecurity. Hackers can bypass firewalls, malware scanners, and encryption, but one skilled and alert person can stop an attack before it causes damage.</p>
+
+<p><strong>Example:</strong> In 2013, a large bank prevented a major phishing scam because an employee recognized a suspicious email asking for account credentials. While automated systems flagged some risks, it was the employee’s judgment and awareness that stopped the potential loss of millions of dollars.</p>
+
+<p><strong>Theory:</strong> Cybersecurity isn’t only about software and hardware—it’s also about training, awareness, and decision-making. People who know how to identify phishing attempts, social engineering tactics, or unusual system behavior act as a last line of defense. This is often called the “human firewall.”</p>
+
+<p><strong>Facts:</strong></p>
+<ul>
+  <li>According to a 2022 report by IBM, over <strong>95% of cybersecurity breaches</strong> involve some human error.</li>
+  <li>Even the most advanced antivirus or intrusion detection systems can be bypassed if someone clicks a malicious link or reuses a password.</li>
+  <li>Training employees in cybersecurity awareness reduces the risk of breaches significantly, sometimes by more than <strong>70%</strong>.</li>
+</ul>
+
+<p><strong>Ending:</strong> Your knowledge, judgment, and quick thinking can outperform technology. Cybersecurity is a partnership between humans and machines—machines provide tools, but humans provide awareness, intuition, and ethical decision-making. Every time you pause to think before clicking a link or reporting a suspicious email, you are acting as a vital line of defense.</p>
+
+<p>And with that, this concludes the <strong>4 modules</strong> you’ve read. Now, you can test your understanding by attempting all the quizzes in the <strong>quiz section</strong>!</p>
+</section>
+    </main>
+    <a href="../quiz.html" class="btn-next">Try Quiz</a>
+    <a href="module3.html" class="btn-prev">Previous Module →</a>
+  </div>
+
+  <!-- Login Popup -->
+  <div id="login-popup" class="cyber-popup">
+    <div class="cyber-popup-content">
+      <span class="close-btn">&times;</span>
+      <h2>ACCESS TERMINAL</h2>
+      <form id="login-form">
+        <input type="text" id="login-id" placeholder="ID (e.g., STU101)" required>
+        <input type="text" id="login-mobile" placeholder="Mobile (e.g., 01712345678)" required>
+        <button type="submit" class="btn-quiz">AUTHENTICATE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alert System -->
+  <div class="alert-overlay" id="alert-overlay"></div>
+  <div class="cyber-alert" id="cyber-alert">
+    <h3 id="alert-title">ALERT</h3>
+    <p id="alert-message">Message goes here</p>
+    <div id="alert-buttons">
+      <button class="cyber-alert-btn confirm" id="alert-confirm">Confirm</button>
+      <button class="cyber-alert-btn danger" id="alert-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.topic-section');
+      const navLinks = document.querySelectorAll('.topic-nav a');
+      
+      // Navbar active link
+      const navLinksMain = document.querySelectorAll('.nav-link');
+      navLinksMain.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinksMain.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Sidebar active link based on scroll
+function updateActiveLink() {
+  let current = '';
+  const scrollPosition = window.pageYOffset + 150;
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  
+  // Check if we're at the bottom of the page
+  const isAtBottom = (windowHeight + window.pageYOffset) >= documentHeight - 100;
+  
+  // Clear any existing timeout
+  if (window.highlightTimeout) {
+    clearTimeout(window.highlightTimeout);
+  }
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    const sectionId = section.getAttribute('id');
+    
+    // Add buffer zones to ensure all sections are detected properly
+    if (scrollPosition >= (sectionTop - 50) && scrollPosition < (sectionTop + sectionHeight - 50)) {
+      current = sectionId;
+    }
+  });
+  
+  // Special case for when at bottom of page - highlight ALL links temporarily
+  if (isAtBottom) {
+    navLinks.forEach(link => {
+      link.classList.add('active');
+    });
+    
+    // Remove highlights after 1 second
+    window.highlightTimeout = setTimeout(() => {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Highlight only the last section after removing all highlights
+      const lastLink = document.querySelector('.topic-nav a[href="#firewalls-vpns"]');
+      if (lastLink) {
+        lastLink.classList.add('active');
+      }
+    }, 1000);
+    
+    return; // Exit early since we've handled the bottom case
+  }
+  
+  // Normal case - highlight only the current section
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    const linkTarget = link.getAttribute('href').substring(1);
+    if (linkTarget === current) {
+      link.classList.add('active');
+    }
+  });
+}
+      
+      // Smooth scrolling for sidebar links
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetSection.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      
+      // Update progress bar as user scrolls
+      function updateProgress() {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollProgress = (scrollTop / scrollHeight) * 100;
+        document.querySelector('.progress-fill').style.width = scrollProgress + '%';
+        document.querySelector('.progress-text span:last-child').textContent = Math.round(scrollProgress) + '%';
+      }
+      
+      // Throttle scroll events for better performance
+      let isScrolling;
+      window.addEventListener('scroll', function() {
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(function() {
+          updateActiveLink();
+          updateProgress();
+        }, 50);
+      }, false);
+      
+      // Initialize
+      updateActiveLink();
+      updateProgress();
+    });
+
+    const translateBtn = document.getElementById('translateBtn');
+    let isBangla = false;
+    
+    // Full Bangla translations for each section
+    const banglaContent = {
+      "what-is-cybersecurity": `
+<h2>যখন এক ক্লিকের খরচ মিলিয়ন ডলার</h2>
+
+<p>২০০৯ সালে, Experi-Metal এর এক কর্মচারী একটি phishing লিঙ্কে ক্লিক করেছিলেন যা বৈধ ব্যাংকের ইমেইলের মতো দেখাচ্ছিল। কয়েক ঘন্টার মধ্যে, আক্রমণকারীরা ৯৩টি ভুয়া wire transfer এর মাধ্যমে <strong>$1.9 million</strong> সরিয়ে নেয় । একটি অসাবধান ক্লিকই তাদের অ্যাকাউন্ট খালি করতে যথেষ্ট ছিল।</p>
+
+<p>২০১৫ সালে, Ubiquiti Networks এর কর্মীরা একটি ইমেইলে ফাঁদে পড়েছিল যা তাদের ব্যবসায়িক অংশীদারের মতো দেখাচ্ছিল। ফলে প্রায় <strong>$47 million</strong> হারাতে হয়েছিল যা সরাসরি প্রতারকদের কাছে transfer হয়েছিল, আর কেবল অল্প কিছু টাকা ফেরত পাওয়া গিয়েছিল। </p>
+
+<p>২০২১ সালে, Colonial Pipeline-কে কোনো জটিল টুল ছাড়াই—একটি মাত্র MFA ছাড়া VPN পাসওয়ার্ড, আক্রমণকারীদের প্রবেশ করতে দেয়। ফলাফল? <strong>$4.4 million</strong> মুক্তিপণ, দাবি করা হয়। এক অ্যাকাউন্টের এক দুর্বল লিঙ্ক প্রায় গুরুত্বপূর্ণ অবকাঠামো বন্ধ করে দিয়েছিল।</p>
+
+<p>এগুলো কোনো তত্ত্ব নয়—এগুলো আসল ঘটনা যা প্রমাণ করে একটিমাত্র ভুল থেকে কত দ্রুত মিলিয়ন মিলিয়ন ডলার উধাও হতে পারে। সেটা হোক লিঙ্কে ক্লিক করা, অ্যাটাচমেন্ট খোলা, বা ভুল ইমেইলে ভরসা করা—সাইবার আক্রমণ সাধারণত কোড দিয়ে নয়, মানুষের অসতর্কতা দিয়েই শুরু হয়।</p>
+
+
+      `,
+      "data-protection": `
+<h2>Ransomware-এর ভয়াবহতা</h2>
+
+<p>২০১৭ সালে, বিশ্ব দেখেছিল কিভাবে <strong>WannaCry</strong> ransomware কয়েক ঘণ্টার মধ্যে ১৫০টি দেশে ছড়িয়ে পড়েছিল। যুক্তরাজ্যের NHS হাসপাতালগুলোকে অস্ত্রোপচার বাতিল করতে হয়েছিল এবং রোগী পাঠাতে হয়েছিল অন্যত্র, কারণ তাদের মেডিক্যাল সিস্টেম লক হয়ে গিয়েছিল। বৈশ্বিক ক্ষতি অনুমান করা হয়েছিল বিলিয়নে—সবই এক ransomware strain-এর ফলাফল।</p>
+
+<p>এরপর সেই একই বছরে <strong>NotPetya</strong> আসে, যা ইউক্রেনে একটি সফটওয়্যার আপডেটের ছদ্মবেশে ছিল। এক দিনের মধ্যেই এটি shipping জায়ান্ট Maersk, ফার্মাসিউটিক্যাল কোম্পানি Merck, এমনকি FedEx এর TNT Express কে ধরাশায়ী করে দেয়। কেবল Maersk-এর ক্ষতিই ছিল <strong>$300 million</strong>, এবং তাদের ৪৫,০০০ পিসি ও ৪,০০০ সার্ভার শূন্য থেকে পুনর্নির্মাণ করতে হয়েছিল।</p>
+
+
+<p>এই বাস্তব ঘটনা গুলো প্রমাণ করে ransomware-এর ভয়ঙ্কর ক্ষমতা: এটি শুধু ফাইল লক করে না—হাসপাতাল বন্ধ করতে পারে, বৈশ্বিক শিপিং থামাতে পারে, বা জ্বালানি সরবরাহ কেটে দিতে পারে। একটিমাত্র সংক্রমিত মেশিন জাতীয় সংকট তৈরি করতে পারে, এজন্য ransomware আজকের সাইবার নিরাপত্তার সবচেয়ে ভীতিকর হুমকি।</p>
+
+
+      `,
+      "common-threats": `
+<h2>Employee-ই যখন হুমকির কারণ</h2>
+
+<p>সব সাইবার হুমকি বাইরের দিক থেকে আসে না। ২০১৩ সালে, মার্কিন সেনাবাহিনীর আইটি প্রশাসক <strong>Edward Snowden</strong> হাজার হাজার গোপন NSA ফাইল কপি করে ফাঁস করেছিলেন। বৈধ অ্যাক্সেস এবং অভ্যন্তরীণ জ্ঞানের সাহায্যে তিনি সেইসব নিরাপত্তা নিয়ন্ত্রণ এড়িয়ে যান যা কোনো বাইরের হ্যাকার করতে পারত না—এবং বিশ্বব্যাপী গোয়েন্দা কার্যক্রম নাড়িয়ে দেন।</p>
+
+<p>আরেক ক্ষেত্রে, <strong>Cisco-এর একজন ইঞ্জিনিয়ার ২০১৮ সালে</strong> কোম্পানি ছাড়ার পর ক্ষোভে বিদ্রোহ করেন। তার সক্রিয় credentials ব্যবহার করে তিনি শত শত virtual machine মুছে দেন যা গুরুত্বপূর্ণ অ্যাপ চালাচ্ছিল, যার ফলে <strong>$1.4 million</strong> ক্ষতি হয় এবং Cisco-এর ক্লাউড সার্ভিস পুনরুদ্ধার করতে কয়েক সপ্তাহ লেগে যায়।</p>
+
+<p>এমনকি ছোটো কাজও বিশাল প্রভাব ফেলতে পারে। Tesla-তে, <strong>একজন ক্ষুব্ধ কর্মচারী ২০১৮ সালে</strong> স্বীকার করেছিলেন যে তিনি ম্যানুফ্যাকচারিং সিস্টেমের কোড পরিবর্তন করেছিলেন এবং গিগাবাইটের সংবেদনশীল তথ্য বাইরে পাঠিয়েছিলেন। এক insider প্রায় বিশ্বের সবচেয়ে বড় বৈদ্যুতিক গাড়ি নির্মাতার ভবিষ্যত নষ্ট করে দিচ্ছিল।</p>
+<p>এই গল্পগুলো প্রমাণ করে কখনও কখনও সবচেয়ে বড় হুমকি বাইরে থেকে আসে না—তারা ইতিমধ্যেই চাবি হাতে নিয়ে ভেতরে থাকে। Insider হুমকি রোধ করা সবচেয়ে কঠিন, কারণ বিশ্বাস একবার ভাঙলে তার ক্ষতি মিলিয়ন ডলার খরচ করতে পারে এবং এমন ক্ষত তৈরি করতে পারে যা কোনো ফায়ারওয়াল থামাতে পারে না।</p>
+
+
+      `,
+      "security-principles": `
+<h2>সোশ্যাল মিডিয়ার গোপনীয়তার বিপরীত ফল</h2>
+
+<p>সোশ্যাল মিডিয়াতে অতিরিক্ত তথ্য শেয়ার করা শুধু ব্যক্তিগত তথ্য প্রকাশ করে না—বরং এটি বড় নিরাপত্তা লঙ্ঘনের দিকে নিয়ে যেতে পারে। এখানে কয়েকটি বাস্তব ঘটনা আছে যেখানে সোশ্যাল মিডিয়ার কার্যকলাপ অনিচ্ছাকৃত পরিণতি তৈরি করেছে:</p>
+
+<p><strong>১. Instagram Influencer Data Leak (২০১৯)</strong><br>
+মে ২০১৯-এ, প্রায় ৪৯ মিলিয়ন Instagram influencer, সেলিব্রিটি, এবং ব্র্যান্ড অ্যাকাউন্টের যোগাযোগ তথ্যসহ একটি বিশাল ডাটাবেস অনলাইনে পাওয়া গিয়েছিল। Amazon Web Services-এ হোস্ট করা এই অসুরক্ষিত ডাটাবেসে ইমেইল ঠিকানা, ফোন নম্বর, আর ব্যবহারকারীর অবস্থান ছিল।</p>
+
+<p><strong>২. Jessica Alba-এর Instagram হ্যাকড (২০১৯)</strong><br>
+জুলাই ২০১৯-এ, অভিনেত্রী Jessica Alba-এর Instagram হ্যাকড হয়েছিল, তার কয়েক দিন আগেই Twitter হ্যাকড হয়েছিল। হ্যাকাররা অনুপযুক্ত কনটেন্ট পোস্ট করেছিল, যা কয়েক ঘণ্টা দৃশ্যমান ছিল। এটি প্রমাণ করে সোশ্যাল মিডিয়া অ্যাকাউন্ট সুরক্ষিত রাখা কতটা জরুরি।</p>
+
+<p><strong>৩. Offset-এর Instagram DMs ফাঁস (২০১৯)</strong><br>
+ডিসেম্বর ২০১৯-এ, র‌্যাপার Offset-এর Instagram হ্যাকড হয়। তার ব্যক্তিগত বার্তাগুলো ফাঁস হয়ে যায়, যা বড় বিতর্ক তৈরি করে। এটি দেখায় কিভাবে অননুমোদিত প্রবেশে ব্যক্তিগত যোগাযোগ প্রকাশ পেতে পারে।</p>
+
+<p>এই ঘটনাগুলো মনে করিয়ে দেয় সোশ্যাল মিডিয়াতে কার্যকলাপ কতটা ঝুঁকিপূর্ণ হতে পারে। অনলাইনে কি শেয়ার করছেন সে ব্যাপারে সতর্ক থাকা এবং ব্যক্তিগত ও পেশাগত অ্যাকাউন্ট সুরক্ষিত রাখা খুবই গুরুত্বপূর্ণ।</p>
+
+      `,
+      "jobs-roles": `
+<h2>সাইবার আক্রমণ যা কোম্পানিগুলোকে চিরতরে বদলে দিয়েছে</h2>
+
+<p>কিছু সাইবার আক্রমণ কোম্পানিগুলোকে স্থায়ীভাবে পাল্টে দেয়—আর্থিকভাবে, পরিচালনায়, এবং সংস্কৃতিতে। এখানে কয়েকটি বাস্তব উদাহরণ:</p>
+
+<p><strong>১. Target Data Breach (২০১৩)</strong><br>
+হ্যাকাররা তৃতীয় পক্ষের HVAC বিক্রেতার credentials চুরি করে Target-এর নেটওয়ার্কে প্রবেশ করেছিল। এতে ৪০ মিলিয়নেরও বেশি গ্রাহকের পেমেন্ট কার্ড তথ্য এবং আরও ৭০ মিলিয়ন মানুষের ব্যক্তিগত তথ্য ফাঁস হয়। Target ২০০ মিলিয়নেরও বেশি ডলার ব্যয় করেছিল পুনরুদ্ধারে। ([Source](https://www.csoonline.com/article/2130877/target-breach-faq-how-the-breach-happened-and-what-target-is-doing-about-it.html))</p>
+
+<p><strong>২. Equifax Breach (২০১৭)</strong><br>
+Equifax আক্রমণে ১৪৭ মিলিয়ন মানুষের ব্যক্তিগত তথ্য ফাঁস হয়েছিল, যার মধ্যে Social Security নম্বর, জন্মতারিখ, এবং ঠিকানা ছিল। কোম্পানি ৭০০ মিলিয়নেরও বেশি ডলার ক্ষতিপূরণ দেয়। ([Source](https://www.ftc.gov/enforcement/cases-proceedings/refunds/equifax-data-breach-settlement))</p>
+
+<p><strong>৩. Sony Pictures Hack (২০১৪)</strong><br>
+উত্তর কোরিয়ার হ্যাকাররা এই আক্রমণে অপ্রকাশিত সিনেমা, কর্মচারীর ব্যক্তিগত তথ্য, এবং বিব্রতকর ইমেইল ফাঁস করেছিল। Sony-কে তাদের নিরাপত্তা অবকাঠামো সম্পূর্ণভাবে পুনর্নির্মাণ করতে হয়েছিল। ([Source](https://www.bbc.com/news/technology-30103804))</p>
+<p>এই উদাহরণগুলো প্রমাণ করে সাইবার আক্রমণ শুধু সাময়িক সমস্যা নয়—একটি কোম্পানিকে স্থায়ীভাবে বদলে দিতে পারে।</p>
+
+
+      `,
+      "certifications": `
+<h2>হ্যাকারদের চিন্তাধারা: জীবনের একদিন</h2>
+
+<p>কখনও ভেবেছেন হ্যাকারদের মাথায় কি চলে? তারা সমস্যা সমাধানকারী এবং গোয়েন্দার মতো ভাবে—সিস্টেম, ওয়েবসাইট, এবং মানুষে দুর্বলতা খোঁজে।</p>
+
+<p>একজন হ্যাকার প্রথমেই টার্গেট খোঁজে। এটি হতে পারে দুর্বল পাসওয়ার্ডওয়ালা কোম্পানি, ভুয়া ইমেইল, বা পুরনো সফটওয়্যার। প্রতিটি ছোটো দুর্বলতা একটি সূত্র।</p>
+
+<p>তারপর পরিকল্পনা করে। তারা ভাবে: "আমি কি চাই?" আর "আমি কীভাবে এটিতে পৌঁছাতে পারি, যেভাবে অন্যদের নজরে না পড়ে?" কখনও সামাজিক কৌশল ব্যবহার করে, যেমন ভুয়া ইমেইল, কখনও প্রযুক্তিগত কৌশল যেমন প্রোগ্রাম লিখে ত্রুটি পরীক্ষা করা।</p>
+
+<p>তারা সারাদিন পরীক্ষা করে, ব্যর্থ হলে নতুন পথ খোঁজে। ধৈর্য আর সময়জ্ঞান তাদের অস্ত্র।</p>
+
+
+      `,
+            "what-is-a-network": `
+<h2>Capeless Heroes</h2>
+
+<p>সাইবারসিকিউরিটি এক্সপার্টরা কেপ পরে না, কিন্তু তাদের কাজ প্রায়ই মিলিয়ন মিলিয়ন ডলার বাঁচায় বা জীবন রক্ষা করে।</p>
+
+<p><strong>১. WannaCry রোধ (২০১৭)</strong><br>
+গবেষক <strong>“MalwareTech”</strong> ransomware-এ একটি kill switch খুঁজে পান এবং সক্রিয় করেন, যার ফলে বিস্তার ধীর হয় এবং হাসপাতালগুলো বাঁচে। ([Source](https://www.bbc.com/news/technology-39920141))</p>
+
+<p><strong>২. Facebook Bug Bounty (২০১৯)</strong><br>
+এক গবেষক একটি ত্রুটি খুঁজে পান যা কোটি কোটি অ্যাকাউন্ট দখল করতে সহায়তা করতে পারত। তিনি bug bounty-তে রিপোর্ট করেন এবং সমস্যা ঠিক হয়। ([Source](https://www.facebook.com/whitehat))</p>
+
+<p><strong>৩. Microsoft ফিশিং ক্যাম্পেইন থামায় (২০২০)</strong><br>
+Microsoft COVID-19 সময়ে একটি বৈশ্বিক phishing ক্যাম্পেইন প্রতিরোধ করেছিল। ([Source](https://blogs.microsoft.com/on-the-issues/2020/07/13/keeping-covid-19-scams-at-bay/))</p>
+
+<p>এগুলো দেখায় কিভাবে সচেতনতা আর দ্রুত পদক্ষেপ বিপর্যয় ঠেকায়।</p>
+
+      `,
+      "network-devices": `
+<h2>কৌতূহল থেকে ক্যারিয়ার: নতুনরা কিভাবে শুরু করে</h2>
+
+<p>অনেক সাইবারসিকিউরিটি এক্সপার্টরা শুরু করেন কৌতূহল দিয়ে। </p>
+
+<p>শুরুতে virtual lab, TryHackMe, Hack The Box-এ প্র্যাকটিস করা যেতে পারে। প্রথমে নেটওয়ার্কিং, অপারেটিং সিস্টেম, প্রোগ্রামিং শিখতে হবে। পরে Security+ বা CEH-এর মতো সার্টিফিকেশন নেয়া যেতে পারে।</p>
+
+<p>সবচেয়ে গুরুত্বপূর্ণ হলো নৈতিকতা। বৈধ অনুমতি ছাড়া পরীক্ষা করা যাবে না। এই নৈতিকতা, হবি থেকে ক্যারিয়ারকে আলাদা করে।</p>
+`,
+      
+  "security-protocols": `
+<h2>সাইবারসিকিউরিটি ক্যারিয়ারের অন্দরমহল</h2>
+
+<p>সাইবারসিকিউরিটি শুধু হ্যাকারদের দমন নয়—এটি একটি বিস্তৃত ক্ষেত্র। প্রতিটি সংস্থা যারা কম্পিউটার, নেটওয়ার্ক বা ইন্টারনেট ব্যবহার করে তাদের ডেটা, সিস্টেম এবং ব্যবহারকারীদের রক্ষা করার জন্য পেশাদারদের প্রয়োজন। এই ক্ষেত্রটি প্রযুক্তিগত এবং প্রযুক্তিগত ছাড়া উভয় ভূমিকা অফার করে, এবং প্রায় যেকোনো দক্ষতার সেটের জন্য একটি জায়গা আছে।</p>
+
+<p><strong>সাইবারসিকিউরিটি ক্যারিয়ার কেন গুরুত্বপূর্ণ:</strong> সাইবার আক্রমণ প্রতি বছর বাড়ছে, এবং কোম্পানিগুলো ব্রিচ থেকে আর্থিক, সুনামগত এবং আইনি পরিণতির সম্মুখীন হয়। দক্ষ সাইবারসিকিউরিটি পেশাদাররা আক্রমণ প্রতিরোধ করতে, ঘটনাগুলোতে প্রতিক্রিয়া জানাতে এবং ব্যবসাগুলো নিরাপদে চালাতে সাহায্য করে। উদাহরণস্বরূপ, Microsoft, Amazon এবং ব্যাঙ্কগুলোর নিরাপত্তা দলগুলি দৈনিক হুমকি সনাক্ত করে, সম্ভাব্য আক্রমণগুলি বন্ধ করে যা লক্ষ লক্ষ ডলার খরচ করতে পারে।</p>
+
+<p><strong>সাধারণ সাইবারসিকিউরিটি চাকরির ভূমিকা:</strong></p>
+<ul>
+  <li><strong>সিকিউরিটি অ্যানালিস্ট:</strong> নেটওয়ার্ক পর্যবেক্ষণ করে, হুমকি সনাক্ত করে এবং ঘটনাগুলোতে প্রতিক্রিয়া জানায়।</li>
+  <li><strong>পেনিট্রেশন টেস্টার (নৈতিক হ্যাকার):</strong> আক্রমণকারীদের আগে দুর্বলতা খুঁজে বের করতে আইনত সিস্টেম পরীক্ষা করে।</li>
+  <li><strong>সিকিউরিটি ইঞ্জিনিয়ার:</strong> নিরাপদ সিস্টেম এবং অবকাঠামো তৈরি এবং রক্ষণাবেক্ষণ করে।</li>
+  <li><strong>ঘটনা প্রতিক্রিয়াকারী:</strong> রিয়েল টাইমে সাইবার আক্রমণ তদন্ত এবং প্রশমিত করে।</li>
+  <li><strong>হুমকি বুদ্ধিমত্তা বিশ্লেষক:</strong> ভবিষ্যতের হুমকিগুলো ভবিষ্যদ্বাণী করতে হ্যাকার আচরণ এবং আক্রমণের প্যাটার্ন অধ্যয়ন করে।</li>
+  <li><strong>ফরেনসিক বিশ্লেষক:</strong> ব্রিচ বা সাইবার ক্রাইমের পরে ডিজিটাল প্রমাণ পরীক্ষা করে।</li>
+  <li><strong>সিকিউরিটি পরামর্শক:</strong> সাইবারসিকিউরিটি কৌশল এবং সম্মতি উন্নত করতে কোম্পানিগুলোকে পরামর্শ দেয়।</li>
+</ul>
+
+<p><strong>বাস্তবতা পরীক্ষা:</strong> সাইবারসিকিউরিটি সিনেমা থেকে সমস্ত glamorous হ্যাকিং দৃশ্য নয়। অনেক ভূমিকায় পর্যবেক্ষণ, ডকুমেন্টেশন, বিশ্লেষণ এবং ক্রমাগত শেখার সাথে জড়িত। পেশাদাররা প্রায়শই দীর্ঘ সময় কাজ করে, বিবর্তনশীল হুমকির সাথে তাল মিলিয়ে চলে এবং উচ্চ-চাপের পরিস্থিতি পরিচালনা করে। যাইহোক, ক্যারিয়ারটি rewarding, উচ্চ চাহিদা, প্রতিযোগিতামূলক বেতন এবং একটি বাস্তব প্রভাব তৈরির সুযোগ।</p>
+
+<p>সাইবারসিকিউরিটিতে আগ্রহী beginnersদের জন্য, মূল বিষয়গুলি দিয়ে শুরু করা গুরুত্বপূর্ণ—নেটওয়ার্কিং, অপারেটিং সিস্টেম, প্রোগ্রামিং এবং নৈতিক অনুশীলন—এবং ধীরে ধীরে বিশেষ ভূমিকা অন্বেষণ। বৃদ্ধির জন্য সার্টিফিকেশন, hands-on ল্যাব এবং ক্রমাগত অনুশীলন অপরিহার্য।</p>
+`,
+
+  "firewalls-vpns": `
+<h2>মানবীয় উপাদান: আপনার দক্ষতা প্রযুক্তিকে ছাড়িয়ে যেতে পারে</h2>
+
+<p>প্রযুক্তি শক্তিশালী প্রতিরক্ষা প্রদান করলেও, মানব উপাদানটি প্রায়শই সাইবারসিকিউরিটিতে সবচেয়ে গুরুত্বপূর্ণ। হ্যাকাররা ফায়ারওয়াল, ম্যালওয়্যার স্ক্যানার এবং এনক্রিপশন bypass করতে পারে, কিন্তু একজন দক্ষ এবং সতর্ক ব্যক্তি ক্ষতি হওয়ার আগেই একটি আক্রমণ বন্ধ করতে পারে।</p>
+
+<p><strong>উদাহরণ:</strong> 2013 সালে, একটি বড় ব্যাঙ্ক একটি বড় ফিশিং স্কিম প্রতিরোধ করেছিল কারণ একজন কর্মচারী অ্যাকাউন্টের credentials চাওয়া একটি সন্দেহজনক ইমেইল চিনতে পেরেছিল। স্বয়ংক্রিয় সিস্টেমগুলি কিছু ঝুঁকি চিহ্নিত করলেও, এটি ছিল কর্মচারীর বিচার এবং সচেতনতা যা লক্ষ লক্ষ ডলারের সম্ভাব্য ক্ষতি রোধ করেছিল।</p>
+
+<p><strong>তত্ত্ব:</strong> সাইবারসিকিউরিটি শুধুমাত্র সফ্টওয়্যার এবং হার্ডওয়্যার সম্পর্কে নয়—এটি প্রশিক্ষণ, সচেতনতা এবং সিদ্ধান্ত গ্রহণের সাথেও সম্পর্কিত। যারা ফিশিং প্রচেষ্টা, social engineering কৌশল বা অস্বাভাবিক সিস্টেম আচরণ চিহ্নিত করতে জানেন তারা শেষ প্রতিরক্ষা লাইন হিসাবে কাজ করেন। এটিকে প্রায়শই "human firewall" বলা হয়।</p>
+
+<p><strong>তথ্য:</strong></p>
+<ul>
+  <li>আইবিএমের ২০২২ সালের একটি প্রতিবেদন অনুসারে, <strong>৯৫% এরও বেশি সাইবার নিরাপত্তা লঙ্ঘনের ক্ষেত্রে</strong> কিছু মানবিক ত্রুটি জড়িত।</li>
+<li>এমনকি সবচেয়ে উন্নত অ্যান্টিভাইরাস বা অনুপ্রবেশ সনাক্তকরণ সিস্টেমগুলিও বাইপাস করা যেতে পারে যদি কেউ একটি ক্ষতিকারক লিঙ্কে ক্লিক করে বা পাসওয়ার্ড পুনরায় ব্যবহার করে।</li>
+<li>সাইবার নিরাপত্তা সচেতনতা সম্পর্কে কর্মীদের প্রশিক্ষণ, লঙ্ঘনের ঝুঁকি উল্লেখযোগ্যভাবে হ্রাস করে, কখনও কখনও <strong>তা ৭০% এরও বেশি</strong>।</li>
+</ul>
+
+<p><strong>সমাপ্তি:</strong> আপনার জ্ঞান, বিচার এবং দ্রুত চিন্তাভাবনা প্রযুক্তিকে ছাড়িয়ে যেতে পারে। সাইবার নিরাপত্তা হল মানুষ এবং মেশিনের মধ্যে একটি অংশীদারিত্ব - মেশিনগুলি সরঞ্জাম সরবরাহ করে, কিন্তু মানুষ সচেতনতা, অন্তর্দৃষ্টি এবং নীতিগত সিদ্ধান্ত গ্রহণ প্রদান করে। কোনও লিঙ্কে ক্লিক করার আগে বা সন্দেহজনক ইমেল রিপোর্ট করার আগে আপনি যখনই বিরতি দিয়ে চিন্তা করেন, তখন আপনি প্রতিরক্ষার একটি গুরুত্বপূর্ণ লাইন হিসেবে কাজ করছেন।</p>
+
+<p>এবং এর সাথে, আপনার পড়া <strong>৪টি মডিউল</strong> শেষ হলো। এখন, আপনি <strong>কুইজ বিভাগের</strong> সমস্ত কুইজ চেষ্টা করে আপনার দক্ষতা পরীক্ষা করতে পারেন!</p>
+</section>
+`
+};
+
+    // English content backup
+    const englishContent = {};
+    document.querySelectorAll('.topic-section').forEach(section => {
+      englishContent[section.id] = section.innerHTML;
+    });
+
+    translateBtn.addEventListener('click', function() {
+      isBangla = !isBangla;
+      
+      if (isBangla) {
+        translateBtn.textContent = 'English';
+        translateBtn.style.background = 'linear-gradient(90deg, var(--neon-green), var(--neon-blue))';
+        
+        // Switch to Bangla
+        document.querySelector('.module-title').textContent = 'মডিউল ৪: Cybersecurity in Action';
+        document.querySelector('.progress-text span:first-child').textContent = 'অগ্রগতি';
+        document.querySelector('.btn-next').textContent = 'কুইজে অংশগ্রহণ করুন';
+        document.querySelector('.btn-prev').textContent = 'পূর্ববর্তী মডিউল →';
+        
+        Object.keys(banglaContent).forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) section.innerHTML = banglaContent[sectionId];
+        });
+      } else {
+        // Switch back to English
+        location.reload();
+      }
+    });
+    
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+  // Excel-based login system integration (shared, from quiz4/module2)
+  let userDatabase = [];
+  const appState = { currentUser: null };
+  window.appState = appState;
+
+  const elements = {
+    loginBtn: document.getElementById("login-btn"),
+    logoutBtn: document.getElementById("logout-btn"),
+    loginPopup: document.getElementById("login-popup"),
+    closeBtn: document.querySelector(".close-btn"),
+    loginForm: document.getElementById("login-form"),
+    loginId: document.getElementById("login-id"),
+    loginMobile: document.getElementById("login-mobile"),
+    userNavItem: document.getElementById("user-nav-item"),
+    usernameDisplay: document.getElementById("username-nav-display"),
+    loginNavItem: document.getElementById("login-nav-item"),
+    alertOverlay: document.getElementById("alert-overlay"),
+    cyberAlert: document.getElementById("cyber-alert"),
+    alertTitle: document.getElementById("alert-title"),
+    alertMessage: document.getElementById("alert-message"),
+    alertConfirm: document.getElementById("alert-confirm"),
+    alertCancel: document.getElementById("alert-cancel"),
+    courseNavItem: document.getElementById("course-nav-item"),
+    quizNavItem: document.getElementById("quiz-nav-item"),
+    resourcesNavItem: document.getElementById("resources-nav-item")
+  };
+
+  function showAlert(title, message, options = {}) {
+    elements.alertTitle.textContent = title;
+    elements.alertMessage.textContent = message;
+    if (options.confirm) {
+      elements.alertConfirm.style.display = 'inline-block';
+      elements.alertConfirm.textContent = options.confirmText || 'Confirm';
+      elements.alertConfirm.onclick = () => { hideAlert(); if (options.onConfirm) options.onConfirm(); };
+    } else { elements.alertConfirm.style.display = 'none'; }
+    if (options.cancel) {
+      elements.alertCancel.style.display = 'inline-block';
+      elements.alertCancel.textContent = options.cancelText || 'Cancel';
+      elements.alertCancel.onclick = () => { hideAlert(); if (options.onCancel) options.onCancel(); };
+    } else { elements.alertCancel.style.display = 'none'; }
+    elements.alertOverlay.classList.add('active');
+    elements.cyberAlert.classList.add('active');
+  }
+
+  function hideAlert() {
+    elements.alertOverlay.classList.remove('active');
+    elements.cyberAlert.classList.remove('active');
+  }
+
+  function checkLoggedInUser() {
+    const sessionUser = sessionStorage.getItem('currentUser');
+    if (sessionUser) { try { loginUser(JSON.parse(sessionUser), true); return; } catch(e) { sessionStorage.removeItem('currentUser'); } }
+    const savedUser = localStorage.getItem('loggedInUser');
+    if (savedUser) { try { loginUser(JSON.parse(savedUser), true); } catch(e) { localStorage.removeItem('loggedInUser'); } }
+  }
+
+  function loginUser(user, isAutoLogin = false) {
+    appState.currentUser = user;
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    sessionStorage.setItem('currentUser', JSON.stringify(user));
+    if (elements.userNavItem) elements.userNavItem.style.display = "block";
+    if (elements.loginNavItem) elements.loginNavItem.style.display = "none";
+    if (elements.usernameDisplay) elements.usernameDisplay.textContent = user.Name;
+    if (elements.loginPopup) elements.loginPopup.style.display = "none";
+    [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.remove('locked'); });
+    if (!isAutoLogin || !sessionStorage.getItem('hasShownWelcome')) {
+      setTimeout(() => showAlert("ACCESS GRANTED", `Welcome back, ${user.Name}!`, { confirm: true }), 800);
+    }
+    sessionStorage.setItem('hasShownWelcome', 'true');
+  }
+
+  function logoutUser() {
+    showAlert(
+      "CONFIRM LOGOUT",
+      "Are you sure you want to log out?",
+      {
+        confirm: true,
+        confirmText: "LOGOUT",
+        onConfirm: () => {
+          localStorage.removeItem('loggedInUser');
+          sessionStorage.removeItem('currentUser');
+          appState.currentUser = null;
+          if (elements.userNavItem) elements.userNavItem.style.display = "none";
+          if (elements.loginNavItem) elements.loginNavItem.style.display = "block";
+          [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.add('locked'); });
+          window.location.href = '../index.html';
+        },
+        cancel: true
+      }
+    );
+  }
+
+  async function loadUsersFromExcel() {
+    try {
+      const response = await fetch('../users.xlsx');
+      if (!response.ok) throw new Error(`Failed to fetch Excel file: HTTP ${response.status}`);
+      const arrayBuffer = await response.arrayBuffer();
+      const data = new Uint8Array(arrayBuffer);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const excelData = XLSX.utils.sheet_to_json(worksheet);
+      userDatabase = excelData.map(row => ({
+        ID: String(row.ID || '').trim(),
+        Name: String(row.Name || '').trim(),
+        Mobile: String(row.Mobile || '').trim(),
+        Role: String(row.Role || 'student').trim()
+      })).filter(user => user.ID && user.Name && user.Mobile);
+    } catch (error) {
+      console.error('Error loading Excel:', error);
+      userDatabase = [
+        { ID: "STU101", Name: "Test Student", Mobile: "01712345678", Role: "student" },
+        { ID: "TEACH202", Name: "Test Teacher", Mobile: "01876543210", Role: "teacher" }
+      ];
+      const persistedUser = sessionStorage.getItem('currentUser') || localStorage.getItem('loggedInUser');
+      if (!persistedUser) {
+        showAlert("NOTE", "Using test data - Login with ID: STU101, Mobile: 01712345678", { confirm: true });
+      }
+    }
+  }
+
+  function normalizeMobile(mobile) {
+    let digits = mobile.replace(/\D/g, '');
+    if (digits.startsWith('880')) digits = digits.substring(3);
+    else if (digits.startsWith('+880')) digits = digits.substring(4);
+    if (digits.length !== 11) throw new Error('Mobile must be exactly 11 digits');
+    return digits;
+  }
+
+  function validateUser(id, mobile) {
+    try {
+      const normalizedMobile = normalizeMobile(mobile);
+      const user = userDatabase.find(u => u.ID === id.trim() && normalizeMobile(u.Mobile) === normalizedMobile);
+      if (!user) throw new Error('No matching user found');
+      return user;
+    } catch (error) {
+      console.error('Validation error:', error);
+      return null;
+    }
+  }
+
+  function setupLoginEventListeners() {
+    if (elements.loginBtn) elements.loginBtn.addEventListener("click", () => { elements.loginPopup.style.display = "block"; elements.loginId && elements.loginId.focus(); });
+    if (elements.closeBtn) elements.closeBtn.addEventListener("click", () => { elements.loginPopup.style.display = "none"; });
+    if (elements.loginMobile) elements.loginMobile.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+    if (elements.loginForm) elements.loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = elements.loginId.value;
+      const mobile = elements.loginMobile.value;
+      if (!id || !mobile) { showAlert("ERROR", "Both ID and Mobile are required", { confirm: true }); return; }
+      const user = validateUser(id, mobile);
+      if (user) { loginUser(user); } else { showAlert("ACCESS DENIED", "Invalid ID or Mobile. Must be exact 11-digit number.", { confirm: true }); }
+    });
+    if (elements.logoutBtn) elements.logoutBtn.addEventListener("click", logoutUser);
+
+    document.querySelectorAll('.nav-item.locked .nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (!appState.currentUser) {
+          e.preventDefault();
+          showAlert(
+            "LOGIN REQUIRED",
+            "Please login to access this section.",
+            { confirm: true, confirmText: "LOGIN", onConfirm: () => { elements.loginPopup.style.display = "block"; } }
+          );
+        }
+      });
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target === elements.loginPopup) elements.loginPopup.style.display = "none";
+      if (e.target === elements.alertOverlay) hideAlert();
+    });
+  }
+
+  (async function initializeLogin() {
+    try {
+      await loadUsersFromExcel();
+      setupLoginEventListeners();
+      checkLoggedInUser();
+      window.addEventListener('beforeunload', () => {
+        if (!sessionStorage.getItem('currentUser')) {
+          sessionStorage.removeItem('hasShownWelcome');
+        }
+      });
+    } catch (error) {
+      console.error('Initialization error:', error);
+      showAlert("INIT ERROR", "Failed to initialize login: " + error.message, { confirm: true, confirmText: "RELOAD", onConfirm: () => window.location.reload() });
+    }
+  })();
+</script>
+</body>
+</html>

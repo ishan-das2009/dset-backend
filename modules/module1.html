@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSET | Cybersecurity Module</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-blue: #00f2ff;
+      --neon-purple: #a100ff;
+      --neon-pink: #ff00e6;
+      --neon-green: #00ff88;
+      --dark-bg: #0a0e1a;
+      --darker-bg: #050811;
+      --glow-intensity: 0 0 15px;
+      --terminal-cursor: #00ff41;
+    }
+    
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark-bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #ffffff;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+     .phishing-quiz {
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(10, 14, 26, 0.7);
+    border: 1px solid var(--neon-blue);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+  }
+  
+  .cyber-h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--neon-blue);
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+  }
+  
+  .cyber-h4 {
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--neon-green);
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  
+  .scenario-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .scenario-box {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+    background: rgba(5, 8, 17, 0.8);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .scenario-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  
+  .scenario-box > * {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .scenario-box:hover {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 20px rgba(161, 0, 255, 0.3);
+    transform: translateY(-3px);
+  }
+  
+  .scenario-box p {
+    margin-bottom: 10px;
+    color: #ffffff;
+    line-height: 1.5;
+  }
+  
+  .cyber-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .cyber-link:hover {
+    text-shadow: 0 0 10px rgba(255, 0, 230, 0.7);
+  }
+  
+  .cyber-text-muted {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9em;
+  }
+  
+  #quiz-result {
+    margin-top: 25px;
+    font-weight: bold;
+    font-family: 'Rajdhani', sans-serif;
+    padding: 15px;
+    border-radius: 4px;
+    display: none;
+    border-left: 3px solid;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+    
+  .translate-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(161, 0, 255, 0.5);
+}
+.translate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+}
+
+    /* ===== CYBERPUNK NAVBAR ===== */
+    .navbar-custom {
+      background: rgba(10, 14, 26, 0.95) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+      padding: 0.8rem 2rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 2.4rem !important;
+      font-weight: 900 !important;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--glow-intensity) rgba(161, 0, 255, 0.7);
+      letter-spacing: 3px;
+      position: relative;
+      padding-right: 20px;
+      margin-right: 1rem;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .navbar-brand:hover {
+      text-shadow: 0 0 25px var(--neon-purple), 
+                   0 0 20px var(--neon-blue),
+                   0 0 35px rgba(161, 0, 255, 0.5);
+      transform: scale(1.05) !important;
+    }
+
+    .navbar-brand::after {
+      content: '_';
+      position: absolute;
+      right: 0;
+      animation: blink 1s step-end infinite;
+      color: var(--terminal-cursor);
+      font-weight: 400;
+    }
+
+    .nav-link {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700 !important;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: white !important;
+      margin: 0 12px;
+      position: relative;
+      padding: 8px 0 !important;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      transition: width 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--neon-blue) !important;
+      text-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+      box-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    .nav-link.active {
+      color: var(--neon-green) !important;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+    }
+
+    .nav-link.active::before {
+      width: 100%;
+      background: var(--neon-green);
+      box-shadow: 0 0 20px var(--neon-green);
+    }
+
+    .navbar-toggler {
+      border: 1px solid var(--neon-blue);
+      padding: 0.5rem;
+    }
+        .code-block {
+      background: rgba(0, 242, 255, 0.1);
+      border: 1px solid rgba(0, 242, 255, 0.3);
+      border-radius: 4px;
+      padding: 15px;
+      font-family: 'Fira Code', monospace;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .note-box {
+      background: rgba(0, 255, 136, 0.1);
+      border-left: 3px solid var(--neon-green);
+      padding: 15px;
+      margin: 20px 0;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 242, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    .module-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.module-sidebar::-webkit-scrollbar-track {
+  background: rgba(5, 8, 17, 0.8);
+}
+
+.module-sidebar::-webkit-scrollbar-thumb {
+  background: var(--neon-purple);
+  border-radius: 4px;
+}
+
+.module-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-blue);
+}
+
+/* Custom scrollbar for Firefox */
+.module-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) rgba(5, 8, 17, 0.8);
+}
+
+/* Custom scrollbar for main content */
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--neon-blue), var(--neon-purple));
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--neon-green), var(--neon-pink));
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) var(--darker-bg);
+}
+
+    /* ===== MODULE PAGE LAYOUT ===== */
+    .module-container {
+      display: flex;
+      padding-top: 100px;
+      min-height: calc(100vh - 100px);
+    }
+
+    /* ===== SIDEBAR NAVIGATION ===== */
+    .module-sidebar {
+      width: 280px;
+      padding: 30px 20px;
+      position: fixed;
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      background: rgba(5, 8, 17, 0.8);
+      border-right: 1px solid rgba(0, 242, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      top: 100px;
+    }
+
+.sidebar-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+  position: sticky;
+  top: 0;
+  background: var(--darker-bg);
+  z-index: 10; /* Increased z-index */
+  padding-top: 10px;
+  box-shadow: 0 5px 15px rgba(5, 8, 17, 0.9); /* Added shadow for depth */
+}
+
+.sidebar-header h2 {
+  display: flex;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.module-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--neon-purple);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.progress-container {
+  margin-top: 20px;
+  position: sticky;
+  top: 120px;
+  background: var(--darker-bg);
+  padding-bottom: 10px;
+  z-index: 5; /* Lower than header but still above content */
+}
+
+    .progress-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: var(--neon-green);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #0a1a2a; /* Dark solid background */
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+      width: 25%;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+.topic-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.topic-nav li {
+  margin-bottom: 10px;
+  list-style-type: none; /* Ensure no bullets appear */
+}
+
+.topic-nav a {
+  display: block;
+  padding: 10px 15px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  color: #b2f5ea;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+    .topic-nav a:hover, .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.1);
+      color: var(--neon-blue);
+      border-left: 3px solid var(--neon-blue);
+      text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+    .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.2);
+      color: var(--neon-green);
+      border-left: 3px solid var(--neon-green);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .module-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 40px;
+      max-width: 900px;
+      position: relative;
+      padding-bottom: 100px;
+    }
+
+    .module-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      color: var(--neon-blue);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      white-space: nowrap;
+    }
+
+    .topic-section {
+      margin-bottom: 60px;
+      padding: 30px;
+      background: rgba(5, 8, 17, 0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 242, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .topic-section:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+    }
+
+    .topic-section h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--neon-purple);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .topic-content {
+      font-family: 'Rajdhani', sans-serif;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .topic-content p {
+      margin-bottom: 20px;
+    }
+
+    .topic-content ul {
+      padding-left: 25px;
+      margin-bottom: 20px;
+      list-style-type: none;
+    }
+
+    .topic-content li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .topic-content li::before {
+      content: '■';
+      color: var(--neon-green);
+      position: absolute;
+      left: 0;
+      font-size: 0.8rem;
+    }
+
+    .btn-next {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: var(--darker-bg); /* Solid dark background */
+      color: var(--neon-blue);
+      border: 2px solid var(--neon-blue);
+      border-radius: 0;
+      position: fixed;
+      bottom: 30px;
+      right: 40px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 15px rgba(0, 242, 255, 0.6),
+                  0 0 10px rgba(0, 242, 255, 0.3);
+      text-decoration: none;
+      z-index: 100;
+    }
+
+    .btn-next:hover {
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      background: var(--dark-bg); /* Slightly lighter on hover */
+      text-shadow: 0 0 10px var(--neon-green);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.8),
+                  0 0 15px rgba(0, 255, 136, 0.4);
+      transform: translateY(-3px);
+    }
+    /* ===== RESPONSIVE ADJUSTMENTS ===== */
+    @media (max-width: 1200px) {
+      .module-sidebar {
+        width: 240px;
+      }
+      .module-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .module-container {
+        flex-direction: column;
+      }
+      .module-sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        top: 0;
+      }
+      .module-content {
+        margin-left: 0;
+        padding: 30px;
+      }
+      .progress-container {
+        position: static;
+      }
+      .btn-next {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .module-title {
+        font-size: 1.8rem;
+        white-space: normal;
+      }
+      .topic-section h2 {
+        font-size: 1.5rem;
+      }
+      .module-content {
+        padding: 20px;
+      }
+      .btn-next {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .module-title {
+        font-size: 1.6rem;
+      }
+      .topic-section {
+        padding: 20px;
+      }
+    }
+  </style>
+  <style>
+   .cyber-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.95); z-index: 2000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .cyber-popup-content { background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 50px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 420px; padding: 2.5rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; border-radius: 12px; overflow: hidden; }
+  .cyber-popup h2 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 2rem; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 15px var(--neon-green); }
+  .cyber-popup input { width: 100%; padding: 14px 16px; margin-bottom: 1.2rem; background: rgba(0, 242, 255, 0.08); border: 1px solid var(--neon-blue); color: white; font-family: 'Fira Code', monospace; font-size: 0.95rem; border-radius: 6px; transition: all 0.3s; }
+  .cyber-popup input:focus { border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); background: rgba(0, 255, 136, 0.1); outline: none; }
+  .close-btn { position: absolute; top: 15px; right: 20px; color: var(--neon-pink); font-size: 1.8rem; cursor: pointer; transition: all 0.3s; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .close-btn:hover { transform: rotate(90deg); text-shadow: 0 0 15px var(--neon-pink); background: rgba(255, 0, 230, 0.1); }
+  .user-display { display: flex; align-items: center; margin-left: 20px; position: relative; padding: 8px 15px; border-radius: 30px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--neon-blue); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); transition: all 0.3s; }
+  .user-display:hover { background: rgba(0, 242, 255, 0.2); box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); }
+  .username-display { color: var(--neon-green); font-family: 'Fira Code', monospace; margin-right: 15px; text-shadow: 0 0 8px var(--neon-green); font-size: 0.95rem; letter-spacing: 1px; position: relative; padding-right: 15px; }
+  .username-display::after { content: '|'; position: absolute; right: 0; color: var(--neon-blue); animation: blink 1s step-end infinite; }
+  .btn-logout { background: transparent; border: none; color: var(--neon-pink); padding: 5px 10px; font-family: 'Fira Code', monospace; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; border-radius: 4px; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-logout:hover { color: white; background: rgba(255, 0, 230, 0.2); box-shadow: 0 0 15px var(--neon-pink); }
+  .btn-logout::before { content: '⌫'; margin-right: 5px; font-size: 1.1rem; }
+  .cyber-alert { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3000; background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 40px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 350px; padding: 2rem; border-radius: 10px; text-align: center; display: none; backdrop-filter: blur(5px); }
+  .cyber-alert.active { display: block; animation: alertFadeIn 0.4s ease-out; }
+  .alert-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.8); z-index: 2999; display: none; }
+  .alert-overlay.active { display: block; }
+  .cyber-alert h3 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 1.5rem; font-size: 1.5rem; text-shadow: 0 0 10px var(--neon-green); }
+  .cyber-alert p { color: #b2f5ea; font-family: 'Fira Code', monospace; margin-bottom: 2rem; line-height: 1.6; }
+  .cyber-alert-btn { background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 0.7rem 1.8rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; border-radius: 4px; margin: 0 10px; }
+  .cyber-alert-btn.confirm { border-color: var(--neon-green); color: var(--neon-green); }
+  .cyber-alert-btn.danger { border-color: var(--neon-pink); color: var(--neon-pink); }
+  #login-btn { background: rgba(0, 242, 255, 0.15); border: 1px solid var(--neon-blue); border-radius: 4px; padding: 8px 20px !important; margin-left: 15px; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 242, 255, 0.3); position: relative; overflow: hidden; }
+  #login-btn:hover { background: rgba(0, 242, 255, 0.3); box-shadow: 0 0 20px var(--neon-blue); transform: translateY(-2px); }
+  .nav-item.locked .nav-link { color: rgba(255, 255, 255, 0.3) !important; cursor: not-allowed; }
+  .nav-item.locked .nav-link:hover::before { width: 0; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">DSET</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item locked" id="course-nav-item"><a class="nav-link" href="../about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="../course.html">Course</a></li>
+          <li class="nav-item" id="quiz-nav-item"><a class="nav-link" href="../quiz.html">Quiz</a></li>
+          <li class="nav-item locked" id="resources-nav-item"><a class="nav-link" href="../resources.html">Resources</a></li>
+          <li class="nav-item" id="login-nav-item"><a class="nav-link" href="#" id="login-btn">Login</a></li>
+          <li class="nav-item" id="user-nav-item" style="display:none;">
+            <div class="user-display">
+              <span class="username-display" id="username-nav-display"></span>
+              <button id="logout-btn" class="btn-logout">LOGOUT</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="module-container">
+    <!-- Sidebar Navigation -->
+    <aside class="module-sidebar">
+      <div class="sidebar-header">
+        <h2><span class="module-number">1</span> Cybersecurity</h2>
+        <button id="translateBtn" class="translate-btn">বাংলা</button>
+        <div class="progress-container">
+          <div class="progress-text">
+            <span>Progress</span>
+            <span>25%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <ul class="topic-nav">
+        <li><a href="#what-is-cybersecurity" class="active">How hackers guess password</a></li>
+        <li><a href="#data-protection">Hidden dangers of public wifi</a></li>
+        <li><a href="#common-threats">Phishing : Can you spot the fake?</a></li>
+        <li><a href="#security-principles">Your digital footprint is bigger than you think</a></li>
+        <li><a href="#jobs-roles">The life of a virus : how malware works</a></li>
+        <li><a href="#certifications">The art of social engineering</a></li>
+        <li><a href="#what-is-a-network">Safe and unsafe apps and links</a></li>
+        <li><a href="#network-devices">What is cybersecurity for</a></li>
+        <li><a href="#security-protocols">The position of Bangladesh in cybersecurity</a></li>
+        <li><a href="#firewalls-vpns">What will we learn through this journey</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="module-content">
+      <h1 class="module-title">Module 1: Cybersecurity Fundamentals</h1>
+
+      <section id="what-is-cybersecurity" class="topic-section">
+<h2>How hackers guess your password</h2>
+
+<p>Many people believe that hackers try to figure out passwords by typing random words, such as “password123,” until they find the correct one.</p>
+<p>This is incorrect. Hackers use special computer programs that automatically try many password combinations at very high speeds. These programs can test billions of possibilities every second. Research shows that 80% of passwords can be broken within a few minutes because many people choose simple and predictable passwords, such as birthdays, pet names, “123456,” or “qwerty.”</p>
+
+<div class="code-block">
+A password like “Summer2025!” may appear to be strong. However, it can still be broken in less than one day. If the same password is used for multiple accounts, such as social media, email, and banking, all of those accounts can be accessed once the password is discovered.
+</div>
+
+      </section>
+
+      <section id="data-protection" class="topic-section">
+<h2>Hidden Dangers of Public WiFi</h2>
+
+<p>Many places provide free WiFi, such as coffee shops, airports, and buses. However, free WiFi can be unsafe. On open networks, hackers can use a method called a “man-in-the-middle attack.” In this method, the hacker’s computer acts as a bridge between the user and the internet. This allows the hacker to secretly view information such as messages, emails, and credit card details. Hackers may also create fake WiFi networks with names that seem trustworthy, such as Airport_FreeWiFi. When people connect to these fake networks, their data can be stolen.</p>
+
+<div class="code-block">
+Using public WiFi without protection is similar to giving away your private information where anyone can see it.
+</div>
+
+
+      </section>
+
+      <section id="common-threats" class="topic-section">
+        <div class="topic-content">
+<h2>Phishing: Can You Spot the Fake?</h2>
+
+<p>Many online attacks begin with a single email or message. It may appear to come from a bank: “Your account is locked, click here to secure it.” Or from a streaming service: “Payment failed, update your card details now.” The logos may appear correct, and the links may look genuine, but clicking the wrong link can give attackers access to your login information.</p>
+
+<p>Attackers use several techniques to make these messages appear real. They may include your name, use familiar wording, or make the sender’s address appear legitimate. Sometimes, they create websites that look identical to the real ones. Always verify the sender, hover over links to check the actual web address, and never enter passwords from messages that seem suspicious. This is similar to a fake store: it appears real, but anything you give them is lost.</p>
+
+<div class="phishing-quiz cyber-card">
+  <h3 class="cyber-h3">Phishing Quiz: Which one is fake?</h3>
+  <div class="scenario-container">
+    <div class="scenario-box cyber-card" onclick="checkAnswer(1)">
+      <h4 class="cyber-h4">Scenario 1</h4>
+      <p>"Dear customer, your account has been temporarily suspended due to suspicious activity. To restore access immediately, please <a href="#" class="cyber-link">click here</a> to verify your identity."</p>
+      <p class="sender cyber-text-muted">From: security@yourbank.com</p>
+    </div>
+    <div class="scenario-box cyber-card" onclick="checkAnswer(2)">
+      <h4 class="cyber-h4">Scenario 2</h4>
+      <p>"Hello [Your Name], we noticed a login attempt from a new device in Chicago. If this was not you, please review your account activity by logging in directly at our website (www.yourbank.com)."</p>
+      <p class="sender cyber-text-muted">From: no-reply@yourbank-security.com</p>
+    </div>
+  </div>
+  <div id="quiz-result" class="cyber-result"></div>
+</div>
+
+
+      </section>
+
+
+      <section id="security-principles" class="topic-section">
+<h2>Your Digital Footprint</h2>
+
+<p>Every time a person likes a post, searches online, or shares content, small traces are left behind. Photos that are deleted may still be stored elsewhere. Even using “incognito mode” does not prevent internet providers, schools, or advertisers from seeing activity.</p>
+
+<p>Companies gather and exchange this information. By examining a few social media interactions, artificial intelligence can predict personality traits more accurately than a close friend.</p>
+
+</section>
+
+<section id="jobs-roles" class="topic-section">
+<h2>The Life of a Virus: How Malware Works</h2>
+
+<p>When a person downloads software from an unknown source, such as a free photo editor or cracked program, it may contain hidden malware. Once the program runs, the malware becomes active. First, it hides within the system to avoid detection. Next, it copies itself to other files and devices on the same network. Finally, it contacts the attacker, sending private information. Some malware spreads quickly, affecting thousands of devices in minutes, similar to how a biological virus spreads in humans. Certain malware can even change itself to avoid antivirus programs, making removal more difficult.</p>
+
+<div class="code-block">
+Some malware remains hidden while collecting information, monitoring activity, or allowing attackers to control the device without the user noticing. Even if no immediate issues are visible, sensitive files, passwords, and personal data may be stolen over time. In some cases, malware can create backdoors for further attacks or be used in large-scale cyberattacks.
+</div>
+
+
+      </section>
+      
+
+<section id="certifications" class="topic-section">
+<h2>The Art of Social Engineering</h2>
+
+<p>Hackers do not always rely on computer code. Frequently, they exploit human psychology. Social engineering is the practice of deceiving people into performing actions that benefit the hacker without their awareness. A hacker may call, posing as “technical support,” to request your WiFi password. Alternatively, they may send a message: “Hello, I am your friend’s cousin—can you help me reset your account?” In cybersecurity, the most vulnerable element is not the computer but the human mind.</p>
+
+<div class="code-block">
+Ninety percent of financial fraud in Bangladesh occurs because individuals are persuaded to share sensitive information such as OTPs, passwords, or account details.
+</div>
+
+</section>
+
+<section id="what-is-a-network" class="topic-section">
+<h2>Safe and Unsafe Apps and Links</h2>
+
+<p>Not all applications and links are as safe as they appear. For instance, a free flashlight app may request access to the microphone, contacts, or camera. These permissions are often unrelated to the app’s stated function; the actual purpose may be data collection or surveillance. Research indicates that over fifty percent of free applications gather unnecessary information, and some may even install hidden trackers or malware.</p>
+
+<p>Links shared online can also be dangerous. Messages claiming “Win a free iPhone” or “Claim your reward now” may direct users to adware, counterfeit websites, or attempts to steal personal information. The safest practices include reviewing app permissions carefully, installing apps only from trusted sources, and avoiding suspicious links. While free apps and offers may seem appealing, in many cases, the user becomes the product.</p>
+
+</section>
+
+<section id="network-devices" class="topic-section">
+<h2>Purpose of Cybersecurity</h2>
+
+<p>Cybersecurity is the practice of protecting computers, devices, and digital information from unauthorized access, theft, damage, or misuse. It can be compared to securing a house by locking doors, setting alarms, and storing valuable items safely. Cybersecurity provides similar protection for the digital environment.</p>
+
+<p>For example, when an individual makes purchases online, cybersecurity safeguards financial information such as credit card details. When an organization stores customer information, cybersecurity prevents unauthorized access. Even basic measures, such as using strong passwords and avoiding suspicious links, contribute to maintaining digital security.</p>
+
+<div class="code-block">
+Cybersecurity functions as a digital shield. Just as one would not leave a wallet unattended in a public place, personal information should not be left unprotected online. Cybersecurity ensures that digital activities remain private and secure.
+</div>
+
+</section>
+
+<section id="security-protocols" class="topic-section">
+<h2>Cybersecurity in Bangladesh</h2>
+
+<p>Bangladesh is experiencing rapid growth in digital technology, but its cybersecurity framework is still developing. As more businesses, government institutions, and educational organizations operate online, the risk of cyberattacks increases. A notable example occurred in 2016 when attackers exploited vulnerabilities in the SWIFT system to steal $81 million from Bangladesh Bank, illustrating the seriousness of cyber threats.</p>
+
+<p>Banks and e-commerce platforms are enhancing security measures; however, phishing, malware, and online fraud remain prevalent. Bangladesh is currently ranked 66th globally in the National Cyber Security Index and has been recognized as a 'Role Model' in the 2024 Global Cybersecurity Index. These rankings indicate progress while highlighting the continued need for stronger regulations, professional training, and public awareness.</p>
+
+<div class="note-box">
+Bangladesh is strengthening its cyber defenses, but further improvements are required to meet the standards of more digitally advanced nations. Protecting digital information and developing skilled cybersecurity professionals are critical for ensuring a safer online environment.
+</div>
+
+
+      </section>
+
+      <section id="firewalls-vpns" class="topic-section">
+<h2>What Will We Learn Through These Modules?</h2>
+
+<p>Module 2: Cyber Attacks → Step into the hacker’s mind. See exactly how they break in.</p>
+
+<p>Module 3: Cyber Defense → Build your armor—learn the tricks to protect yourself.</p>
+
+<p>Module 4: Cybersecurity in Action → Real-life stories, hands-on cases, and a roadmap to turn knowledge into skill.</p>
+
+      </section>
+    </main>
+    <a href="module2.html" class="btn-next">NEXT MODULE →</a>
+  </div>
+
+  <!-- Login Popup -->
+  <div id="login-popup" class="cyber-popup">
+    <div class="cyber-popup-content">
+      <span class="close-btn">&times;</span>
+      <h2>ACCESS TERMINAL</h2>
+      <form id="login-form">
+        <input type="text" id="login-id" placeholder="ID (e.g., STU101)" required>
+        <input type="text" id="login-mobile" placeholder="Mobile (e.g., 01712345678)" required>
+        <button type="submit" class="btn-quiz">AUTHENTICATE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alert System -->
+  <div class="alert-overlay" id="alert-overlay"></div>
+  <div class="cyber-alert" id="cyber-alert">
+    <h3 id="alert-title">ALERT</h3>
+    <p id="alert-message">Message goes here</p>
+    <div id="alert-buttons">
+      <button class="cyber-alert-btn confirm" id="alert-confirm">Confirm</button>
+      <button class="cyber-alert-btn danger" id="alert-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.topic-section');
+      const navLinks = document.querySelectorAll('.topic-nav a');
+      
+      // Navbar active link
+      const navLinksMain = document.querySelectorAll('.nav-link');
+      navLinksMain.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinksMain.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Sidebar active link based on scroll
+function updateActiveLink() {
+  let current = '';
+  const scrollPosition = window.pageYOffset + 150;
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    const sectionId = section.getAttribute('id');
+    
+    // Add a more lenient check with buffer area
+    if (scrollPosition >= (sectionTop - 50) && scrollPosition < (sectionTop + sectionHeight - 50)) {
+      current = sectionId;
+    }
+  });
+  
+  // Special case for the last section when at bottom of page
+  if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 50) {
+    current = 'firewalls-vpns'; // Use the correct ID for the last section
+  }
+  
+  // Update active class with exact matching
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    const linkTarget = link.getAttribute('href').substring(1);
+    if (linkTarget === current) {
+      link.classList.add('active');
+    }
+  });
+}
+      
+      // Smooth scrolling for sidebar links
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetSection.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      
+      // Update progress bar as user scrolls
+      function updateProgress() {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollProgress = (scrollTop / scrollHeight) * 100;
+        document.querySelector('.progress-fill').style.width = scrollProgress + '%';
+        document.querySelector('.progress-text span:last-child').textContent = Math.round(scrollProgress) + '%';
+      }
+      
+      // Throttle scroll events for better performance
+      let isScrolling;
+      window.addEventListener('scroll', function() {
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(function() {
+          updateActiveLink();
+          updateProgress();
+        }, 50);
+      }, false);
+      
+      // Initialize
+      updateActiveLink();
+      updateProgress();
+    });
+      function checkAnswer(scenarioNumber) {
+    const resultDiv = document.getElementById('quiz-result');
+    
+    // Scenario 1 is the phishing attempt (correct answer)
+    if (scenarioNumber === 1) {
+      resultDiv.innerHTML = 'You selected the correct phishing attempt!';
+      resultDiv.style.display = 'block';
+      resultDiv.style.color = '#00ff88'; // Neon green for success
+      resultDiv.style.borderLeftColor = '#00ff88';
+      resultDiv.style.background = 'rgba(0, 255, 136, 0.1)';
+    } 
+    // Scenario 2 is the legitimate message (incorrect answer)
+    else if (scenarioNumber === 2) {
+      resultDiv.innerHTML = 'This is actually a legitimate security message. The phishing attempt was Scenario 1.';
+      resultDiv.style.display = 'block';
+      resultDiv.style.color = '#ff00e6'; // Neon pink for incorrect
+      resultDiv.style.borderLeftColor = '#ff00e6';
+      resultDiv.style.background = 'rgba(255, 0, 230, 0.1)';
+    }
+    
+    // Add visual feedback to the selected box
+    const allBoxes = document.querySelectorAll('.scenario-box');
+    allBoxes.forEach(box => box.style.border = '1px solid rgba(0, 242, 255, 0.3)');
+    
+    const selectedBox = document.querySelector(`.scenario-box:nth-child(${scenarioNumber})`);
+    if (scenarioNumber === 1) {
+      selectedBox.style.border = '2px solid #00ff88';
+      selectedBox.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.5)';
+    } else {
+      selectedBox.style.border = '2px solid #ff00e6';
+      selectedBox.style.boxShadow = '0 0 20px rgba(255, 0, 230, 0.5)';
+    }
+  }
+    const translateBtn = document.getElementById('translateBtn');
+    let isBangla = false;
+    
+    // Full Bangla translations for each section
+    const banglaContent = {
+      "what-is-cybersecurity": `
+<h2>কিভাবে হ্যাকাররা আপনার পাসওয়ার্ড </h2> <p>অনেকের ধারণা, হ্যাকাররা এলোমেলো শব্দ যেমন "password123" টাইপ করতে করতে সঠিক পাসওয়ার্ড বের করে ফেলে।</p>
+
+<p>কিন্তু বাস্তবে তা নয়। হ্যাকাররা বিশেষায়িত কম্পিউটার প্রোগ্রাম ব্যবহার করে, যা অত্যন্ত দ্রুতগতিতে অসংখ্য পাসওয়ার্ড ট্রাই করে সঠিক পাসওয়ার্ড বের করতে সক্ষম। এই ধরনের প্রোগ্রাম প্রতি সেকেন্ডে বিলিয়ন সংখ্যক সম্ভাবনা যাচাই করতে পারে। গবেষণায় দেখা গেছে, সহজ ও পূর্বানুমানযোগ্য পাসওয়ার্ড—যেমন জন্মতারিখ, পোষা প্রাণীর নাম, "123456" বা "qwerty"—ব্যবহার করার কারণে প্রায় ৮০% পাসওয়ার্ড কয়েক মিনিটের মধ্যেই ভেঙে ফেলা সম্ভব হয়।</p>
+
+<div class="code-block">
+“Summer2025!”—এরকম পাসওয়ার্ড প্রথম নজরে শক্তিশালী মনে হলেও তা এক দিনেরও কম সময়ে ভাঙা যেতে পারে। একই পাসওয়ার্ড যদি সোশ্যাল মিডিয়া, ইমেইল এবং ব্যাঙ্কিংসহ একাধিক অ্যাকাউন্টে ব্যবহার করা হয়, তাহলে একটি পাসওয়ার্ড ভেঙে ফেলার মাধ্যমে সেই সমস্ত অ্যাকাউন্টে অনধিকার প্রবেশ সম্ভব হয়ে যায়।
+</div>
+      `,
+      "data-protection": `
+<h2>উন্মুক্ত Wi-Fi ব্যবহারের ঝুঁকিপূর্ণ দিক</h2><p>ক্যাফে, বিমানবন্দর, বাস ইত্যাদির মতো অনেক স্থানে বিনামূল্যে ইন্টারনেট সংযোগ প্রদান করা হয়।</p> <p>তবে এসব উন্মুক্ত নেটওয়ার্ক সবসময় নিরাপদ হয় না। উন্মুক্ত নেটওয়ার্কে হ্যাকাররা “man-in-the-middle attack” নামে পরিচিত একটি পদ্ধতি ব্যবহার করতে পারে। এই পদ্ধতিতে হ্যাকারদের কম্পিউটার, ব্যবহারকারী ও ইন্টারনেটের মধ্যে মধ্যস্থতাকারীর মতো কাজ করে। ফলে ব্যবহারকারীর ব্যাক্তিগত তথ্য ঝুঁকিপূর্ণ হয়ে যায় ।</p> <p>হ্যাকাররা আরও একধাপ এগিয়ে নকল Wi-Fi নেটওয়ার্কও তৈরি করতে পারে। উদাহরণস্বরূপ, তারা — “Airport_free_Wi-Fi” এর মতো নাম ব্যবহার করে। আপনি যদি ভুল করে ওই নেটওয়ার্কে সংযুক্ত হন, তাহলে আপনার ব্যক্তিগত তথ্য সহজেই চুরি হয়ে যেতে পারে।</p> 
+<div class="code-block">সুরক্ষা ছাড়া পাবলিক Wi-Fi ব্যবহার করা মানে হলো নিজের ব্যক্তিগত তথ্য এমন স্থানে প্রকাশ করা, যেখানে যেকোনো ব্যক্তি তা দেখতে ও ব্যবহার করতে পারে।</div>
+      `,
+      "common-threats": `
+<div class="topic-content">
+
+<h2>ফিশিং: নকল মেসেজ চিহ্নিত করুন</h2>
+
+<p>একটি মাত্র email বা বার্তা থেকে অনেক সাইবার আক্রমণ শুরু হয় । </p>
+
+<p>এগুলোর লোগো এবং লিঙ্কগুলো আসল বলে মনে হতে পারে।</p>
+
+<p>বার্তা গুলো কে আসল প্রমান করতে আক্রমণকারীরা বিভিন্ন কৌশল ব্যবহার করে। তারা আপনার নাম অন্তর্ভুক্ত করতে পারে, পরিচিত শব্দ ব্যবহার করতে পারে, অথবা প্রেরকের ইমেইল ঠিকানাকে বৈধ দেখাতে পারে। কখনো কখনো তারা আসল ওয়েবসাইটের হুবহু নকল ওয়েবসাইটও তৈরি করে।</p>
+
+<p>সবসময় প্রেরকের তথ্য যাচাই করে নিতে হবে, লিঙ্কের ওপর কার্সর রেখে প্রকৃত ওয়েব ঠিকানা দেখতে হবে এবং সন্দেহজনক বার্তার উত্তরে কখনোই পাসওয়ার্ড প্রদান করা যাবে না।</p>
+
+<div class="phishing-quiz cyber-card">
+  <h3 class="cyber-h3">ফিশিং কুইজ: কোনটি নকল?</h3>
+  <div class="scenario-container">
+    <div class="scenario-box cyber-card" onclick="checkAnswer(1)">
+      <h4 class="cyber-h4">পরিস্থিতি ১</h4>
+      <p>"Dear customer, your account has been temporarily suspended due to suspicious activity. To restore access immediately, please <a href="#" class="cyber-link">click here</a> to verify your identity."</p>
+      <p class="sender cyber-text-muted">From: security@yourbank.com</p>
+    </div>
+    <div class="scenario-box cyber-card" onclick="checkAnswer(2)">
+      <h4 class="cyber-h4">পরিস্থিতি ২</h4>
+      <p>"Hello [Your Name], we noticed a login attempt from a new device in Chicago. If this was not you, please review your account activity by logging in directly at our website (www.yourbank.com)."</p>
+      <p class="sender cyber-text-muted">From: no-reply@yourbank-security.com</p>
+    </div>
+  </div>
+  <div id="quiz-result" class="cyber-result"></div>
+</div>
+      `,
+      "security-principles": `
+<h2>আপনার ডিজিটাল ফুটপ্রিন্ট</h2>
+
+<p>প্রতিবার যখন কেউ কোনো পোস্টে লাইক দেয়, অনলাইনে কিছু খোঁজ করে, বা কনটেন্ট শেয়ার করে—তখনই কিছু কিছু চিহ্ন থেকে যায়। এমনকি মুছে ফেলা ছবিগুলোও অন্য কোথাও সংরক্ষিত থাকতে পারে। “Incognito Mode” ব্যবহার করলেও ISP, শিক্ষা প্রতিষ্ঠান বা বিজ্ঞাপনদাতারা আপনার অনলাইন  কার্যক্রম দেখতে সক্ষম হয়।</p>
+
+<p>কোম্পানিগুলো এই তথ্য সংগ্রহ ও বিনিময় করে। মাত্র কয়েকটি সামাজিক যোগাযোগমাধ্যমের পারস্পরিক ক্রিয়ার বিশ্লেষণ করেই কৃত্রিম বুদ্ধিমত্তা কারও ব্যক্তিত্বের বৈশিষ্ট্য একজন ঘনিষ্ঠ বন্ধুর চেয়েও বেশি নির্ভুলভাবে পূর্বাভাস দিতে পারে।</p>      `,
+      "jobs-roles": `
+<h2>ভাইরাসের কার্যকারিতা : ম্যালওয়্যার কীভাবে কাজ করে</h2> <p>কেউ যখন অচেনা উৎস থেকে কোনো  সফটওয়্যার ডাউনলোড করে, তখন তাতে লুকিয়ে থাকা কোনো  malware ইনস্টল হয়ে যেতে পারে। প্রোগ্রামটি চালুর সঙ্গে সঙ্গে malware সক্রিয় হয়ে সিস্টেমে কাজ করা শুরু করে। প্রথম পর্যায়ে কোনো শনাক্তকারী প্রোগ্রাম থেকে শনাক্ত এড়াতে নিজের উপস্থিতি লুকায়। পরবর্তীতে এটি একই নেটওয়ার্কে থাকা অন্য ডিভাইস ও ফাইলগুলোতে নিজেকে অনুলিপি করে। পরে এটি আক্রমণকারীর সার্ভারে সংযোগ স্থাপন করে এবং আপনার ডিভাইস থেকে সংবেদনশীল তথ্য পাঠাতে পারে। নির্দিষ্ট malware এমনভাবে নিজেকে বদলে নেয় যাতে এটি প্রচলিত অ্যান্টিভাইরাস প্রোগ্রামগুলোকে এড়িয়ে যেতে পারে, ফলে সনাক্ত ও অপসারণ আরও কঠিন হয়ে উঠে।</p> <div class="code-block"> কিছু malware গোপনে ব্যবহারকারী কী করছে তা পর্যবেক্ষণ করে, যেমন কোন ওয়েবসাইটে গেছেন বা কোন কী-বোর্ড টিপেছেন ইত্যাদি, এবং কখনও কখনও আক্রমণকারীকে আপনার ডিভাইস দূর থেকে নিয়ন্ত্রণ করার সুযোগ দেয়। তাৎক্ষণিক কোনো সমস্যা দেখা না দিলেও সময়ের সঙ্গে গোপন ফাইল, পাসওয়ার্ড এবং ব্যক্তিগত তথ্য চুরি হয়ে যেতে পারে। কিছু ক্ষেত্রে malware ভবিষ্যৎ আক্রমণের সুবিধার জন্য একটি backdoor তৈরি করে (backdoor: এমন একটি গোপন প্রবেশপথ যা আক্রমণকারীদের পরে ডিভাইসে আবার অনায়াসে ঢুকতে দেয়) বা বড় পরিসরের cyberattacks-এ ব্যবহার করা হয়। </div> </div>
+      `,
+      "certifications": `
+<h2>সোশ্যাল ইঞ্জিনিয়ারিং</h2> <p>হ্যাকাররা শুধু কোড বা প্রযুক্তির ওপর নির্ভর করে না। তারা মানুষের মনস্তত্ত্বকে ব্যবহার করে তথ্য পেতে পারে। সোশ্যাল ইঞ্জিনিয়ারিং বলতে তথ্য নিরাপত্তা সম্পর্কিত বিষয়ে মানুষকে মনস্তাত্ত্বিক ভাবে কার্য সম্পাদনের জন্য ব্যবহার অথবা গোপনীয় তথ্য প্রকাশ কে বোঝায়।  </p> <p>এসব পরিস্থিতিতে মানুষ দ্রুত সংকটজনক সিদ্ধান্ত নেয়, ফলে তথ্য ফাঁস হয়ে যায়।</p> <div class="code-block">সতর্কতা: সাইবার সিকিউরিটিতে সবচেয়ে দুর্বল অংশ হল মানুষ; বাংলাদেশে সোশ্যাল ইঞ্জিনিয়ারিং মাদ্ধমে আর্থিক জালিয়াতির একটি বড় অংশ ঘটে। কারণ কৌশলে মানুষকে প্রলুব্ধ করে তাদের সংবেদনশীল তথ্য—যেমন পাসওয়ার্ড, এককালীন ওটিপি বা ব্যাংক অ্যাকাউন্টের বিবরণ নিয়ে নেওয়া হয়।</div> </div>
+
+
+      `,
+      
+      "what-is-a-network": ` 
+      <h2>নিরাপদ এবং অনিরাপদ অ্যাপ ও লিঙ্ক</h2> <p>সব অ্যাপ্লিকেশন বা ওয়েবলিংক যেগুলো প্রত্যক্ষভাবে নিরাপদ মনে হয়, সেগুলো প্রকৃতপক্ষে বিপজ্জনকও হতে পারে। উদাহরণস্বরূপ, একটি বিনামূল্যের ফ্ল্যাশলাইট অ্যাপ যে মাইক্রোফোন, কন্ট্যাক্ট বা ক্যামেরায় অ্যাক্সেস চাইছে, তা সবসময় সেই অ্যাপের বৈধ প্রয়োজন প্রকাশ করে না। এসব অতিরিক্ত অনুমতির উদ্দেশ্য হতে পারে ব্যবহারকারীর তথ্য সংগ্রহ করা বা গোপনে নজরদারি করা। গবেষণায় দেখা গেছে যে অনেক বিনামূল্যের অ্যাপ অনাবশ্যক তথ্য সংগ্রহ করে এবং কিছু অ্যাপে লুকানো ট্র্যাকার বা malware থাকতে পারে।</p> <p>অনলাইনে শেয়ার করা লিঙ্কও বিপজ্জনক হতে পারে। উদাহরণস্বরূপ যে বার্তাগুলো বলে “Win a free iPhone” বা “Claim your reward now” সেগুলো প্রলোভন দেখিয়ে আপনাকে ক্লিক করাতে চাইবে এবং পরে adware ইনস্টল করা, নকল ওয়েবসাইটে নিয়ে যাওয়া বা ব্যক্তিগত তথ্য চুরির চেষ্টায় ব্যবহার করা হতে পারে।</p> <p>নিরাপদ আচরণ হলো প্রথমে অ্যাপের অনুরোধকৃত অনুমতিগুলো ভালো করে দেখা, কেবলমাত্র পরিচিত ও বিশ্বাসযোগ্য উৎস থেকে অ্যাপ ডাউনলোড করা এবং সন্দেহজনক বা অচেনা লিংকে ক্লিক করা থেকে বিরত থাকা। বিনামূল্যের অ্যাপ বা আকর্ষণীয় অফার লোভনীয় মনে হতে পারে, কিন্তু অনেক ক্ষেত্রেই এসব পরিষেবার মূল লক্ষ্যই ব্যবহারকারীর তথ্য সংগ্রহ করা, অর্থাৎ ব্যবহারকারী নিজেই হয়ে ওঠে পণ্য।</p> </div>
+      
+      `,
+      
+      "network-devices": `
+<h2>সাইবারসিকিউরিটির উদ্দেশ্য</h2> <p>সাইবার সিকিউরিটি হলো কম্পিউটার সিস্টেম, নেটওয়ার্ক, ডাটা, এবং প্রোগ্রাম এর সুরক্ষা এর একটি প্রযুক্তিগত ব্যবস্থা ও প্রক্রিয়া । এটি এমনভাবে বোঝা যেতে যে ধরুন  পারে কেউ বাড়ি নিরাপদ রাখতে দরজা লক করা, অ্যালার্ম ব্যবস্থা করা এবং মূল্যবান জিনিসগুলো নিরাপদ স্থানে রাখলো । সাইবারসিকিউরিটি ডিজিটাল পরিবেশের জন্য একই রকম নিরাপত্তা প্রদান করে।</p> <p>উদাহরণস্বরূপ, যখন কেউ অনলাইনে কেনাকাটা করে, সাইবারসিকিউরিটি ক্রেডিট কার্ডের তথ্যের মতো আর্থিক তথ্যকে সুরক্ষিত রাখে। যখন কোনো প্রতিষ্ঠান গ্রাহকের তথ্য সংরক্ষণ করে, সাইবারসিকিউরিটি অননুমোদিত প্রবেশ রোধ করে। এমনকি মৌলিক পদক্ষেপগুলো—যেমন শক্তিশালী পাসওয়ার্ড ব্যবহার করা এবং সন্দেহজনক লিঙ্ক এড়ানো—ও ডিজিটাল নিরাপত্তা বজায় রাখতে সহায়ক।</p>      `,
+      "security-protocols": `
+<h2>বাংলাদেশে সাইবারসিকিউরিটি</h2> <p>বাংলাদেশে ডিজিটাল প্রযুক্তির দ্রুত বৃদ্ধি দেখা যাচ্ছে, তবে এর সাইবারসিকিউরিটি কাঠামো এখনও বিকাশমান। বেশি ব্যবসা, সরকারি প্রতিষ্ঠান এবং শিক্ষা সংস্থা অনলাইনে কার্যক্রম পরিচালনা করলে সাইবারআক্রমণের ঝুঁকিও বৃদ্ধি পায়। একটি উল্লেখযোগ্য উদাহরণ হলো ২০১৬ সালে, যখন আক্রমণকারীরা SWIFT সিস্টেমের দুর্বলতা ব্যবহার করে বাংলাদেশ ব্যাংক থেকে ৮১ মিলিয়ন ডলার চুরি করে, যা সাইবারহুমকির গুরুত্ব প্রদর্শন করে।</p> <p>ব্যাংক এবং ই-কমার্স প্ল্যাটফর্মগুলো নিরাপত্তা ব্যবস্থা শক্তিশালী করছে; তবুও ফিশিং, malware এবং অনলাইন জালিয়াতি ব্যাপকভাবে প্রচলিত রয়েছে। বাংলাদেশ বর্তমানে ন্যাশনাল সাইবার সিকিউরিটি ইনডেক্সে বিশ্বের ৬৬তম স্থানে রয়েছে এবং ২০২৪ সালের গ্লোবাল সাইবারসিকিউরিটি ইনডেক্সে 'রোল মডেল' হিসেবে স্বীকৃত হয়েছে। এই র‍্যাংকিংগুলো উন্নতির ইঙ্গিত দেয়, পাশাপাশি আরও শক্তিশালী নিয়মনীতি, পেশাদার প্রশিক্ষণ এবং জনসচেতনতার প্রয়োজনীয়তাও তুলে ধরে।</p> <div class="note-box"> বাংলাদেশ তার সাইবার প্রতিরক্ষা শক্তিশালী করছে, তবে আরও উন্নয়ন প্রয়োজন। ডিজিটাল তথ্য রক্ষা এবং দক্ষ সাইবারসিকিউরিটি পেশাজীবী তৈরি করা নিরাপদ অনলাইন পরিবেশ নিশ্চিত করার জন্য অত্যন্ত গুরুত্বপূর্ণ। </div> </div>
+      `,
+      "firewalls-vpns": `
+<h2>আমরা এই মডিউলগুলো থেকে কী শিখব?</h2>
+
+<p>Module 2: Cyber Attacks → হ্যাকারদের মনোভাব বোঝার চেষ্টা করুন। দেখুন তারা কীভাবে সিস্টেমে অনুপ্রবেশ করে।</p>
+
+<p>Module 3: Cyber Defense → নিজের সুরক্ষা তৈরি করুন—নিজেকে রক্ষা করার কৌশল শিখুন।</p>
+
+<p>Module 4: Cybersecurity in Action → বাস্তব জীবনের গল্প, হাতে কলমে উদাহরণ, এবং জ্ঞানকে দক্ষতায় রূপান্তর করার রোডম্যাপ।</p>
+
+</section>
+
+      `
+  
+    };
+
+    // English content backup
+    const englishContent = {};
+    document.querySelectorAll('.topic-section').forEach(section => {
+      englishContent[section.id] = section.innerHTML;
+    });
+
+    translateBtn.addEventListener('click', function() {
+      isBangla = !isBangla;
+      
+      if (isBangla) {
+        translateBtn.textContent = 'English';
+        translateBtn.style.background = 'linear-gradient(90deg, var(--neon-green), var(--neon-blue))';
+        
+        // Switch to Bangla
+        document.querySelector('.module-title').textContent = 'মডিউল ১: Cybersecurity ফান্ডামেন্টালস';
+        document.querySelector('.progress-text span:first-child').textContent = 'অগ্রগতি';
+        document.querySelector('.btn-next').textContent = 'পরবর্তী মডিউল →';
+        
+        Object.keys(banglaContent).forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) section.innerHTML = banglaContent[sectionId];
+        });
+      } else {
+        // Switch back to English
+        location.reload();
+      }
+    });
+    
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    // Excel-based login system integration (shared, from quiz4)
+    let userDatabase = [];
+    const appState = { currentUser: null };
+    window.appState = appState;
+
+    const elements = {
+      loginBtn: document.getElementById("login-btn"),
+      logoutBtn: document.getElementById("logout-btn"),
+      loginPopup: document.getElementById("login-popup"),
+      closeBtn: document.querySelector(".close-btn"),
+      loginForm: document.getElementById("login-form"),
+      loginId: document.getElementById("login-id"),
+      loginMobile: document.getElementById("login-mobile"),
+      userNavItem: document.getElementById("user-nav-item"),
+      usernameDisplay: document.getElementById("username-nav-display"),
+      loginNavItem: document.getElementById("login-nav-item"),
+      alertOverlay: document.getElementById("alert-overlay"),
+      cyberAlert: document.getElementById("cyber-alert"),
+      alertTitle: document.getElementById("alert-title"),
+      alertMessage: document.getElementById("alert-message"),
+      alertConfirm: document.getElementById("alert-confirm"),
+      alertCancel: document.getElementById("alert-cancel"),
+      courseNavItem: document.getElementById("course-nav-item"),
+      quizNavItem: document.getElementById("quiz-nav-item"),
+      resourcesNavItem: document.getElementById("resources-nav-item")
+    };
+
+    function showAlert(title, message, options = {}) {
+      elements.alertTitle.textContent = title;
+      elements.alertMessage.textContent = message;
+      if (options.confirm) {
+        elements.alertConfirm.style.display = 'inline-block';
+        elements.alertConfirm.textContent = options.confirmText || 'Confirm';
+        elements.alertConfirm.onclick = () => {
+          hideAlert();
+          if (options.onConfirm) options.onConfirm();
+        };
+      } else {
+        elements.alertConfirm.style.display = 'none';
+      }
+      if (options.cancel) {
+        elements.alertCancel.style.display = 'inline-block';
+        elements.alertCancel.textContent = options.cancelText || 'Cancel';
+        elements.alertCancel.onclick = () => {
+          hideAlert();
+          if (options.onCancel) options.onCancel();
+        };
+      } else {
+        elements.alertCancel.style.display = 'none';
+      }
+      elements.alertOverlay.classList.add('active');
+      elements.cyberAlert.classList.add('active');
+    }
+
+    function hideAlert() {
+      elements.alertOverlay.classList.remove('active');
+      elements.cyberAlert.classList.remove('active');
+    }
+
+    function checkLoggedInUser() {
+      const sessionUser = sessionStorage.getItem('currentUser');
+      if (sessionUser) { try { loginUser(JSON.parse(sessionUser), true); return; } catch(e) { sessionStorage.removeItem('currentUser'); } }
+      const savedUser = localStorage.getItem('loggedInUser');
+      if (savedUser) { try { loginUser(JSON.parse(savedUser), true); } catch(e) { localStorage.removeItem('loggedInUser'); } }
+    }
+
+    function loginUser(user, isAutoLogin = false) {
+      appState.currentUser = user;
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+      sessionStorage.setItem('currentUser', JSON.stringify(user));
+      if (elements.userNavItem) elements.userNavItem.style.display = "block";
+      if (elements.loginNavItem) elements.loginNavItem.style.display = "none";
+      if (elements.usernameDisplay) elements.usernameDisplay.textContent = user.Name;
+      if (elements.loginPopup) elements.loginPopup.style.display = "none";
+      [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.remove('locked'); });
+      if (!isAutoLogin || !sessionStorage.getItem('hasShownWelcome')) {
+        setTimeout(() => showAlert("ACCESS GRANTED", `Welcome back, ${user.Name}!`, { confirm: true }), 800);
+      }
+      sessionStorage.setItem('hasShownWelcome', 'true');
+    }
+
+    function logoutUser() {
+      showAlert(
+        "CONFIRM LOGOUT",
+        "Are you sure you want to log out?",
+        {
+          confirm: true,
+          confirmText: "LOGOUT",
+          onConfirm: () => {
+            localStorage.removeItem('loggedInUser');
+            sessionStorage.removeItem('currentUser');
+            appState.currentUser = null;
+            if (elements.userNavItem) elements.userNavItem.style.display = "none";
+            if (elements.loginNavItem) elements.loginNavItem.style.display = "block";
+            [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.add('locked'); });
+            window.location.href = '../index.html';
+          },
+          cancel: true
+        }
+      );
+    }
+
+    async function loadUsersFromExcel() {
+      try {
+        const response = await fetch('../users.xlsx');
+        if (!response.ok) throw new Error(`Failed to fetch Excel file: HTTP ${response.status}`);
+        const arrayBuffer = await response.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const excelData = XLSX.utils.sheet_to_json(worksheet);
+        userDatabase = excelData.map(row => ({
+          ID: String(row.ID || '').trim(),
+          Name: String(row.Name || '').trim(),
+          Mobile: String(row.Mobile || '').trim(),
+          Role: String(row.Role || 'student').trim()
+        })).filter(user => user.ID && user.Name && user.Mobile);
+      } catch (error) {
+        console.error('Error loading Excel:', error);
+        userDatabase = [
+          { ID: "STU101", Name: "Test Student", Mobile: "01712345678", Role: "student" },
+          { ID: "TEACH202", Name: "Test Teacher", Mobile: "01876543210", Role: "teacher" }
+        ];
+        const persistedUser = sessionStorage.getItem('currentUser') || localStorage.getItem('loggedInUser');
+        if (!persistedUser) {
+          showAlert("NOTE", "Using test data - Login with ID: STU101, Mobile: 01712345678", { confirm: true });
+        }
+      }
+    }
+
+    function normalizeMobile(mobile) {
+      let digits = mobile.replace(/\D/g, '');
+      if (digits.startsWith('880')) digits = digits.substring(3);
+      else if (digits.startsWith('+880')) digits = digits.substring(4);
+      if (digits.length !== 11) throw new Error('Mobile must be exactly 11 digits');
+      return digits;
+    }
+
+    function validateUser(id, mobile) {
+      try {
+        const normalizedMobile = normalizeMobile(mobile);
+        const user = userDatabase.find(u => u.ID === id.trim() && normalizeMobile(u.Mobile) === normalizedMobile);
+        if (!user) throw new Error('No matching user found');
+        return user;
+      } catch (error) {
+        console.error('Validation error:', error);
+        return null;
+      }
+    }
+
+    function setupLoginEventListeners() {
+      if (elements.loginBtn) elements.loginBtn.addEventListener("click", () => { elements.loginPopup.style.display = "block"; elements.loginId && elements.loginId.focus(); });
+      if (elements.closeBtn) elements.closeBtn.addEventListener("click", () => { elements.loginPopup.style.display = "none"; });
+      if (elements.loginMobile) elements.loginMobile.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+      if (elements.loginForm) elements.loginForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const id = elements.loginId.value;
+        const mobile = elements.loginMobile.value;
+        if (!id || !mobile) { showAlert("ERROR", "Both ID and Mobile are required", { confirm: true }); return; }
+        const user = validateUser(id, mobile);
+        if (user) { loginUser(user); } else { showAlert("ACCESS DENIED", "Invalid ID or Mobile. Must be exact 11-digit number.", { confirm: true }); }
+      });
+      if (elements.logoutBtn) elements.logoutBtn.addEventListener("click", logoutUser);
+
+      document.querySelectorAll('.nav-item.locked .nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          if (!appState.currentUser) {
+            e.preventDefault();
+            showAlert(
+              "LOGIN REQUIRED",
+              "Please login to access this section.",
+              { confirm: true, confirmText: "LOGIN", onConfirm: () => { elements.loginPopup.style.display = "block"; } }
+            );
+          }
+        });
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target === elements.loginPopup) elements.loginPopup.style.display = "none";
+        if (e.target === elements.alertOverlay) hideAlert();
+      });
+    }
+
+    (async function initializeLogin() {
+      try {
+        await loadUsersFromExcel();
+        setupLoginEventListeners();
+        checkLoggedInUser();
+        window.addEventListener('beforeunload', () => {
+          if (!sessionStorage.getItem('currentUser')) {
+            sessionStorage.removeItem('hasShownWelcome');
+          }
+        });
+      } catch (error) {
+        console.error('Initialization error:', error);
+        showAlert("INIT ERROR", "Failed to initialize login: " + error.message, { confirm: true, confirmText: "RELOAD", onConfirm: () => window.location.reload() });
+      }
+    })();
+  </script>
+</body>
+</html>

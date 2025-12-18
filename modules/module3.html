@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSET | Cybersecurity Module</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-blue: #00f2ff;
+      --neon-purple: #a100ff;
+      --neon-pink: #ff00e6;
+      --neon-green: #00ff88;
+      --dark-bg: #0a0e1a;
+      --darker-bg: #050811;
+      --glow-intensity: 0 0 15px;
+      --terminal-cursor: #00ff41;
+    }
+    
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark-bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #ffffff;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+    .password-checker {
+  margin: 25px 0;
+  padding: 20px;
+  background: rgba(5, 8, 17, 0.6);
+  border: 1px solid var(--neon-purple);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(161, 0, 255, 0.3);
+}
+
+.password-input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(10, 14, 26, 0.7);
+  border: 1px solid var(--neon-blue);
+  border-radius: 4px;
+  color: white;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: var(--neon-green);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--neon-blue);
+  cursor: pointer;
+}
+
+.strength-meter {
+  height: 8px;
+  background: #0a1a2a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 15px 0;
+  box-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+}
+
+.strength-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.crack-time {
+  font-family: 'Fira Code', monospace;
+  padding: 15px;
+  background: rgba(10, 14, 26, 0.7);
+  border-radius: 4px;
+  border-left: 3px solid var(--neon-blue);
+  margin-top: 20px;
+}
+
+.time-value {
+  color: var(--neon-green);
+  font-weight: bold;
+}
+
+.warning {
+  color: var(--neon-pink);
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+  .translate-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(161, 0, 255, 0.5);
+}
+.translate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+}
+
+    /* ===== CYBERPUNK NAVBAR ===== */
+    .navbar-custom {
+      background: rgba(10, 14, 26, 0.95) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+      padding: 0.8rem 2rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 2.4rem !important;
+      font-weight: 900 !important;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--glow-intensity) rgba(161, 0, 255, 0.7);
+      letter-spacing: 3px;
+      position: relative;
+      padding-right: 20px;
+      margin-right: 1rem;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .navbar-brand:hover {
+      text-shadow: 0 0 25px var(--neon-purple), 
+                   0 0 20px var(--neon-blue),
+                   0 0 35px rgba(161, 0, 255, 0.5);
+      transform: scale(1.05) !important;
+    }
+
+    .navbar-brand::after {
+      content: '_';
+      position: absolute;
+      right: 0;
+      animation: blink 1s step-end infinite;
+      color: var(--terminal-cursor);
+      font-weight: 400;
+    }
+
+    .nav-link {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700 !important;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: white !important;
+      margin: 0 12px;
+      position: relative;
+      padding: 8px 0 !important;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      transition: width 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--neon-blue) !important;
+      text-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+      box-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    .nav-link.active {
+      color: var(--neon-green) !important;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+    }
+
+    .nav-link.active::before {
+      width: 100%;
+      background: var(--neon-green);
+      box-shadow: 0 0 20px var(--neon-green);
+    }
+
+    .navbar-toggler {
+      border: 1px solid var(--neon-blue);
+      padding: 0.5rem;
+    }
+        .code-block {
+      background: rgba(0, 242, 255, 0.1);
+      border: 1px solid rgba(0, 242, 255, 0.3);
+      border-radius: 4px;
+      padding: 15px;
+      font-family: 'Fira Code', monospace;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .note-box {
+      background: rgba(0, 255, 136, 0.1);
+      border-left: 3px solid var(--neon-green);
+      padding: 15px;
+      margin: 20px 0;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 242, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* ===== MODULE PAGE LAYOUT ===== */
+    .module-container {
+      display: flex;
+      padding-top: 100px;
+      min-height: calc(100vh - 100px);
+    }
+
+    /* ===== SIDEBAR NAVIGATION ===== */
+    .module-sidebar {
+      width: 280px;
+      padding: 30px 20px;
+      position: fixed;
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      background: rgba(5, 8, 17, 0.8);
+      border-right: 1px solid rgba(0, 242, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      top: 100px;
+    }
+
+.sidebar-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+  position: sticky;
+  top: 0;
+  background: var(--darker-bg);
+  z-index: 10;
+  padding-top: 10px;
+  box-shadow: 0 5px 15px rgba(5, 8, 17, 0.9);
+}
+
+.sidebar-header h2 {
+  display: flex;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.module-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--neon-purple);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.progress-container {
+  margin-top: 20px;
+  position: sticky;
+  top: 120px;
+  background: var(--darker-bg);
+  padding-bottom: 10px;
+  z-index: 5;
+}
+
+    .progress-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: var(--neon-green);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #0a1a2a;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+      width: 25%;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+.topic-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.topic-nav li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.topic-nav li::before {
+  content: none;
+  display: none;
+}
+
+    .topic-nav a {
+      display: block;
+      padding: 10px 15px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: #b2f5ea;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .topic-nav a:hover, .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.1);
+      color: var(--neon-blue);
+      border-left: 3px solid var(--neon-blue);
+      text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+    .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.2);
+      color: var(--neon-green);
+      border-left: 3px solid var(--neon-green);
+    }
+    .module-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.module-sidebar::-webkit-scrollbar-track {
+  background: rgba(5, 8, 17, 0.8);
+}
+
+.module-sidebar::-webkit-scrollbar-thumb {
+  background: var(--neon-purple);
+  border-radius: 4px;
+}
+
+.module-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-blue);
+}
+
+.module-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) rgba(5, 8, 17, 0.8);
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--neon-blue), var(--neon-purple));
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--neon-green), var(--neon-pink));
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) var(--darker-bg);
+}
+
+    /* ===== MAIN CONTENT ===== */
+    .module-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 40px;
+      max-width: 900px;
+      position: relative;
+      padding-bottom: 100px;
+    }
+
+    .module-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      color: var(--neon-blue);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      white-space: nowrap;
+    }
+
+    .topic-section {
+      margin-bottom: 60px;
+      padding: 30px;
+      background: rgba(5, 8, 17, 0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 242, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .topic-section:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+    }
+
+    .topic-section h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--neon-purple);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .topic-content {
+      font-family: 'Rajdhani', sans-serif;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .topic-content p {
+      margin-bottom: 20px;
+    }
+
+    .topic-content ul {
+      padding-left: 25px;
+      margin-bottom: 20px;
+      list-style-type: none;
+    }
+
+    .topic-content li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .topic-content li::before {
+      content: '■';
+      color: var(--neon-green);
+      position: absolute;
+      left: 0;
+      font-size: 0.8rem;
+    }
+
+    .btn-next {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: var(--darker-bg);
+      color: var(--neon-blue);
+      border: 2px solid var(--neon-blue);
+      border-radius: 0;
+      position: fixed;
+      bottom: 30px;
+      right: 40px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 15px rgba(0, 242, 255, 0.6),
+                  0 0 10px rgba(0, 242, 255, 0.3);
+      text-decoration: none;
+      z-index: 100;
+    }
+
+    .btn-next:hover {
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      background: var(--dark-bg);
+      text-shadow: 0 0 10px var(--neon-green);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.8),
+                  0 0 15px rgba(0, 255, 136, 0.4);
+      transform: translateY(-3px);
+    }
+    /* ===== RESPONSIVE ADJUSTMENTS ===== */
+    @media (max-width: 1200px) {
+      .module-sidebar {
+        width: 240px;
+      }
+      .module-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .module-container {
+        flex-direction: column;
+      }
+      .module-sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        top: 0;
+      }
+      .module-content {
+        margin-left: 0;
+        padding: 30px;
+      }
+      .progress-container {
+        position: static;
+      }
+      .btn-next {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .module-title {
+        font-size: 1.8rem;
+        white-space: normal;
+      }
+      .topic-section h2 {
+        font-size: 1.5rem;
+      }
+      .module-content {
+        padding: 20px;
+      }
+      .btn-next {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .module-title {
+        font-size: 1.6rem;
+      }
+      .topic-section {
+        padding: 20px;
+      }
+    }
+      .btn-prev {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: var(--darker-bg);
+  color: var(--neon-blue);
+  border: 2px solid var(--neon-blue);
+  border-radius: 0;
+  position: fixed;
+  bottom: 30px;
+  left: 27px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.6),
+              0 0 10px rgba(0, 242, 255, 0.3);
+  text-decoration: none;
+  z-index: 100;
+}
+
+.btn-prev:hover {
+  color: var(--neon-green);
+  border-color: var(--neon-green);
+  background: var(--dark-bg);
+  text-shadow: 0 0 10px var(--neon-green);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.8),
+              0 0 15px rgba(0, 255, 136, 0.4);
+  transform: translateY(-3px);
+}
+
+@media (max-width: 992px) {
+  .btn-prev {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-prev {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+  </style>
+<style>
+  .cyber-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.95); z-index: 2000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .cyber-popup-content { background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 50px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 420px; padding: 2.5rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; border-radius: 12px; overflow: hidden; }
+  .cyber-popup h2 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 2rem; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 15px var(--neon-green); }
+  .cyber-popup input { width: 100%; padding: 14px 16px; margin-bottom: 1.2rem; background: rgba(0, 242, 255, 0.08); border: 1px solid var(--neon-blue); color: white; font-family: 'Fira Code', monospace; font-size: 0.95rem; border-radius: 6px; transition: all 0.3s; }
+  .cyber-popup input:focus { border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); background: rgba(0, 255, 136, 0.1); outline: none; }
+  .close-btn { position: absolute; top: 15px; right: 20px; color: var(--neon-pink); font-size: 1.8rem; cursor: pointer; transition: all 0.3s; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .close-btn:hover { transform: rotate(90deg); text-shadow: 0 0 15px var(--neon-pink); background: rgba(255, 0, 230, 0.1); }
+  .user-display { display: flex; align-items: center; margin-left: 20px; position: relative; padding: 8px 15px; border-radius: 30px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--neon-blue); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); transition: all 0.3s; }
+  .user-display:hover { background: rgba(0, 242, 255, 0.2); box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); }
+  .username-display { color: var(--neon-green); font-family: 'Fira Code', monospace; margin-right: 15px; text-shadow: 0 0 8px var(--neon-green); font-size: 0.95rem; letter-spacing: 1px; position: relative; padding-right: 15px; }
+  .username-display::after { content: '|'; position: absolute; right: 0; color: var(--neon-blue); animation: blink 1s step-end infinite; }
+  .btn-logout { background: transparent; border: none; color: var(--neon-pink); padding: 5px 10px; font-family: 'Fira Code', monospace; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; border-radius: 4px; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-logout:hover { color: white; background: rgba(255, 0, 230, 0.2); box-shadow: 0 0 15px var(--neon-pink); }
+  .btn-logout::before { content: '⌫'; margin-right: 5px; font-size: 1.1rem; }
+  .cyber-alert { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3000; background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 40px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 350px; padding: 2rem; border-radius: 10px; text-align: center; display: none; backdrop-filter: blur(5px); }
+  .cyber-alert.active { display: block; animation: alertFadeIn 0.4s ease-out; }
+  .alert-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.8); z-index: 2999; display: none; }
+  .alert-overlay.active { display: block; }
+  .cyber-alert h3 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 1.5rem; font-size: 1.5rem; text-shadow: 0 0 10px var(--neon-green); }
+  .cyber-alert p { color: #b2f5ea; font-family: 'Fira Code', monospace; margin-bottom: 2rem; line-height: 1.6; }
+  .cyber-alert-btn { background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 0.7rem 1.8rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; border-radius: 4px; margin: 0 10px; }
+  .cyber-alert-btn.confirm { border-color: var(--neon-green); color: var(--neon-green); }
+  .cyber-alert-btn.danger { border-color: var(--neon-pink); color: var(--neon-pink); }
+  #login-btn { background: rgba(0, 242, 255, 0.15); border: 1px solid var(--neon-blue); border-radius: 4px; padding: 8px 20px !important; margin-left: 15px; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 242, 255, 0.3); position: relative; overflow: hidden; }
+  #login-btn:hover { background: rgba(0, 242, 255, 0.3); box-shadow: 0 0 20px var(--neon-blue); transform: translateY(-2px); }
+  .nav-item.locked .nav-link { color: rgba(255, 255, 255, 0.3) !important; cursor: not-allowed; }
+  .nav-item.locked .nav-link:hover::before { width: 0; }
+</style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">DSET</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item locked" id="course-nav-item"><a class="nav-link" href="../about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="../course.html">Course</a></li>
+          <li class="nav-item" id="quiz-nav-item"><a class="nav-link" href="../quiz.html">Quiz</a></li>
+          <li class="nav-item locked" id="resources-nav-item"><a class="nav-link" href="../resources.html">Resources</a></li>
+          <li class="nav-item" id="login-nav-item"><a class="nav-link" href="#" id="login-btn">Login</a></li>
+          <li class="nav-item" id="user-nav-item" style="display:none;">
+            <div class="user-display">
+              <span class="username-display" id="username-nav-display"></span>
+              <button id="logout-btn" class="btn-logout">LOGOUT</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="module-container">
+    <!-- Sidebar Navigation -->
+    <aside class="module-sidebar">
+      <div class="sidebar-header">
+        <h2><span class="module-number">3</span> Cyber Defense</h2>
+        <button id="translateBtn" class="translate-btn">বাংলা</button>
+        <div class="progress-container">
+          <div class="progress-text">
+            <span>Progress</span>
+            <span>25%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <ul class="topic-nav">
+        <li><a href="#what-is-cybersecurity" class="active">The Power of MFA (Multi-Factor-Authentication)</a></li>
+        <li><a href="#data-protection">Role of Firewall</a></li>
+        <li><a href="#common-threats">Backup Defeats Hackers</a></li>
+        <li><a href="#security-principles">Encryption Magic</a></li>
+        <li><a href="#jobs-roles">VPN The protector of your device</a></li>
+        <li><a href="#certifications">Update = Shield : How patching stops attacks instantly</a></li>
+        <li><a href="#what-is-a-network">Complications of Password</a></li>
+        <li><a href="#network-devices">Physical Security : Your devices can be stolen in seconds</a></li>
+        <li><a href="#security-protocols">How AI Can help</a></li>
+        <li><a href="#firewalls-vpns">The power of awareness</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="module-content">
+      <h1 class="module-title">Module 3: Cyber Defense</h1>
+
+      <section id="what-is-cybersecurity" class="topic-section">
+<h2>The Power of MFA (Multifactor Authentication)</h2>  
+
+<p>Hackers can often steal usernames and passwords through fake emails, leaked data, or hidden viruses. But MFA makes things harder for them. Even if someone knows your password, they still need another check, like a code on your phone, your fingerprint, or your face scan.</p>  
+
+<p>Think of it like locking your house. A thief may have a copy of your key, but MFA is like also needing your fingerprint to open the door. Without it, the key doesn’t work. That’s why banks, social media, and email services recommend MFA—it adds extra protection and makes it much harder for hackers to get in.</p>  
+</section>
+
+      <section id="data-protection" class="topic-section">
+<h2>Role of a Firewall</h2>  
+
+<p>A firewall works like a security guard for your computer or network. It checks every bit of traffic coming in and going out, deciding what’s safe and what’s not. If something suspicious tries to enter, like a hacker’s connection or a harmful file, the firewall blocks it.</p>  
+
+<p>Imagine your computer is a house. The firewall is the locked gate at the front. Friends and family (safe data) are allowed in, but strangers trying to sneak in (hackers, malware) are stopped at the gate. This way, your system stays safe while still allowing you to connect to the internet.</p>  
+
+      </section>
+
+      <section id="common-threats" class="topic-section">
+        <div class="topic-content">
+<h2>Backup Defeats Hackers</h2>  
+
+<p>Hackers love ransomware because it traps people into paying. They encrypt photos, documents, and work files, then demand a ransom to unlock them. But with a proper backup, their entire scheme collapses. Instead of paying, you can erase the infected system and bring everything back from your stored copy.</p>  
+
+<p>It’s like writing an important exam and keeping an extra answer sheet. Even if someone spills ink all over the first one, you calmly pull out the spare. The attacker’s power only exists if you have no backup to fall back on.</p>  
+
+<div class="code-block">
+Tip: Keep at least two backups—
+  One on an external hard drive  
+  One in a secure cloud storage  
+
+This way, even if hackers strike, you’ll always have a clean copy safe from harm.  
+</div>
+</section>
+
+  <section id="security-principles" class="topic-section">
+<h2>Encryption Magic</h2>  
+
+<p>Encryption is like locking your information in a super-secure box that only someone with the key can open. For instance, when you send a WhatsApp message, it’s encrypted using end-to-end encryption. That means even if someone intercepts it, all they see is scrambled data like "U2FsdGVkX1+Jk9p3vQ=="—only the recipient’s device can decrypt it to read the original message.</p>  
+
+<div class="code-block">
+<p>Encrypted Message: "U2FsdGVkX1+Jk9p3vQ==", Decrypted by recipient: "Meet me at 5 PM"</p>
+</div>
+</section>
+
+<section id="jobs-roles" class="topic-section">
+<h2>VPN: The Protector of Your Device</h2>  
+
+<p>A VPN, or Virtual Private Network, acts like a secret tunnel between your device and the internet. It hides your real IP address and encrypts all your data, so even if someone is spying on the network—like at a café or airport—they can’t see what you’re doing. Websites and hackers only see the VPN server, not your personal device.</p>  
+
+<div class="code-block">
+<p>Connecting to public WiFi without VPN → Your data can be intercepted.  
+Connecting with VPN → Your data is encrypted and your IP is hidden, keeping you safe.</p>
+</div></section>
+      
+
+      <section id="certifications" class="topic-section">
+<h2>Update = Shield: How Patching Stops Attacks Instantly</h2>  
+
+<p>Updating your software is like fixing broken locks on your house. Every update or patch closes vulnerabilities that hackers could exploit. Leaving your system outdated is like leaving windows and doors wide open—inviting attackers in. Regular updates protect your devices from malware, ransomware, and other cyber threats.</p>  
+
+<div class="code-block">
+<p>A large number of users in Bangladesh are still running outdated Windows versions, leaving them exposed to known vulnerabilities and attacks that could have been prevented with regular updates.</p>
+</div>
+</section>
+
+      <section id="what-is-a-network" class="topic-section">
+<h2>Complications of Passwords</h2>  
+
+<p>Passwords are supposed to protect your accounts, but they come with a lot of problems. People often reuse the same password for multiple accounts, so if one site is hacked, all other accounts are at risk. Others create simple passwords like "123456" or "password" because they are easy to remember, but that also makes them easy for hackers to guess. Some try to make complex passwords but then write them on sticky notes or store them in plain text files, which defeats the purpose of security.</p>  
+
+<h3>Common Password Complications</h3>  
+<li>Weak passwords are easy to guess and crack.</li>  
+<li>Reusing passwords across multiple accounts increases risk.</li>  
+<li>Complex passwords are hard to remember and may be stored insecurely.</li>  
+<li>Passwords can be stolen through phishing or malware.</li>  
+<li>Frequent password changes can lead to predictable patterns.</li>
+</section>
+
+
+      <section id="network-devices" class="topic-section">
+<h2>Physical Security: How Your Devices Can Be Compromised in Seconds</h2>  
+
+<p>Physical security isn’t just about someone snatching your laptop or phone. Even brief physical interactions can put your device at risk. Plugging your phone into a public charging station can transfer malware without you noticing. Picking up a random USB stick and connecting it to your computer could infect it instantly. Public WiFi networks can intercept data in real time, allowing attackers to steal passwords, messages, or files without touching your device. It’s all about how easily someone can exploit physical access points or interactions to compromise your security.</p>  
+
+<h3>Examples of Physical Security Risks</h3>
+<li>Using public USB chargers or cables can transfer malware.</li>
+<li>Random USB drives may contain viruses or ransomware.</li>
+<li>Connecting to open WiFi networks can expose sensitive data.</li>
+<li>Leaving devices unattended allows anyone to access your data.</li>
+<li>Borrowing devices from untrusted sources can introduce malware.</li>
+</section>
+
+      <section id="security-protocols" class="topic-section">
+<h2>How AI Can Help</h2>  
+
+<p>Artificial Intelligence can strengthen cybersecurity by analyzing huge amounts of data faster than humans. It can detect unusual patterns or behaviors that may indicate an attack, like a sudden spike in login attempts or strange network activity. AI can automatically respond to threats, such as blocking suspicious connections or flagging potential malware, reducing the time attackers have to cause damage.</p>  
+
+<p>AI also helps in predicting future attacks by learning from past incidents. It can identify weak spots in systems, recommend improvements, and assist in monitoring compliance with security policies. This makes defenses more proactive rather than just reactive, helping organizations and individuals stay ahead of evolving cyber threats.</p>
+</section>
+
+      <section id="firewalls-vpns" class="topic-section">
+<h2>The Power of Awareness</h2>  
+
+<p>Awareness is one of the strongest defenses in cybersecurity. Knowing the risks, understanding common attacks, and being cautious with online activities can prevent many incidents before they happen. Simple habits like recognizing phishing attempts, avoiding suspicious links, and keeping software updated reduce the chances of being hacked significantly.</p>  
+
+<h3>What Awareness Can Prevent</h3>
+<li>Clicking on malicious links that install malware.</li>
+<li>Falling for phishing emails or fake websites.</li>
+<li>Sharing sensitive information with untrusted sources.</li>
+<li>Using weak or repeated passwords across accounts.</li>
+<li>Accessing unsafe networks or devices without precautions.</li>
+</section>
+    </main>
+    <a href="module4.html" class="btn-next">NEXT MODULE →</a>
+    <a href="module2.html" class="btn-prev">Previous Module →</a>
+  </div>
+
+  <!-- Login Popup -->
+  <div id="login-popup" class="cyber-popup">
+    <div class="cyber-popup-content">
+      <span class="close-btn">&times;</span>
+      <h2>ACCESS TERMINAL</h2>
+      <form id="login-form">
+        <input type="text" id="login-id" placeholder="ID (e.g., STU101)" required>
+        <input type="text" id="login-mobile" placeholder="Mobile (e.g., 01712345678)" required>
+        <button type="submit" class="btn-quiz">AUTHENTICATE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alert System -->
+  <div class="alert-overlay" id="alert-overlay"></div>
+  <div class="cyber-alert" id="cyber-alert">
+    <h3 id="alert-title">ALERT</h3>
+    <p id="alert-message">Message goes here</p>
+    <div id="alert-buttons">
+      <button class="cyber-alert-btn confirm" id="alert-confirm">Confirm</button>
+      <button class="cyber-alert-btn danger" id="alert-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.topic-section');
+      const navLinks = document.querySelectorAll('.topic-nav a');
+      
+      // Navbar active link
+      const navLinksMain = document.querySelectorAll('.nav-link');
+      navLinksMain.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinksMain.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Sidebar active link based on scroll
+function updateActiveLink() {
+  let current = '';
+  const scrollPosition = window.pageYOffset + 150;
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  
+  // Check if we're at the bottom of the page
+  const isAtBottom = (windowHeight + window.pageYOffset) >= documentHeight - 100;
+  
+  // Clear any existing timeout
+  if (window.highlightTimeout) {
+    clearTimeout(window.highlightTimeout);
+  }
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    const sectionId = section.getAttribute('id');
+    
+    // Add buffer zones to ensure all sections are detected properly
+    if (scrollPosition >= (sectionTop - 50) && scrollPosition < (sectionTop + sectionHeight - 50)) {
+      current = sectionId;
+    }
+  });
+  
+  // Special case for when at bottom of page - highlight ALL links temporarily
+  if (isAtBottom) {
+    navLinks.forEach(link => {
+      link.classList.add('active');
+    });
+    
+    // Remove highlights after 1 second
+    window.highlightTimeout = setTimeout(() => {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Highlight only the last section after removing all highlights
+      const lastLink = document.querySelector('.topic-nav a[href="#firewalls-vpns"]');
+      if (lastLink) {
+        lastLink.classList.add('active');
+      }
+    }, 1000);
+    
+    return; // Exit early since we've handled the bottom case
+  }
+  
+  // Normal case - highlight only the current section
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    const linkTarget = link.getAttribute('href').substring(1);
+    if (linkTarget === current) {
+      link.classList.add('active');
+    }
+  });
+}
+      
+      // Smooth scrolling for sidebar links
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetSection.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      
+      // Update progress bar as user scrolls
+      function updateProgress() {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollProgress = (scrollTop / scrollHeight) * 100;
+        document.querySelector('.progress-fill').style.width = scrollProgress + '%';
+        document.querySelector('.progress-text span:last-child').textContent = Math.round(scrollProgress) + '%';
+      }
+      
+      // Throttle scroll events for better performance
+      let isScrolling;
+      window.addEventListener('scroll', function() {
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(function() {
+          updateActiveLink();
+          updateProgress();
+        }, 50);
+      }, false);
+      
+      // Initialize
+      updateActiveLink();
+      updateProgress();
+    });
+      function checkAnswer(scenarioNumber) {
+    const resultDiv = document.getElementById('quiz-result');
+    
+    // Scenario 1 is the phishing attempt (correct answer)
+    if (scenarioNumber === 1) {
+      resultDiv.innerHTML = 'You selected the correct phishing attempt!';
+      resultDiv.style.display = 'block';
+      resultDiv.style.color = '#00ff88'; // Neon green for success
+      resultDiv.style.borderLeftColor = '#00ff88';
+      resultDiv.style.background = 'rgba(0, 255, 136, 0.1)';
+    } 
+    // Scenario 2 is the legitimate message (incorrect answer)
+    else if (scenarioNumber === 2) {
+      resultDiv.innerHTML = 'This is actually a legitimate security message. The phishing attempt was Scenario 1.';
+      resultDiv.style.display = 'block';
+      resultDiv.style.color = '#ff00e6'; // Neon pink for incorrect
+      resultDiv.style.borderLeftColor = '#ff00e6';
+      resultDiv.style.background = 'rgba(255, 0, 230, 0.1)';
+    }
+    
+    // Add visual feedback to the selected box
+    const allBoxes = document.querySelectorAll('.scenario-box');
+    allBoxes.forEach(box => box.style.border = '1px solid rgba(0, 242, 255, 0.3)');
+    
+    const selectedBox = document.querySelector(`.scenario-box:nth-child(${scenarioNumber})`);
+    if (scenarioNumber === 1) {
+      selectedBox.style.border = '2px solid #00ff88';
+      selectedBox.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.5)';
+    } else {
+      selectedBox.style.border = '2px solid #ff00e6';
+      selectedBox.style.boxShadow = '0 0 20px rgba(255, 0, 230, 0.5)';
+    }
+  }
+    const translateBtn = document.getElementById('translateBtn');
+    let isBangla = false;
+    
+    // Full Bangla translations for each section
+    const banglaContent = {
+"what-is-cybersecurity":` <h2>MFA-এর শক্তি (Multifactor Authentication)</h2> <p>হ্যাকাররা ভুয়া ইমেল, লিক হওয়া ডেটা বা লুকানো ভাইরাসের মাধ্যমে সংবেদনশীল তথ্য চুরি করতে পারে। কিন্তু MFA তাদেরকে প্রতিহত করার এক অসাধারণ প্রযুক্তি। কেউ যদি আপনার পাসওয়ার্ড জেনেও ফেলে, তবুও MFA আপনার ফোনে একটি কোড পাঠিয়ে, আপনার ফিঙ্গারপ্রিন্ট নিয়ে, বা আপনার ফেস স্ক্যান করে আপনার পরিচিতি নিশ্চিত করে।</p> <p>এজন্য ব্যাংক, সোশ্যাল মিডিয়া এবং ইমেল সার্ভিসগুলো MFA ব্যবহার করে।</p>`,
+
+"data-protection":` <h2>ফায়ারওয়ালের ভূমিকা</h2> <p>ফায়ারওয়াল আপনার কম্পিউটার বা নেটওয়ার্কের জন্য একটি সিকিউরিটি গার্ডের মতো কাজ করে। এটি আসছে বা যাচ্ছে এমন প্রতিটি ট্রাফিকের বিট পরীক্ষা করে, এবং সনাক্ত করে কোনটি নিরাপদ এবং কোনটি নয়। যদি কিছু সন্দেহজনক প্রবেশ করতে চায়, যেমন হ্যাকারের পাঠানো ট্রাফিক বা ক্ষতিকারক ফাইল, ফায়ারওয়াল তা ব্লক করে।</p>`,
+
+"common-threats":` <h2>ব্যাকআপ এর উপকারিতা</h2> <p>হ্যাকাররা ransomware পছন্দ করে কারণ এটি মানুষের কাছ থেকে অর্থ হাতিয়ে নেয়। তারা ছবি, ডকুমেন্ট এবং ওয়ার্ক ফাইল এনক্রিপ্ট করে, তারপর তা আনলক করার জন্য মুক্তিপণ দাবি করে। কিন্তু সঠিক ব্যাকআপ থাকলে, তাদের পুরো পরিকল্পনা ধ্বংস হয়ে যায়। অর্থ প্রদানের পরিবর্তে, আপনি সংক্রমিত সিস্টেম মুছে দিতে পারেন এবং সবকিছু আপনার সংরক্ষিত কপি থেকে পুনরুদ্ধার করতে পারেন।</p> <div class="code-block">পরামর্শ: কমপক্ষে দুটি ব্যাকআপ রাখুন— একটি এক্সটার্নাল হার্ড ড্রাইভে, একটি নিরাপদ ক্লাউড স্টোরেজে। এইভাবে, ransomware আক্রমণ করলেও, আপনার কাছে সবসময় নিরাপদ কপি থাকবে।</div>`,
+
+"security-principles":` <h2>Encryption-এর জাদু</h2> <p>Encryption হলো আপনার তথ্যকে একটি নিরাপদ বক্সে লক করার মতো, যা কেবল চাবি থাকলেই খোলা যেতে পারে। উদাহরণস্বরূপ, যখন আপনি WhatsApp-এ মেসেজ পাঠান, তখন সেই মেসেজটি end-to-end encryption ব্যবহার করে এনক্রিপ্ট করা হয়। এর মানে কেউ যদি এটি ইন্টারসেপ্ট করে, তারা শুধুই scrambled ডেটা দেখতে পায় যেমন "U2FsdGVkX1+Jk9p3vQ==", কেবল প্রাপকের ডিভাইস এটি ডিক্রিপ্ট করতে পারে মূল মেসেজ পড়ার জন্য।</p> <div class="code-block"><p>Encrypted Message: "U2FsdGVkX1+Jk9p3vQ==", প্রাপক দ্বারা Decrypted: "আমার সাথে ৫টায় দেখা করবে।"</p></div>`,
+
+"jobs-roles":` <h2>VPN</h2> <p>VPN বা Virtual Private Network হলো আপনার ডিভাইস এবং ইন্টারনেটের মধ্যে একটি গোপন টানেলের মতো। এটি আপনার আসল IP ঠিকানা আড়াল করে এবং সমস্ত ডেটা এনক্রিপ্ট করে, যাতে কেউ নেটওয়ার্কে স্পাই করলেও তারা দেখতে পারে না আপনি কী করছেন। ওয়েবসাইট এবং হ্যাকাররা শুধুমাত্র VPN সার্ভার দেখতে পায়, আপনার ব্যক্তিগত ডিভাইস নয়।</p> <div class="code-block"><p>Public WiFi তে সংযোগ VPN ছাড়া → আপনার ডেটা ইন্টারসেপ্ট হতে পারে। VPN এর সাথে সংযোগ → আপনার ডেটা এনক্রিপ্টেড এবং IP আড়াল করে নিরাপদ রাখে।</p></div>`,
+
+"certifications":` <h2>Updates: Patching কতটা গুরুত্বপূর্ণ</h2> <p>কোনো app এর প্রতিটি আপডেট এতে বিদ্যামান দুর্বলতাগুলো ঠিক করে। সিস্টেম outdated রাখা অত্যন্ত ঝুঁকিপূর্ণ। নিয়মিত আপডেট আপনার ডিভাইসকে malware, ransomware এবং অন্যান্য সাইবার হুমকি থেকে রক্ষা করে।</p> <div class="code-block"><p>বাংলাদেশে এখনও অনেক ব্যবহারকারী outdated Windows version ব্যবহার করছে, যা তাদের ডিভাইসকে আক্রমণের জন্য উন্মুক্ত করে দেয়।</p></div>`,
+
+"what-is-a-network":` <h2>পাসওয়ার্ডের জটিলতা</h2> <p>পাসওয়ার্ড আপনার অ্যাকাউন্টগুলো সুরক্ষিত করার জন্যই রাখা হয়, কিন্তু এতে অনেক সমস্যা থাকে। মানুষ প্রায়ই একই পাসওয়ার্ড একাধিক অ্যাকাউন্টে ব্যবহার করে, তাই যদি একটি সাইটের পাসওয়ার্ড hack হয়, সব অন্যান্য অ্যাকাউন্টও ঝুঁকিতে থাকে। অনেকেই সহজ পাসওয়ার্ড তৈরি করে যেমন "123456" বা "password" কারণ মনে রাখা সহজ, কিন্তু এগুলো ভাঙা বর্তমানে কিছু সময়ের ব্যাপার মাত্র। কেউ জটিল পাসওয়ার্ড তৈরি করে কিন্তু sticky note এ লিখে রাখে বা plain text ফাইলে সংরক্ষণ করে, যা কেউ দেখে নিতে পারে।</p> <h3>সাধারণ পাসওয়ার্ড জটিলতা</h3> <li>দুর্বল পাসওয়ার্ড অনুমান এবং crack করা সহজ।</li> <li>একাধিক অ্যাকাউন্টে একই পাসওয়ার্ড পুনঃব্যবহার, ঝুঁকি বৃদ্ধি করে।</li> <li>জটিল পাসওয়ার্ড মনে রাখা কঠিন এবং নিরাপদভাবে সংরক্ষণ করা কঠিন।</li> <li>পাসওয়ার্ড phishing বা malware দ্বারা চুরি হতে পারে।</li> <li>প্রায়শই পাসওয়ার্ড পরিবর্তন predictable প্যাটার্ন তৈরি করতে পারে।</li>`,
+
+"network-devices":` <h2>Physical সিকিউরিটি</h2> <p>Physically সাইবার ঝুঁকি কেবল আপনার ল্যাপটপ বা ফোন ছিনিয়ে নেওয়ার বিষয়ে নয়। সংক্ষিপ্ত ফিজিকাল ইন্টারঅ্যাকশনও আপনার ডিভাইসকে ঝুঁকিতে ফেলতে পারে। পাবলিক চার্জিং স্টেশনে ফোন প্লাগ করলে malware ট্রান্সফার হতে পারে, যেটি আপনি বুঝবেনও না। যেকোনো random USB stick পেয়ে এটি কম্পিউটারে সংযুক্ত করলে তা তৎক্ষণাৎ সংক্রমিত হতে পারে। পাবলিক WiFi নেটওয়ার্ক ডেটা real time-এ ইন্টারসেপ্ট করতে পারে, হ্যাকারদের পাসওয়ার্ড, মেসেজ বা ফাইল চুরি করার সুযোগ দেয়। </p> <h3>ফিজিকাল সিকিউরিটি ঝুঁকির উদাহরণ</h3> <li>পাবলিক USB চার্জার বা ক্যাবল ব্যবহার করলে malware ট্রান্সফার হতে পারে।</li> <li>Random USB drive-এ ভাইরাস বা ransomware থাকতে পারে।</li> <li>ওপেন WiFi নেটওয়ার্কে সংযোগ করার মাধ্যমে সংবেদনশীল ডেটা চুরি হওয়ার সম্ভাবনা থাকে।</li>  <li>untrusted sources থেকে ডিভাইস কিনলে তাতে আগে থেকেই malware থাকতে পারে।</li>`,
+
+"security-protocols":` <h2>AI এর প্রভাব</h2> <p>বিশাল পরিমাণ ডেটা মানুষের চেয়ে দ্রুত বিশ্লেষণ করতে পারায় Artificial Intelligence সাইবারসিকিউরিটিকে শক্তিশালী করতে পারে । এটি unusual প্যাটার্ন বা আচরণ শনাক্ত করতে পারে যা আক্রমণের ইঙ্গিত দেয়। AI স্বয়ংক্রিয়ভাবে হুমকির বিপরীতে প্রতিক্রিয়া করতে পারে, যেমন সন্দেহজনক সংযোগ ব্লক করা বা সম্ভাব্য malware flag করা।</p> <p>অতীতের ঘটনা থেকে শেখা দ্বারা AI ভবিষ্যতের আক্রমণও পূর্বানুমান করতে সাহায্য করে । এটি সিস্টেমের দুর্বলতা চিহ্নিত করতে পারে এবং উন্নতির পরামর্শ দিতে পারে। এটি প্রতিরক্ষা প্রক্রিয়াকে proactive করে তোলে, কেবল reactive নয়, যাতে সংস্থা এবং ব্যক্তিরা বিকশিত সাইবার হুমকির আগে এগিয়ে থাকতে পারে।</p>`,
+
+"firewalls-vpns":` <h2>সচেতনতার শক্তি</h2> <p>সচেতনতা হলো সাইবারসিকিউরিটিতে সবচেয়ে শক্তিশালী প্রতিরক্ষা। ঝুঁকিগুলো সম্পর্কে জানা, সাধারণ আক্রমণগুলো বোঝা, এবং অনলাইন কার্যক্রমে সতর্ক থাকা অনেক সময় সাইবার হামলা প্রতিরোধ করতে পারে। সহজ অভ্যাস যেমন phishing চিহ্নিত করা, সন্দেহজনক লিঙ্ক এড়ানো, এবং সফটওয়্যার আপডেট রাখা হ্যাক হওয়ার সম্ভাবনা উল্লেখযোগ্যভাবে কমায়।</p> <h3>সচেতনতা কী কী প্রতিরোধ করতে পারে</h3> <li>malicious লিঙ্কে ক্লিক করা যা malware ইনস্টল করা থেকে বাঁচায়।</li> <li>phishing ইমেল বা ভুয়া ওয়েবসাইট চিহ্নিত করতে সক্ষম করে।</li> <li>সংবেদনশীল তথ্য untrusted sources-এর সঙ্গে শেয়ার করা থেকে বাঁচায়।</li> <li>দুর্বল বা পুনরায় ব্যবহৃত পাসওয়ার্ড ব্যবহার না করার ফলে ঝুঁকি কমে।</li> <li>সতর্কতা ছাড়া unsafe network বা ডিভাইসে সংযোগ করা প্রতিরোধ করে।</li>`
+    };
+
+    // English content backup
+    const englishContent = {};
+    document.querySelectorAll('.topic-section').forEach(section => {
+      englishContent[section.id] = section.innerHTML;
+    });
+
+    translateBtn.addEventListener('click', function() {
+      isBangla = !isBangla;
+      
+      if (isBangla) {
+        translateBtn.textContent = 'English';
+        translateBtn.style.background = 'linear-gradient(90deg, var(--neon-green), var(--neon-blue))';
+        
+        // Switch to Bangla
+        document.querySelector('.module-title').textContent = 'মডিউল ৩: সাইবার প্রতিরক্ষা';
+        document.querySelector('.progress-text span:first-child').textContent = 'অগ্রগতি';
+        document.querySelector('.btn-next').textContent = 'পরবর্তী মডিউল →';
+        document.querySelector('.btn-prev').textContent = 'পূর্ববর্তী মডিউল →';
+        
+        Object.keys(banglaContent).forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) section.innerHTML = banglaContent[sectionId];
+        });
+      } else {
+        // Switch back to English
+        location.reload();
+      }
+    });
+    
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+  // Excel-based login system integration (shared, from quiz4/module2)
+  let userDatabase = [];
+  const appState = { currentUser: null };
+  window.appState = appState;
+
+  const elements = {
+    loginBtn: document.getElementById("login-btn"),
+    logoutBtn: document.getElementById("logout-btn"),
+    loginPopup: document.getElementById("login-popup"),
+    closeBtn: document.querySelector(".close-btn"),
+    loginForm: document.getElementById("login-form"),
+    loginId: document.getElementById("login-id"),
+    loginMobile: document.getElementById("login-mobile"),
+    userNavItem: document.getElementById("user-nav-item"),
+    usernameDisplay: document.getElementById("username-nav-display"),
+    loginNavItem: document.getElementById("login-nav-item"),
+    alertOverlay: document.getElementById("alert-overlay"),
+    cyberAlert: document.getElementById("cyber-alert"),
+    alertTitle: document.getElementById("alert-title"),
+    alertMessage: document.getElementById("alert-message"),
+    alertConfirm: document.getElementById("alert-confirm"),
+    alertCancel: document.getElementById("alert-cancel"),
+    courseNavItem: document.getElementById("course-nav-item"),
+    quizNavItem: document.getElementById("quiz-nav-item"),
+    resourcesNavItem: document.getElementById("resources-nav-item")
+  };
+
+  function showAlert(title, message, options = {}) {
+    elements.alertTitle.textContent = title;
+    elements.alertMessage.textContent = message;
+    if (options.confirm) {
+      elements.alertConfirm.style.display = 'inline-block';
+      elements.alertConfirm.textContent = options.confirmText || 'Confirm';
+      elements.alertConfirm.onclick = () => { hideAlert(); if (options.onConfirm) options.onConfirm(); };
+    } else { elements.alertConfirm.style.display = 'none'; }
+    if (options.cancel) {
+      elements.alertCancel.style.display = 'inline-block';
+      elements.alertCancel.textContent = options.cancelText || 'Cancel';
+      elements.alertCancel.onclick = () => { hideAlert(); if (options.onCancel) options.onCancel(); };
+    } else { elements.alertCancel.style.display = 'none'; }
+    elements.alertOverlay.classList.add('active');
+    elements.cyberAlert.classList.add('active');
+  }
+
+  function hideAlert() {
+    elements.alertOverlay.classList.remove('active');
+    elements.cyberAlert.classList.remove('active');
+  }
+
+  function checkLoggedInUser() {
+    const sessionUser = sessionStorage.getItem('currentUser');
+    if (sessionUser) { try { loginUser(JSON.parse(sessionUser), true); return; } catch(e) { sessionStorage.removeItem('currentUser'); } }
+    const savedUser = localStorage.getItem('loggedInUser');
+    if (savedUser) { try { loginUser(JSON.parse(savedUser), true); } catch(e) { localStorage.removeItem('loggedInUser'); } }
+  }
+
+  function loginUser(user, isAutoLogin = false) {
+    appState.currentUser = user;
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    sessionStorage.setItem('currentUser', JSON.stringify(user));
+    if (elements.userNavItem) elements.userNavItem.style.display = "block";
+    if (elements.loginNavItem) elements.loginNavItem.style.display = "none";
+    if (elements.usernameDisplay) elements.usernameDisplay.textContent = user.Name;
+    if (elements.loginPopup) elements.loginPopup.style.display = "none";
+    [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.remove('locked'); });
+    if (!isAutoLogin || !sessionStorage.getItem('hasShownWelcome')) {
+      setTimeout(() => showAlert("ACCESS GRANTED", `Welcome back, ${user.Name}!`, { confirm: true }), 800);
+    }
+    sessionStorage.setItem('hasShownWelcome', 'true');
+  }
+
+  function logoutUser() {
+    showAlert(
+      "CONFIRM LOGOUT",
+      "Are you sure you want to log out?",
+      {
+        confirm: true,
+        confirmText: "LOGOUT",
+        onConfirm: () => {
+          localStorage.removeItem('loggedInUser');
+          sessionStorage.removeItem('currentUser');
+          appState.currentUser = null;
+          if (elements.userNavItem) elements.userNavItem.style.display = "none";
+          if (elements.loginNavItem) elements.loginNavItem.style.display = "block";
+          [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.add('locked'); });
+          window.location.href = '../index.html';
+        },
+        cancel: true
+      }
+    );
+  }
+
+  async function loadUsersFromExcel() {
+    try {
+      const response = await fetch('../users.xlsx');
+      if (!response.ok) throw new Error(`Failed to fetch Excel file: HTTP ${response.status}`);
+      const arrayBuffer = await response.arrayBuffer();
+      const data = new Uint8Array(arrayBuffer);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const excelData = XLSX.utils.sheet_to_json(worksheet);
+      userDatabase = excelData.map(row => ({
+        ID: String(row.ID || '').trim(),
+        Name: String(row.Name || '').trim(),
+        Mobile: String(row.Mobile || '').trim(),
+        Role: String(row.Role || 'student').trim()
+      })).filter(user => user.ID && user.Name && user.Mobile);
+    } catch (error) {
+      console.error('Error loading Excel:', error);
+      userDatabase = [
+        { ID: "STU101", Name: "Test Student", Mobile: "01712345678", Role: "student" },
+        { ID: "TEACH202", Name: "Test Teacher", Mobile: "01876543210", Role: "teacher" }
+      ];
+      const persistedUser = sessionStorage.getItem('currentUser') || localStorage.getItem('loggedInUser');
+      if (!persistedUser) {
+        showAlert("NOTE", "Using test data - Login with ID: STU101, Mobile: 01712345678", { confirm: true });
+      }
+    }
+  }
+
+  function normalizeMobile(mobile) {
+    let digits = mobile.replace(/\D/g, '');
+    if (digits.startsWith('880')) digits = digits.substring(3);
+    else if (digits.startsWith('+880')) digits = digits.substring(4);
+    if (digits.length !== 11) throw new Error('Mobile must be exactly 11 digits');
+    return digits;
+  }
+
+  function validateUser(id, mobile) {
+    try {
+      const normalizedMobile = normalizeMobile(mobile);
+      const user = userDatabase.find(u => u.ID === id.trim() && normalizeMobile(u.Mobile) === normalizedMobile);
+      if (!user) throw new Error('No matching user found');
+      return user;
+    } catch (error) {
+      console.error('Validation error:', error);
+      return null;
+    }
+  }
+
+  function setupLoginEventListeners() {
+    if (elements.loginBtn) elements.loginBtn.addEventListener("click", () => { elements.loginPopup.style.display = "block"; elements.loginId && elements.loginId.focus(); });
+    if (elements.closeBtn) elements.closeBtn.addEventListener("click", () => { elements.loginPopup.style.display = "none"; });
+    if (elements.loginMobile) elements.loginMobile.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+    if (elements.loginForm) elements.loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = elements.loginId.value;
+      const mobile = elements.loginMobile.value;
+      if (!id || !mobile) { showAlert("ERROR", "Both ID and Mobile are required", { confirm: true }); return; }
+      const user = validateUser(id, mobile);
+      if (user) { loginUser(user); } else { showAlert("ACCESS DENIED", "Invalid ID or Mobile. Must be exact 11-digit number.", { confirm: true }); }
+    });
+    if (elements.logoutBtn) elements.logoutBtn.addEventListener("click", logoutUser);
+
+    document.querySelectorAll('.nav-item.locked .nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (!appState.currentUser) {
+          e.preventDefault();
+          showAlert(
+            "LOGIN REQUIRED",
+            "Please login to access this section.",
+            { confirm: true, confirmText: "LOGIN", onConfirm: () => { elements.loginPopup.style.display = "block"; } }
+          );
+        }
+      });
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target === elements.loginPopup) elements.loginPopup.style.display = "none";
+      if (e.target === elements.alertOverlay) hideAlert();
+    });
+  }
+
+  (async function initializeLogin() {
+    try {
+      await loadUsersFromExcel();
+      setupLoginEventListeners();
+      checkLoggedInUser();
+      window.addEventListener('beforeunload', () => {
+        if (!sessionStorage.getItem('currentUser')) {
+          sessionStorage.removeItem('hasShownWelcome');
+        }
+      });
+    } catch (error) {
+      console.error('Initialization error:', error);
+      showAlert("INIT ERROR", "Failed to initialize login: " + error.message, { confirm: true, confirmText: "RELOAD", onConfirm: () => window.location.reload() });
+    }
+  })();
+</script>
+</body>
+</html>

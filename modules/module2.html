@@ -1,0 +1,1640 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSET | Cybersecurity Module</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-blue: #00f2ff;
+      --neon-purple: #a100ff;
+      --neon-pink: #ff00e6;
+      --neon-green: #00ff88;
+      --dark-bg: #0a0e1a;
+      --darker-bg: #050811;
+      --glow-intensity: 0 0 15px;
+      --terminal-cursor: #00ff41;
+    }
+    
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark-bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #ffffff;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+    .password-checker {
+  margin: 25px 0;
+  padding: 20px;
+  background: rgba(5, 8, 17, 0.6);
+  border: 1px solid var(--neon-purple);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(161, 0, 255, 0.3);
+}
+
+.password-input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(10, 14, 26, 0.7);
+  border: 1px solid var(--neon-blue);
+  border-radius: 4px;
+  color: white;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: var(--neon-green);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--neon-blue);
+  cursor: pointer;
+}
+
+.strength-meter {
+  height: 8px;
+  background: #0a1a2a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 15px 0;
+  box-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+}
+
+.strength-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.crack-time {
+  font-family: 'Fira Code', monospace;
+  padding: 15px;
+  background: rgba(10, 14, 26, 0.7);
+  border-radius: 4px;
+  border-left: 3px solid var(--neon-blue);
+  margin-top: 20px;
+}
+
+.time-value {
+  color: var(--neon-green);
+  font-weight: bold;
+}
+
+.warning {
+  color: var(--neon-pink);
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+  .translate-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(161, 0, 255, 0.5);
+}
+.translate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+}
+
+    /* ===== CYBERPUNK NAVBAR ===== */
+    .navbar-custom {
+      background: rgba(10, 14, 26, 0.95) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+      padding: 0.8rem 2rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 2.4rem !important;
+      font-weight: 900 !important;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--glow-intensity) rgba(161, 0, 255, 0.7);
+      letter-spacing: 3px;
+      position: relative;
+      padding-right: 20px;
+      margin-right: 1rem;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .navbar-brand:hover {
+      text-shadow: 0 0 25px var(--neon-purple), 
+                   0 0 20px var(--neon-blue),
+                   0 0 35px rgba(161, 0, 255, 0.5);
+      transform: scale(1.05) !important;
+    }
+
+    .navbar-brand::after {
+      content: '_';
+      position: absolute;
+      right: 0;
+      animation: blink 1s step-end infinite;
+      color: var(--terminal-cursor);
+      font-weight: 400;
+    }
+
+    .nav-link {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700 !important;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: white !important;
+      margin: 0 12px;
+      position: relative;
+      padding: 8px 0 !important;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      transition: width 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--neon-blue) !important;
+      text-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+      box-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    .nav-link.active {
+      color: var(--neon-green) !important;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+    }
+
+    .nav-link.active::before {
+      width: 100%;
+      background: var(--neon-green);
+      box-shadow: 0 0 20px var(--neon-green);
+    }
+
+    .navbar-toggler {
+      border: 1px solid var(--neon-blue);
+      padding: 0.5rem;
+    }
+        .code-block {
+      background: rgba(0, 242, 255, 0.1);
+      border: 1px solid rgba(0, 242, 255, 0.3);
+      border-radius: 4px;
+      padding: 15px;
+      font-family: 'Fira Code', monospace;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .note-box {
+      background: rgba(0, 255, 136, 0.1);
+      border-left: 3px solid var(--neon-green);
+      padding: 15px;
+      margin: 20px 0;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 242, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* ===== MODULE PAGE LAYOUT ===== */
+    .module-container {
+      display: flex;
+      padding-top: 100px;
+      min-height: calc(100vh - 100px);
+    }
+
+    /* ===== SIDEBAR NAVIGATION ===== */
+    .module-sidebar {
+      width: 280px;
+      padding: 30px 20px;
+      position: fixed;
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      background: rgba(5, 8, 17, 0.8);
+      border-right: 1px solid rgba(0, 242, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      top: 100px;
+    }
+
+.sidebar-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+  position: sticky;
+  top: 0;
+  background: var(--darker-bg);
+  z-index: 10;
+  padding-top: 10px;
+  box-shadow: 0 5px 15px rgba(5, 8, 17, 0.9);
+}
+
+.sidebar-header h2 {
+  display: flex;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.module-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--neon-purple);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.progress-container {
+  margin-top: 20px;
+  position: sticky;
+  top: 120px;
+  background: var(--darker-bg);
+  padding-bottom: 10px;
+  z-index: 5;
+}
+
+    .progress-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: var(--neon-green);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #0a1a2a;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+      width: 25%;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+.topic-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.topic-nav li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.topic-nav li::before {
+  content: none;
+  display: none;
+}
+
+    .topic-nav a {
+      display: block;
+      padding: 10px 15px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: #b2f5ea;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .topic-nav a:hover, .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.1);
+      color: var(--neon-blue);
+      border-left: 3px solid var(--neon-blue);
+      text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+    .topic-nav a.active {
+      background: rgba(0, 242, 255, 0.2);
+      color: var(--neon-green);
+      border-left: 3px solid var(--neon-green);
+    }
+    .module-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.module-sidebar::-webkit-scrollbar-track {
+  background: rgba(5, 8, 17, 0.8);
+}
+
+.module-sidebar::-webkit-scrollbar-thumb {
+  background: var(--neon-purple);
+  border-radius: 4px;
+}
+
+.module-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-blue);
+}
+
+.module-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) rgba(5, 8, 17, 0.8);
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--neon-blue), var(--neon-purple));
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--neon-green), var(--neon-pink));
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-purple) var(--darker-bg);
+}
+
+    /* ===== MAIN CONTENT ===== */
+    .module-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 40px;
+      max-width: 900px;
+      position: relative;
+      padding-bottom: 100px;
+    }
+
+    .module-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      color: var(--neon-blue);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+      white-space: nowrap;
+    }
+
+    .topic-section {
+      margin-bottom: 60px;
+      padding: 30px;
+      background: rgba(5, 8, 17, 0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 242, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .topic-section:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+    }
+
+    .topic-section h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--neon-purple);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .topic-content {
+      font-family: 'Rajdhani', sans-serif;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .topic-content p {
+      margin-bottom: 20px;
+    }
+
+    .topic-content ul {
+      padding-left: 25px;
+      margin-bottom: 20px;
+      list-style-type: none;
+    }
+
+    .topic-content li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .topic-content li::before {
+      content: '■';
+      color: var(--neon-green);
+      position: absolute;
+      left: 0;
+      font-size: 0.8rem;
+    }
+
+    .btn-next {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: var(--darker-bg);
+      color: var(--neon-blue);
+      border: 2px solid var(--neon-blue);
+      border-radius: 0;
+      position: fixed;
+      bottom: 30px;
+      right: 40px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 15px rgba(0, 242, 255, 0.6),
+                  0 0 10px rgba(0, 242, 255, 0.3);
+      text-decoration: none;
+      z-index: 100;
+    }
+
+    .btn-next:hover {
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      background: var(--dark-bg);
+      text-shadow: 0 0 10px var(--neon-green);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.8),
+                  0 0 15px rgba(0, 255, 136, 0.4);
+      transform: translateY(-3px);
+    }
+    /* ===== RESPONSIVE ADJUSTMENTS ===== */
+    @media (max-width: 1200px) {
+      .module-sidebar {
+        width: 240px;
+      }
+      .module-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .module-container {
+        flex-direction: column;
+      }
+      .module-sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        top: 0;
+      }
+      .module-content {
+        margin-left: 0;
+        padding: 30px;
+      }
+      .progress-container {
+        position: static;
+      }
+      .btn-next {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .module-title {
+        font-size: 1.8rem;
+        white-space: normal;
+      }
+      .topic-section h2 {
+        font-size: 1.5rem;
+      }
+      .module-content {
+        padding: 20px;
+      }
+      .btn-next {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .module-title {
+        font-size: 1.6rem;
+      }
+      .topic-section {
+        padding: 20px;
+      }
+    }
+      .btn-prev {
+        text-decoration: none;
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: var(--darker-bg);
+  color: var(--neon-blue);
+  border: 2px solid var(--neon-blue);
+  border-radius: 0;
+  position: fixed;
+  bottom: 30px;
+  left: 27px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.6),
+                  0 0 10px rgba(0, 242, 255, 0.3);
+}
+    .btn-prev:hover {
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      background: var(--dark-bg);
+      text-shadow: 0 0 10px var(--neon-green);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.8),
+                  0 0 15px rgba(0, 255, 136, 0.4);
+      transform: translateY(-3px);
+    }
+  </style>
+  <style>
+   .cyber-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.95); z-index: 2000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .cyber-popup-content { background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 50px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 420px; padding: 2.5rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; border-radius: 12px; overflow: hidden; }
+  .cyber-popup h2 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 2rem; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 15px var(--neon-green); }
+  .cyber-popup input { width: 100%; padding: 14px 16px; margin-bottom: 1.2rem; background: rgba(0, 242, 255, 0.08); border: 1px solid var(--neon-blue); color: white; font-family: 'Fira Code', monospace; font-size: 0.95rem; border-radius: 6px; transition: all 0.3s; }
+  .cyber-popup input:focus { border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); background: rgba(0, 255, 136, 0.1); outline: none; }
+  .close-btn { position: absolute; top: 15px; right: 20px; color: var(--neon-pink); font-size: 1.8rem; cursor: pointer; transition: all 0.3s; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .close-btn:hover { transform: rotate(90deg); text-shadow: 0 0 15px var(--neon-pink); background: rgba(255, 0, 230, 0.1); }
+  .user-display { display: flex; align-items: center; margin-left: 20px; position: relative; padding: 8px 15px; border-radius: 30px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--neon-blue); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); transition: all 0.3s; }
+  .user-display:hover { background: rgba(0, 242, 255, 0.2); box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); }
+  .username-display { color: var(--neon-green); font-family: 'Fira Code', monospace; margin-right: 15px; text-shadow: 0 0 8px var(--neon-green); font-size: 0.95rem; letter-spacing: 1px; position: relative; padding-right: 15px; }
+  .username-display::after { content: '|'; position: absolute; right: 0; color: var(--neon-blue); animation: blink 1s step-end infinite; }
+  .btn-logout { background: transparent; border: none; color: var(--neon-pink); padding: 5px 10px; font-family: 'Fira Code', monospace; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; border-radius: 4px; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-logout:hover { color: white; background: rgba(255, 0, 230, 0.2); box-shadow: 0 0 15px var(--neon-pink); }
+  .btn-logout::before { content: '⌫'; margin-right: 5px; font-size: 1.1rem; }
+  .cyber-alert { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3000; background: var(--darker-bg); border: 1px solid var(--neon-blue); box-shadow: 0 0 40px rgba(0, 242, 255, 0.4), inset 0 0 20px rgba(0, 242, 255, 0.1); width: 350px; padding: 2rem; border-radius: 10px; text-align: center; display: none; backdrop-filter: blur(5px); }
+  .cyber-alert.active { display: block; animation: alertFadeIn 0.4s ease-out; }
+  .alert-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 17, 0.8); z-index: 2999; display: none; }
+  .alert-overlay.active { display: block; }
+  .cyber-alert h3 { color: var(--neon-green); font-family: 'Orbitron', sans-serif; margin-bottom: 1.5rem; font-size: 1.5rem; text-shadow: 0 0 10px var(--neon-green); }
+  .cyber-alert p { color: #b2f5ea; font-family: 'Fira Code', monospace; margin-bottom: 2rem; line-height: 1.6; }
+  .cyber-alert-btn { background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 0.7rem 1.8rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; border-radius: 4px; margin: 0 10px; }
+  .cyber-alert-btn.confirm { border-color: var(--neon-green); color: var(--neon-green); }
+  .cyber-alert-btn.danger { border-color: var(--neon-pink); color: var(--neon-pink); }
+  #login-btn { background: rgba(0, 242, 255, 0.15); border: 1px solid var(--neon-blue); border-radius: 4px; padding: 8px 20px !important; margin-left: 15px; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 242, 255, 0.3); position: relative; overflow: hidden; }
+  #login-btn:hover { background: rgba(0, 242, 255, 0.3); box-shadow: 0 0 20px var(--neon-blue); transform: translateY(-2px); }
+  .nav-item.locked .nav-link { color: rgba(255, 255, 255, 0.3) !important; cursor: not-allowed; }
+  .nav-item.locked .nav-link:hover::before { width: 0; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">DSET</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item locked" id="course-nav-item"><a class="nav-link" href="../about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="../course.html">Course</a></li>
+          <li class="nav-item" id="quiz-nav-item"><a class="nav-link" href="../quiz.html">Quiz</a></li>
+          <li class="nav-item locked" id="resources-nav-item"><a class="nav-link" href="../resources.html">Resources</a></li>
+          <li class="nav-item" id="login-nav-item"><a class="nav-link" href="#" id="login-btn">Login</a></li>
+          <li class="nav-item" id="user-nav-item" style="display:none;">
+            <div class="user-display">
+              <span class="username-display" id="username-nav-display"></span>
+              <button id="logout-btn" class="btn-logout">LOGOUT</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="module-container">
+    <!-- Sidebar Navigation -->
+    <aside class="module-sidebar">
+      <div class="sidebar-header">
+        <h2><span class="module-number">2</span> Cyber Attack</h2>
+        <button id="translateBtn" class="translate-btn">বাংলা</button>
+        <div class="progress-container">
+          <div class="progress-text">
+            <span>Progress</span>
+            <span>25%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <ul class="topic-nav">
+        <li><a href="#what-is-cybersecurity" class="active">Inside a hackers mind</a></li>
+        <li><a href="#data-protection">How fast your password can be cracked</a></li>
+        <li><a href="#common-threats">Malware disguised as app</a></li>
+        <li><a href="#security-principles">Social Media Recon (OSINT)</a></li>
+        <li><a href="#jobs-roles">The trojan horse trick</a></li>
+        <li><a href="#certifications">Ransomware Simulation</a></li>
+        <li><a href="#what-is-a-network">The DDoS Storm</a></li>
+        <li><a href="#network-devices">Social Engineering Roleplay</a></li>
+        <li><a href="#security-protocols">The insider threat</a></li>
+        <li><a href="#firewalls-vpns">How vulnerable devices actually are</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="module-content">
+      <h1 class="module-title">Module-2 Cyber Attack </h1>
+
+      <section id="what-is-cybersecurity" class="topic-section">
+<h2>Inside a Hacker's Mind</h2>
+
+<p>A hacker is always looking for the easiest way in. They check systems for weak spots like unpatched apps, misconfigured websites, or outdated software while also paying attention to how people act online. They notice patterns, like someone rushing to open a "bank alert" email or clicking on a free but suspicious app, and use these natural reactions to get in. Every move is about taking advantage of trust, curiosity, or fear without being noticed.</p>
+
+<p>Hackers think ahead. They watch for mistakes, figure out how people will react, and pick the simplest way to reach their goal. Understanding this helps cybersecurity teams patch holes and teach people how to spot phishing attempts, unsafe links, and risky apps before hackers can take advantage.</p>
+  </section>
+
+      <section id="data-protection" class="topic-section">
+<h2>How Fast Your Password Can Be Cracked</h2>
+
+<p>Hackers don't guess passwords by hand. They use programs that can try billions of combinations in seconds, testing patterns people often use, like "123456," "summer2025," or "qwerty." Simple sequences like these can be cracked in minutes, while a password like "G7r!9pLz2Q" that mixes letters, numbers, and symbols could take centuries to break. Hackers also rely on leaked password databases, trying combinations people commonly reuse across Gmail, Facebook, and online banking accounts to gain access quickly.</p>
+
+    <div class="password-checker">
+      <h3>Test Your Password Strength</h3>
+      <div class="password-input-container">
+        <input type="password" id="passwordInput" class="password-input" placeholder="Type a password to test (not your real one!)">
+        <button type="button" class="toggle-visibility" id="toggleVisibility">👁️</button>
+      </div>
+      
+      <div class="strength-meter">
+        <div class="strength-fill" id="strengthFill"></div>
+      </div>
+      
+      <div id="passwordFeedback"></div>
+      
+      <div class="crack-time">
+        <p>Estimated crack time: <span id="crackTime" class="time-value">—</span></p>
+      </div>
+      
+      <p class="warning">⚠️ Warning: This is a simulation. Never enter your actual passwords on any website.</p>
+    </div>
+    
+    </section>
+
+
+      <section id="common-threats" class="topic-section">
+        <div class="topic-content">
+<h2>Malware Disguised as an App</h2>
+
+<p>Malware disguised as an app looks like a normal, useful, or fun application but secretly contains harmful code. A flashlight app that asks for access to your contacts and microphone, or a free photo editor that quietly collects your location, can steal personal information, track your activity, or even let hackers control your device. Even if the app seems to work normally, it can run in the background, collecting sensitive data without the user noticing.</p>
+
+<div class="code-block">
+<p>Warning: Always check app permissions, download apps from trusted sources, and read reviews before installing. Be cautious of free apps that ask for more access than necessary.</p>
+</div>
+      </section>
+
+
+      <section id="security-principles" class="topic-section">
+<h2>Social Media Recon (OSINT)</h2>
+
+<p>Hackers use Social Media Recon to piece together information from what people post online. A photo at a new café can show where someone hangs out, while a post about an upcoming trip reveals when they'll be away. Even small things like your pet's name, favorite sports team, or the school you attend can help them guess passwords or security questions. Comments, likes, and check-ins show patterns in your daily life, and by looking at friends or coworkers, hackers can find more ways to target you. Even sharing hobbies, events, or photos of your home can give away clues about routines or personal habits. That's why being careful about what you post and adjusting privacy settings is so important, because your online footprint can tell a story without you realizing it.</p>
+      </section>
+
+      <section id="jobs-roles" class="topic-section">
+<h2>The Trojan Horse Trick</h2>
+
+<p>The Trojan Horse Trick hides harmful software inside something that looks harmless. You might download a free game, utility, or file that promises extra features, thinking it's safe. Once opened, it can install malware in the background and give hackers access to your device.</p>
+
+<p>Some Trojans can steal passwords, take screenshots, or spy through your webcam. Others add your device to a network of infected computers called a botnet. The program looks legitimate, so people trust it and run it willingly.</p>
+
+<div class="note-box">
+<p>Even experienced users can fall for it, which is why it's important to download software only from trusted sources, check reviews, and watch for unnecessary permission requests.</p>
+</div>
+
+      </section>
+      
+<section id="certifications" class="topic-section">
+<h2>Ransomware in Simulation</h2>
+
+<p>You download a free game or open a fake invoice, and suddenly your files start locking themselves. Pictures, documents, and videos vanish from view while a scary message appears demanding money.</p>
+
+<ul>
+  <li>The ransomware scans your computer for important files like photos, documents, and videos.</li>
+  <li>It encrypts these files, changing their names and extensions so they cannot be opened.</li>
+  <li>Security programs and notifications get disabled to prevent interruption.</li>
+  <li>A message pops up demanding payment, often with a countdown timer.</li>
+  <li>The malware contacts its creator, sending system info and confirming which files are encrypted.</li>
+  <li>It spreads to connected drives, network folders, or USB devices, locking more files.</li>
+  <li>Your computer becomes unusable except for the ransom message, forcing you to restore from backup or risk losing access.</li>
+</ul>
+
+
+      </section>
+      <section id="what-is-a-network" class="topic-section">
+<h2>The DDoS Storm</h2>
+
+<p>A DDoS Storm happens when a website or online service gets slammed with traffic from hundreds or thousands of computers at the same time. Picture a popular online store during a big sale, but instead of real shoppers, a flood of fake visitors clogs the site so no one can get in. The website slows down or crashes completely, making it unusable.</p>
+
+<p>Hackers often use this to distract IT teams while they try other attacks, like stealing data or planting malware. Sometimes it's done to damage a competitor or make a statement. Even major services like banks, streaming platforms, or government sites can go offline for hours because their servers cannot handle the massive rush. The scary part is that the attack can come from devices all over the world, making it hard to stop.</p>
+
+  </section>
+      <section id="network-devices" class="topic-section">
+<h2>Social Engineering Roleplay</h2>
+
+<p>X person receives a message from someone claiming to be a tech support agent for a popular software. The hacker says there's a serious issue with their computer and that they need to download a tool to fix it. Trusting the message, X person clicks the link and starts the download.</p>
+
+<p>The file looks harmless, maybe a PDF or a small utility, but once opened, malware quietly installs on X person's computer. The hacker then gains access to files, keystrokes, and sensitive information.</p>
+
+<p>Throughout the conversation, the hacker used urgency, authority, and helpfulness to manipulate X person. Social engineering relies on psychology rather than technical exploits, tricking someone into doing the work for the attacker.</p>
+
+<div class="code-block">
+<p>Always verify messages from unknown senders, avoid clicking suspicious links, and never download files from untrusted sources. Awareness is the first defense against social engineering attacks.</p>
+</div>
+
+      </section>
+
+      <section id="security-protocols" class="topic-section">
+<h2>The Insider Threat</h2>
+
+<p>An employee at a company has access to sensitive files and systems. At first, everything seems normal, but over time, they start secretly copying confidential documents and sending them to competitors or storing them on personal drives.</p>
+
+<p>Their actions go unnoticed because they have legitimate access. Security systems don't raise alarms since the employee looks like they're doing regular work. Gradually, critical company information leaks, causing financial loss and damaging trust with clients.</p>
+
+<p>Insider threats aren't always malicious at first—sometimes mistakes, curiosity, or small shortcuts lead to massive breaches. This shows that even trusted individuals inside an organization can pose serious risks.</p>
+
+<div class="code-block">
+<p>Companies should monitor unusual access patterns, restrict sensitive data permissions, and educate employees about security policies. Awareness and vigilance help reduce insider threats.</p>
+</div>
+ </section>
+
+      <section id="firewalls-vpns" class="topic-section">
+<h2>How Vulnerable Devices Actually Are</h2>
+
+<p>Devices are far more vulnerable than most people realize. A smartphone, tablet, or laptop might seem secure, but even basic apps or downloads can open doors for hackers. Connecting to an unprotected public WiFi can let attackers intercept messages, passwords, or emails without you noticing. Even home devices like smart TVs, security cameras, or WiFi routers can be hacked if default passwords aren't changed or updates are ignored. A single unpatched vulnerability can give someone full control over a device, allowing them to spy, steal information, or use it to attack other systems. Every device connected to the internet is a potential target, and most people underestimate how easy it is for attackers to exploit them.</p>
+
+      </section>
+    </main>
+    <a href="module3.html" class="btn-next">NEXT MODULE →</a>
+    <a href="module1.html" class="btn-prev">Previous Module →</a>
+  </div>
+
+  <!-- Login Popup -->
+  <div id="login-popup" class="cyber-popup">
+    <div class="cyber-popup-content">
+      <span class="close-btn">&times;</span>
+      <h2>ACCESS TERMINAL</h2>
+      <form id="login-form">
+        <input type="text" id="login-id" placeholder="ID (e.g., STU101)" required>
+        <input type="text" id="login-mobile" placeholder="Mobile (e.g., 01712345678)" required>
+        <button type="submit" class="btn-quiz">AUTHENTICATE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alert System -->
+  <div class="alert-overlay" id="alert-overlay"></div>
+  <div class="cyber-alert" id="cyber-alert">
+    <h3 id="alert-title">ALERT</h3>
+    <p id="alert-message">Message goes here</p>
+    <div id="alert-buttons">
+      <button class="cyber-alert-btn confirm" id="alert-confirm">Confirm</button>
+      <button class="cyber-alert-btn danger" id="alert-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.topic-section');
+      const navLinks = document.querySelectorAll('.topic-nav a');
+      
+      // Navbar active link
+      const navLinksMain = document.querySelectorAll('.nav-link');
+      navLinksMain.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinksMain.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Sidebar active link based on scroll
+      function updateActiveLink() {
+        let current = '';
+        const scrollPosition = window.pageYOffset + 150;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        // Check if we're at the bottom of the page
+        const isAtBottom = (windowHeight + window.pageYOffset) >= documentHeight - 100;
+        
+        // Clear any existing timeout
+        if (window.highlightTimeout) {
+          clearTimeout(window.highlightTimeout);
+        }
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          const sectionId = section.getAttribute('id');
+          
+          // Add buffer zones to ensure all sections are detected properly
+          if (scrollPosition >= (sectionTop - 50) && scrollPosition < (sectionTop + sectionHeight - 50)) {
+            current = sectionId;
+          }
+        });
+        
+        // Special case for when at bottom of page - highlight ALL links temporarily
+        if (isAtBottom) {
+          navLinks.forEach(link => {
+            link.classList.add('active');
+          });
+          
+          // Remove highlights after 1 second
+          window.highlightTimeout = setTimeout(() => {
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+            });
+            
+            // Highlight only the last section after removing all highlights
+            const lastLink = document.querySelector('.topic-nav a[href="#firewalls-vpns"]');
+            if (lastLink) {
+              lastLink.classList.add('active');
+            }
+          }, 1000);
+          
+          return; // Exit early since we've handled the bottom case
+        }
+        
+        // Normal case - highlight only the current section
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          const linkTarget = link.getAttribute('href').substring(1);
+          if (linkTarget === current) {
+            link.classList.add('active');
+          }
+        });
+      }
+      
+      // Smooth scrolling for sidebar links
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          
+          if (targetSection) {
+            window.scrollTo({
+              top: targetSection.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Update progress bar as user scrolls
+      function updateProgress() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollProgress = (scrollTop / scrollHeight) * 100;
+        document.querySelector('.progress-fill').style.width = scrollProgress + '%';
+        document.querySelector('.progress-text span:last-child').textContent = Math.round(scrollProgress) + '%';
+      }
+      
+      // Throttle scroll events for better performance
+      let isScrolling;
+      window.addEventListener('scroll', function() {
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(function() {
+          updateActiveLink();
+          updateProgress();
+        }, 50);
+      }, false);
+      
+      // Password strength helper functions
+      function calculatePasswordStrength(password) {
+        let strength = 0;
+        
+        // Length factor (up to 30 points)
+        strength += Math.min(30, password.length * 3);
+        
+        // Character variety
+        const hasLowercase = /[a-z]/.test(password);
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasNumbers = /[0-9]/.test(password);
+        const hasSpecial = /[^A-Za-z0-9]/.test(password);
+        
+        if (hasLowercase) strength += 5;
+        if (hasUppercase) strength += 10;
+        if (hasNumbers) strength += 10;
+        if (hasSpecial) strength += 15;
+        
+        // Common pattern penalties
+        if (/123|abc|qwert|asdf/.test(password.toLowerCase())) strength -= 15;
+        if (password.toLowerCase() === 'password') strength = 5;
+        
+        // Ensure strength is between 0 and 100
+        return Math.max(0, Math.min(100, strength));
+      }
+      
+      function estimateCrackTime(password) {
+        if (password.length === 0) return '—';
+        
+        // Very simplified estimation (for educational purposes only)
+        const entropy = calculateEntropy(password);
+        const guessesPerSecond = 1e9; // 1 billion guesses per second
+        
+        const seconds = Math.pow(2, entropy) / guessesPerSecond;
+        
+        if (seconds < 1) return 'less than a second';
+        if (seconds < 60) return Math.round(seconds) + ' seconds';
+        if (seconds < 3600) return Math.round(seconds / 60) + ' minutes';
+        if (seconds < 86400) return Math.round(seconds / 3600) + ' hours';
+        if (seconds < 2592000) return Math.round(seconds / 86400) + ' days';
+        if (seconds < 31536000) return Math.round(seconds / 2592000) + ' months';
+        if (seconds < 3153600000) return Math.round(seconds / 31536000) + ' years';
+        return Math.round(seconds / 31536000000) + ' centuries';
+      }
+      
+      function calculateEntropy(password) {
+        let poolSize = 0;
+        
+        if (/[a-z]/.test(password)) poolSize += 26;
+        if (/[A-Z]/.test(password)) poolSize += 26;
+        if (/[0-9]/.test(password)) poolSize += 10;
+        if (/[^A-Za-z0-9]/.test(password)) poolSize += 33;
+        
+        return Math.log2(Math.pow(poolSize, password.length));
+      }
+      
+      function getPasswordFeedback(password, strength) {
+        let feedback = '';
+        
+        if (password.length < 8) {
+          feedback += '<p class="warning">⚠️ Too short (use at least 8 characters)</p>';
+        }
+        
+        if (!/[A-Z]/.test(password)) {
+          feedback += '<p>🔒 Add uppercase letters</p>';
+        }
+        
+        if (!/[0-9]/.test(password)) {
+          feedback += '<p>🔢 Include numbers</p>';
+        }
+        
+        if (!/[^A-Za-z0-9]/.test(password)) {
+          feedback += '<p>✨ Add special characters</p>';
+        }
+        
+        if (strength > 80) {
+          feedback = '<p class="time-value">✅ Strong password!</p>';
+        }
+        
+        return feedback || '<p>Keep going...</p>';
+      }
+      
+      // Password checker initialization function
+      function initPasswordChecker() {
+        const passwordInput = document.getElementById('passwordInput');
+        const toggleButton = document.getElementById('toggleVisibility');
+        const strengthFill = document.getElementById('strengthFill');
+        const passwordFeedback = document.getElementById('passwordFeedback');
+        const crackTimeElement = document.getElementById('crackTime');
+        
+        // If elements don't exist, exit the function
+        if (!passwordInput || !toggleButton || !strengthFill || !passwordFeedback || !crackTimeElement) {
+          return;
+        }
+        
+        let isPasswordVisible = false;
+        
+        // Remove any existing event listeners
+        const newToggleBtn = toggleButton.cloneNode(true);
+        toggleButton.parentNode.replaceChild(newToggleBtn, toggleButton);
+        
+        // Toggle password visibility
+        newToggleBtn.addEventListener('click', function() {
+          isPasswordVisible = !isPasswordVisible;
+          passwordInput.type = isPasswordVisible ? 'text' : 'password';
+          newToggleBtn.textContent = isPasswordVisible ? '🔒' : '👁️';
+        });
+        
+        // Calculate password strength
+        passwordInput.addEventListener('input', function() {
+          const password = passwordInput.value;
+          
+          if (password.length === 0) {
+            strengthFill.style.width = '0%';
+            strengthFill.style.background = 'transparent';
+            passwordFeedback.innerHTML = '';
+            crackTimeElement.textContent = '—';
+            return;
+          }
+          
+          // Calculate password strength score (0-100)
+          const strength = calculatePasswordStrength(password);
+          const crackTime = estimateCrackTime(password);
+          
+          // Update strength meter
+          strengthFill.style.width = strength + '%';
+          
+          // Set color based on strength
+          if (strength < 40) {
+            strengthFill.style.background = '#ff4757'; // Red
+          } else if (strength < 70) {
+            strengthFill.style.background = '#ffa502'; // Orange
+          } else {
+            strengthFill.style.background = '#2ed573'; // Green
+          }
+          
+          // Update feedback
+          passwordFeedback.innerHTML = getPasswordFeedback(password, strength);
+          
+          // Update crack time
+          crackTimeElement.textContent = crackTime;
+        });
+      }
+      
+      // Initialize password checker
+      initPasswordChecker();
+      
+      // Initialize
+      updateActiveLink();
+      updateProgress();
+    });
+
+    // Translation functionality
+    const translateBtn = document.getElementById('translateBtn');
+    let isBangla = false;
+    
+    // Full Bangla translations for each section
+    const banglaContent = {
+      "what-is-cybersecurity": `
+<h2>হ্যাকারদের চিন্তাভাবনা</h2>
+
+<p>একজন হ্যাকার সবসময় সিস্টেমের দুর্বল অংশ খুঁজে বের করার চেষ্টা করে। যেমন unpatched apps, ভুল কনফিগার করা ওয়েবসাইট, বা পুরনো সফটওয়্যার, এবং পাশাপাশি লক্ষ্য করে মানুষের অনলাইনে ঘোরাঘুরি।</p>
+
+<p>হ্যাকাররা আগাম চিন্তা করে। তারা ভুল খুঁজে দেখে, মানুষ কিভাবে প্রতিক্রিয়া দেখাবে তা অনুমান করে, এবং সবচেয়ে সহজ উপায় বেছে নেয় তাদের লক্ষ্য অর্জনের জন্য।</p>
+      `,
+      "data-protection": `
+<h2>আপনার password কত দ্রুত ভাঙা যেতে পারে</h2>
+
+
+
+<div class="password-checker">
+  <h3>আপনার password কী আসলেই শক্তিশালী?</h3>
+  <div class="password-input-container">
+    <input type="password" id="passwordInput" class="password-input" placeholder="একটি password লিখুন পরীক্ষা করতে">
+    <button type="button" class="toggle-visibility" id="toggleVisibility">👁️</button>
+  </div>
+  
+  <div class="strength-meter">
+    <div class="strength-fill" id="strengthFill"></div>
+  </div>
+  
+  <div id="passwordFeedback"></div>
+  
+  <div class="crack-time">
+    <p>আনুমানিক ভাঙার সময়: <span id="crackTime" class="time-value">—</span></p>
+  </div>
+  
+  <p class="warning">⚠️ সতর্কতা: এটি একটি simulation। কখনোই আপনার আসল passwords কোনো website-এ প্রবেশ করবেন না।</p>
+</div>
+      `,
+      "common-threats": `
+<h2>একটি App এর আড়ালে লুকানো Malware</h2>
+
+<p>অনেক সময় কোনো app-এর আড়ালে Malware লুকানো থাকতে পারে। তা সাধারণ, উপকারী বা মজার application-এর মতো দেখায় কিন্তু গোপনে ক্ষতি করে থাকে। এসব app ব্যক্তিগত তথ্য চুরি করতে পারে, আপনার কার্যকলাপ ট্র্যাক করতে পারে, বা এমনকি হ্যাকারকে আপনার device নিয়ন্ত্রণ করার সুযোগ দিতে পারে। যদিও app সাধারণভাবে কাজ করছে মনে হয়, এটি background-এ চলতে থাকে, এবং ব্যবহারকারী বুঝতেই পারে না তার সংবেদনশীল তথ্য চুরি হয়ে যাচ্ছে।</p>
+
+<div class="code-block">
+<p>সতর্কতা: সবসময় কোনো app-কে permission দেওয়ার আগে যাচাই করে নিন, বিশ্বাসযোগ্য উৎস থেকে apps ডাউনলোড করুন, এবং ইনস্টল করার আগে terms and policy পড়ুন। যেসব free apps প্রয়োজনের বেশি প্রবেশাধিকার চায়, সেগুলোতে সতর্ক থাকুন।</p>
+</div>
+      `,
+      "security-principles": `
+<h2>Social Media Recon (OSINT)</h2>
+
+<p>হ্যাকাররা সামাজিক যোগাযোগমাধ্যমে মানুষের পোস্ট থেকে তথ্য সংগ্রহ করে সেগুলোকে একত্রিত করে থাকে। উদাহরণস্বরূপ, নতুন কোনো ক্যাফেতে তোলা ছবি দেখে তারা বুঝতে পারে আপনি কোথায় সময় কাটান, আবার ভ্রমণের পরিকল্পনা সম্পর্কিত পোস্ট থেকে জানতে পারে আপনি কখন বাড়ির বাইরে থাকবেন। এমনকি ছোটখাটো বিষয়—যেমন আপনার পোষা প্রাণীর নাম, প্রিয় খেলার দল, অথবা আপনি কোন বিদ্যালয়ে পড়াশোনা করেছেন—এসব তথ্যও তারা পাসওয়ার্ড বা সিকিউরিটি প্রশ্ন অনুমান করার কাজে ব্যবহার করতে পারে।
+
+আপনার মন্তব্য, লাইক বা চেক-ইনগুলো দৈনন্দিন জীবনের ধারা প্রকাশ করে দেয়। আবার বন্ধু বা সহকর্মীদের কার্যকলাপ পর্যবেক্ষণ করেও তারা আক্রমণের নতুন পথ খুঁজে নিতে সক্ষম হয়। এমনকি শখ, অনুষ্ঠান বা বাড়ির ছবি শেয়ার করার মাধ্যমেও আপনার রুটিন ও ব্যক্তিগত অভ্যাস সম্পর্কে ধারণা পাওয়া যায়।
+
+তাই কী পোস্ট করছেন সে বিষয়ে সতর্ক থাকা এবং সামাজিক যোগাযোগমাধ্যমে গোপনীয়তার সেটিংস সঠিকভাবে ব্যবহার করা অত্যন্ত জরুরি, কারণ অনেক সময় আপনার অনলাইন উপস্থিতিই অজান্তে ব্যক্তিগত জীবনের পূর্ণচিত্র প্রকাশ করে দিতে পারে।</p>
+  `,
+      "jobs-roles": `
+<h2>Trojan Horse Trick</h2>
+
+<p>ট্রোজান হর্স কৌশল হলো এমন এক ধরনের কৌশল যেখানে ক্ষতিকর সফটওয়্যারকে নিরীহ কোনো প্রোগ্রামের ভেতরে লুকিয়ে রাখা হয়। উদাহরণস্বরূপ, আপনি হয়তো একটি বিনামূল্যের গেম, ইউটিলিটি বা ফাইল ডাউনলোড করেন, যা দেখতে নিরাপদ মনে হয়। কিন্তু একবার সেটি চালু করার পর পেছনে ম্যালওয়ার ইন্সটল হয়ে যায় এবং হ্যাকারদের আপনার ডিভাইসে প্রবেশাধিকার প্রদান করে।</p>
+
+<p>কিছু ট্রোজান আপনার পাসওয়ার্ড চুরি করতে পারে, স্ক্রিনশট নিতে পারে কিংবা ওয়েবক্যামের মাধ্যমে নজরদারি করতে পারে। আবার কিছু ট্রোজান আপনার ডিভাইসের সাথে যুক্ত নেটওয়ার্কে বটনেট যুক্ত করে দেয়, যা নেটওয়ার্কে যুক্ত সকল । যেহেতু প্রোগ্রামটি দেখতে বৈধ মনে হয়, মানুষ সহজেই সেটির প্রতি আস্থা রাখে এবং অজান্তে নিজেই সেটি চালায়।</p>
+
+<div class="note-box">
+<p>অভিজ্ঞ ব্যবহারকরীরাও এর ফাঁদে পড়তে পারে, এজন্য সফটওয়্যার কেবল বিশ্বাসযোগ্য উৎস থেকে ডাউনলোড করা, এবং অপ্রয়োজনীয় অনুমতি অনুরোধ দেখার দিকে সতর্ক থাকা গুরুত্বপূর্ণ।</p>
+</div>
+      `,
+      "certifications": `
+<h2>Ransomware-এর কার্যকারিতা</h2>
+
+<p>ধরুন আপনি একটি third party ফ্রি app download করলেন এবং হঠাৎ আপনার ফাইলগুলো নিজে নিজে লক হতে শুরু করলো। ছবি, ডকুমেন্ট, এবং ভিডিও অ্যাক্সেস করা যাচ্ছে না, সাথে একটি ভয়ঙ্কর বার্তা প্রদর্শিত হয় যা অর্থ দাবি করে। এটিই ransomware.</p>
+
+<ul>
+  <li>Ransomware আপনার কম্পিউটার স্ক্যান করে গুরুত্বপূর্ণ ফাইল, যেমন ছবি, ডকুমেন্ট, এবং ভিডিও খোঁজে।</li>
+  <li>এটি এই ফাইলগুলো এনক্রিপ্ট করে, তাদের নাম এবং এক্সটেনশন পরিবর্তন করে যাতে খোলা না যায়।</li>
+  <li>নিরাপত্তা প্রোগ্রাম এবং নোটিফিকেশন বন্ধ করা হয় যাতে ব্যাঘাত না ঘটে।</li>
+  <li>একটি বার্তা প্রদর্শিত হয় যাতে অর্থ দাবি করা হয়, প্রায়শই একটি countdown টাইমারের সঙ্গে।</li>
+  <li>এটি সংযুক্ত ড্রাইভ, নেটওয়ার্ক ফোল্ডার, বা USB ডিভাইসে ছড়িয়ে পড়ে, এবং আরও ফাইল লক করতে থাকে।</li>
+  <li>আপনার কম্পিউটার শুধুমাত্র ransom বার্তা ছাড়া ব্যবহারযোগ্য থাকে না, এবং ফাইলের ব্যাক আপ না থাকলে তা আর ফেরত পাওয়া সম্ভব হয় না অনেক সময়।</li>
+</ul>
+      `,
+      "what-is-a-network": `
+<h2>DDoS-এর ঝুঁকি</h2>
+
+<p>একজন ব্যক্তি জনপ্রিয় একটি সফটওয়্যারের টেক সাপোর্ট প্রতিনিধি পরিচয়ে কারও কাছ থেকে একটি বার্তা পান। বার্তায় দাবি করা হয় যে, তার কম্পিউটারে গুরুতর সমস্যা রয়েছে এবং সেটি সমাধান করতে একটি নির্দিষ্ট টুল ডাউনলোড করতে হবে। বার্তাটির ওপর ভরসা করে তিনি লিঙ্কে ক্লিক করে ডাউনলোড শুরু করেন।
+
+ডাউনলোড করা ফাইলটি দেখতে নিরীহ—হতে পারে একটি পিডিএফ বা ছোট কোনো ইউটিলিটি—কিন্তু সেটি চালু করার পর অদৃশ্যভাবে ম্যালওয়ার ইন্সটল হয়ে যায়। এর ফলে হ্যাকার তার কম্পিউটারের ফাইল, কী-স্ট্রোক এবং সংবেদনশীল তথ্যের ওপর নিয়ন্ত্রণ পেয়ে যায়।
+
+পুরো কথোপকথনের সময় হ্যাকার তাড়াহুড়া, কর্তৃত্ব এবং সাহায্যের ভান ব্যবহার করে ভুক্তভোগীকে প্রভাবিত করে। Social Engineering আসলে প্রযুক্তিগত দুর্বলতার বদলে মনস্তাত্ত্বিক কৌশলের ওপর নির্ভর করে, যাতে ভুক্তভোগী নিজেই অজান্তে আক্রমণকারীর কাজ সহজ করে দেয়।</p>
+      `,
+      "network-devices": `
+<h2>সোশ্যাল ইঞ্জিনিয়ারিং রোলপ্লে</h2>
+
+<p>একজন ব্যক্তি জনপ্রিয় একটি সফটওয়্যারের টেক সাপোর্ট প্রতিনিধি পরিচয়ে কারও কাছ থেকে একটি বার্তা পান। বার্তায় দাবি করা হয় যে, তার কম্পিউটারে গুরুতর সমস্যা রয়েছে এবং সেটি সমাধান করতে একটি নির্দিষ্ট টুল ডাউনলোড করতে হবে। বার্তাটির ওপর ভরসা করে তিনি লিঙ্কে ক্লিক করে ডাউনলোড শুরু করেন।</p>
+
+<p>ডাউনলোড করা ফাইলটি দেখতে নিরীহ—হতে পারে একটি পিডিএফ বা ছোট কোনো ইউটিলিটি—কিন্তু সেটি চালু করার পর অদৃশ্যভাবে ম্যালওয়ার ইন্সটল হয়ে যায়। এর ফলে হ্যাকার তার কম্পিউটারের ফাইল, কী-স্ট্রোক এবং সংবেদনশীল তথ্যের ওপর নিয়ন্ত্রণ পেয়ে যায়।</p>
+
+<p>পুরো কথোপকথনের সময় হ্যাকার তাড়াহুড়া, কর্তৃত্ব এবং সাহায্যের ভান ব্যবহার করে ভুক্তভোগীকে প্রভাবিত করে। সামাজিক প্রকৌশল (Social Engineering) আসলে প্রযুক্তিগত দুর্বলতার বদলে মনস্তাত্ত্বিক কৌশলের ওপর নির্ভর করে, যাতে ভুক্তভোগী নিজেই অজান্তে আক্রমণকারীর কাজ সহজ করে দেয়।</p>
+
+<div class="code-block">
+<p>অজানা প্রেরকের বার্তা সবসময় যাচাই করুন, সন্দেহজনক লিঙ্কে ক্লিক করা এড়ান, এবং অবিশ্বস্ত উৎস থেকে ফাইল কখনো ডাউনলোড করবেন না। সচেতনতা হলো সোশ্যাল ইঞ্জিনিয়ারিং আক্রমণের বিরুদ্ধে প্রথম প্রতিরক্ষা।</p>
+</div>
+      `,
+      "security-protocols": `
+<h2>ইনসাইডার থ্রেট</h2>
+
+<p>কোনো প্রতিষ্ঠানের একজন কর্মীর কাছে সংবেদনশীল ফাইল ও সিস্টেমে প্রবেশাধিকারের সুযোগ থাকে। তাই বিশ্বাসযোগ্য না হলে গোপনে গোপনীয় নথিপত্র কপি করে প্রতিদ্বন্দ্বী প্রতিষ্ঠানের কাছে পাঠাতে পারেন অথবা ব্যক্তিগত ড্রাইভে সংরক্ষণ করতে পারেন।
+
+তাদের কার্যক্রম সহজে ধরা পড়ে না, কারণ তাদের বৈধ প্রবেশাধিকার রয়েছে। নিরাপত্তা ব্যবস্থাও কোনো সতর্কবার্তা দেয় না, যেহেতু এসব কাজ দেখতে স্বাভাবিক অফিস কার্যক্রমের মতোই মনে হয়। কিন্তু ধীরে ধীরে গুরুত্বপূর্ণ তথ্য ফাঁস হতে পারে, যার ফলে আর্থিক ক্ষতি হয়।
+
+অভ্যন্তরীণ হুমকি সবসময় ইচ্ছাকৃতভাবে ক্ষতিকর নাও হতে পারে—অনেক সময় ভুল, কৌতূহল বা সামান্য শর্টকাটই বিশাল নিরাপত্তা ভঙ্গের কারণ হয়ে দাঁড়ায়। এটি প্রমাণ করে যে কোনো প্রতিষ্ঠানের ভেতরে থাকা বিশ্বস্ত ব্যক্তিরাও গুরুতর ঝুঁকি সৃষ্টি করতে পারেন।</p>
+
+<div class="code-block">
+<p>সংস্থাগুলোকে অস্বাভাবিক অ্যাক্সেস প্যাটার্ন মনিটর করা, সংবেদনশীল তথ্যের অনুমতি সীমাবদ্ধ করা, এবং কর্মচারীদের নিরাপত্তা নীতি সম্পর্কে শিক্ষা দেওয়া উচিত। সচেতনতা এবং সতর্কতা ইনসাইডার থ্রেট কমাতে সাহায্য করে।</p>
+</div>
+      `,
+      "firewalls-vpns": `
+<h2>ডিভাইসগুলো আসলে কতটা দুর্বল</h2>
+
+<p>ডিভাইসগুলো সাধারণ মানুষ যতটা বোঝে তার চেয়ে অনেক বেশি দুর্বল। একটি স্মার্টফোন, ট্যাবলেট, বা ল্যাপটপ নিরাপদ মনে হতে পারে, কিন্তু একটি মৌলিক অ্যাপ বা ডাউনলোডও হ্যাকারদের জন্য পথ খুলে দিতে পারে। সুরক্ষাহীন পাবলিক WiFi-তে সংযোগ করলে আক্রমণকারীরা বার্তা, পাসওয়ার্ড বা ইমেল ইন্টারসেপ্ট করতে পারে, আপনি বুঝতেই পারবেন না। এমনকি বাড়ির ডিভাইস যেমন স্মার্ট টিভি, নিরাপত্তা ক্যামেরা, বা WiFi রাউটারও হ্যাক করা যেতে পারে যদি ডিফল্ট পাসওয়ার্ড পরিবর্তন না করা হয় বা আপডেট উপেক্ষা করা হয়। একটি একক দুর্বলতা কাউকে ডিভাইসের সম্পূর্ণ নিয়ন্ত্রণ দিতে পারে, যা তাদের স্পাই, তথ্য চুরি বা অন্যান্য সিস্টেমে আক্রমণ করার সুযোগ দেয়।</p>
+      `
+    };
+
+    // English content backup
+    const englishContent = {};
+    document.querySelectorAll('.topic-section').forEach(section => {
+      englishContent[section.id] = section.innerHTML;
+    });
+
+    // Password checker initialization function
+    function initPasswordChecker() {
+      const passwordInput = document.getElementById('passwordInput');
+      const toggleButton = document.getElementById('toggleVisibility');
+      const strengthFill = document.getElementById('strengthFill');
+      const passwordFeedback = document.getElementById('passwordFeedback');
+      const crackTimeElement = document.getElementById('crackTime');
+      
+      // If elements don't exist, exit the function
+      if (!passwordInput || !toggleButton || !strengthFill || !passwordFeedback || !crackTimeElement) {
+        return;
+      }
+      
+      let isPasswordVisible = false;
+      
+      // Remove any existing event listeners
+      const newToggleBtn = toggleButton.cloneNode(true);
+      toggleButton.parentNode.replaceChild(newToggleBtn, toggleButton);
+      
+      // Toggle password visibility
+      newToggleBtn.addEventListener('click', function() {
+        isPasswordVisible = !isPasswordVisible;
+        passwordInput.type = isPasswordVisible ? 'text' : 'password';
+        newToggleBtn.textContent = isPasswordVisible ? '🔒' : '👁️';
+      });
+      
+      // Calculate password strength
+      passwordInput.addEventListener('input', function() {
+        const password = passwordInput.value;
+        
+        if (password.length === 0) {
+          strengthFill.style.width = '0%';
+          strengthFill.style.background = 'transparent';
+          passwordFeedback.innerHTML = '';
+          crackTimeElement.textContent = '—';
+          return;
+        }
+        
+        // Calculate password strength score (0-100)
+        const strength = calculatePasswordStrength(password);
+        const crackTime = estimateCrackTime(password);
+        
+        // Update strength meter
+        strengthFill.style.width = strength + '%';
+        
+        // Set color based on strength
+        if (strength < 40) {
+          strengthFill.style.background = '#ff4757'; // Red
+        } else if (strength < 70) {
+          strengthFill.style.background = '#ffa502'; // Orange
+        } else {
+          strengthFill.style.background = '#2ed573'; // Green
+        }
+        
+        // Update feedback
+        passwordFeedback.innerHTML = getPasswordFeedback(password, strength);
+        
+        // Update crack time
+        crackTimeElement.textContent = crackTime;
+      });
+    }
+    
+    // Password strength helper functions
+    function calculatePasswordStrength(password) {
+      let strength = 0;
+      
+      // Length factor (up to 30 points)
+      strength += Math.min(30, password.length * 3);
+      
+      // Character variety
+      const hasLowercase = /[a-z]/.test(password);
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasNumbers = /[0-9]/.test(password);
+      const hasSpecial = /[^A-Za-z0-9]/.test(password);
+      
+      if (hasLowercase) strength += 5;
+      if (hasUppercase) strength += 10;
+      if (hasNumbers) strength += 10;
+      if (hasSpecial) strength += 15;
+      
+      // Common pattern penalties
+      if (/123|abc|qwert|asdf/.test(password.toLowerCase())) strength -= 15;
+      if (password.toLowerCase() === 'password') strength = 5;
+      
+      // Ensure strength is between 0 and 100
+      return Math.max(0, Math.min(100, strength));
+    }
+    
+    function estimateCrackTime(password) {
+      if (password.length === 0) return '—';
+      
+      // Very simplified estimation (for educational purposes only)
+      const entropy = calculateEntropy(password);
+      const guessesPerSecond = 1e9; // 1 billion guesses per second
+      
+      const seconds = Math.pow(2, entropy) / guessesPerSecond;
+      
+      if (seconds < 1) return 'less than a second';
+      if (seconds < 60) return Math.round(seconds) + ' seconds';
+      if (seconds < 3600) return Math.round(seconds / 60) + ' minutes';
+      if (seconds < 86400) return Math.round(seconds / 3600) + ' hours';
+      if (seconds < 2592000) return Math.round(seconds / 86400) + ' days';
+      if (seconds < 31536000) return Math.round(seconds / 2592000) + ' months';
+      if (seconds < 3153600000) return Math.round(seconds / 31536000) + ' years';
+      return Math.round(seconds / 31536000000) + ' centuries';
+    }
+    
+    function calculateEntropy(password) {
+      let poolSize = 0;
+      
+      if (/[a-z]/.test(password)) poolSize += 26;
+      if (/[A-Z]/.test(password)) poolSize += 26;
+      if (/[0-9]/.test(password)) poolSize += 10;
+      if (/[^A-Za-z0-9]/.test(password)) poolSize += 33;
+      
+      return Math.log2(Math.pow(poolSize, password.length));
+    }
+    
+    function getPasswordFeedback(password, strength) {
+      let feedback = '';
+      
+      if (password.length < 8) {
+        feedback += '<p class="warning">⚠️ Too short (use at least 8 characters)</p>';
+      }
+      
+      if (!/[A-Z]/.test(password)) {
+        feedback += '<p>🔒 Add uppercase letters</p>';
+      }
+      
+      if (!/[0-9]/.test(password)) {
+        feedback += '<p>🔢 Include numbers</p>';
+      }
+      
+      if (!/[^A-Za-z0-9]/.test(password)) {
+        feedback += '<p>✨ Add special characters</p>';
+      }
+      
+      if (strength > 80) {
+        feedback = '<p class="time-value">✅ Strong password!</p>';
+      }
+      
+      return feedback || '<p>Keep going...</p>';
+    }
+    
+    // Initialize password checker on page load
+    initPasswordChecker();
+
+    translateBtn.addEventListener('click', function() {
+      isBangla = !isBangla;
+      
+      if (isBangla) {
+        translateBtn.textContent = 'English';
+        translateBtn.style.background = 'linear-gradient(90deg, var(--neon-green), var(--neon-blue))';
+        
+        // Switch to Bangla
+        document.querySelector('.module-title').textContent = 'মডিউল ২: সাইবার অ্যাট্যাক';
+        document.querySelector('.progress-text span:first-child').textContent = 'অগ্রগতি';
+        document.querySelector('.btn-next').textContent = 'পরবর্তী মডিউল →';
+        document.querySelector('.btn-prev').textContent = 'পূর্ববর্তী মডিউল →';
+        
+        Object.keys(banglaContent).forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) section.innerHTML = banglaContent[sectionId];
+        });
+        
+        // Reinitialize password checker after translation
+        setTimeout(initPasswordChecker, 100);
+      } else {
+        // Switch back to English
+        document.querySelector('.module-title').textContent = 'Module-2: Cyber Attack';
+        document.querySelector('.progress-text span:first-child').textContent = 'Progress';
+        document.querySelector('.btn-next').textContent = 'NEXT MODULE →';
+        document.querySelector('.btn-prev').textContent = 'PREVIOUS MODULE →';
+        
+        Object.keys(englishContent).forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) section.innerHTML = englishContent[sectionId];
+        });
+        
+        translateBtn.textContent = 'বাংলা';
+        translateBtn.style.background = 'linear-gradient(90deg, var(--neon-purple), var(--neon-blue))';
+        
+        // Reinitialize password checker after translation
+        setTimeout(initPasswordChecker, 100);
+      }
+    });
+       </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    // Excel-based login system integration (shared, from module1)
+    let userDatabase = [];
+    const appState = { currentUser: null };
+    window.appState = appState;
+
+    const elements = {
+      loginBtn: document.getElementById("login-btn"),
+      logoutBtn: document.getElementById("logout-btn"),
+      loginPopup: document.getElementById("login-popup"),
+      closeBtn: document.querySelector(".close-btn"),
+      loginForm: document.getElementById("login-form"),
+      loginId: document.getElementById("login-id"),
+      loginMobile: document.getElementById("login-mobile"),
+      userNavItem: document.getElementById("user-nav-item"),
+      usernameDisplay: document.getElementById("username-nav-display"),
+      loginNavItem: document.getElementById("login-nav-item"),
+      alertOverlay: document.getElementById("alert-overlay"),
+      cyberAlert: document.getElementById("cyber-alert"),
+      alertTitle: document.getElementById("alert-title"),
+      alertMessage: document.getElementById("alert-message"),
+      alertConfirm: document.getElementById("alert-confirm"),
+      alertCancel: document.getElementById("alert-cancel"),
+      courseNavItem: document.getElementById("course-nav-item"),
+      quizNavItem: document.getElementById("quiz-nav-item"),
+      resourcesNavItem: document.getElementById("resources-nav-item")
+    };
+
+    function showAlert(title, message, options = {}) {
+      elements.alertTitle.textContent = title;
+      elements.alertMessage.textContent = message;
+      if (options.confirm) {
+        elements.alertConfirm.style.display = 'inline-block';
+        elements.alertConfirm.textContent = options.confirmText || 'Confirm';
+        elements.alertConfirm.onclick = () => {
+          hideAlert();
+          if (options.onConfirm) options.onConfirm();
+        };
+      } else {
+        elements.alertConfirm.style.display = 'none';
+      }
+      if (options.cancel) {
+        elements.alertCancel.style.display = 'inline-block';
+        elements.alertCancel.textContent = options.cancelText || 'Cancel';
+        elements.alertCancel.onclick = () => {
+          hideAlert();
+          if (options.onCancel) options.onCancel();
+        };
+      } else {
+        elements.alertCancel.style.display = 'none';
+      }
+      elements.alertOverlay.classList.add('active');
+      elements.cyberAlert.classList.add('active');
+    }
+
+    function hideAlert() {
+      elements.alertOverlay.classList.remove('active');
+      elements.cyberAlert.classList.remove('active');
+    }
+
+    function checkLoggedInUser() {
+      const sessionUser = sessionStorage.getItem('currentUser');
+      if (sessionUser) { try { loginUser(JSON.parse(sessionUser), true); return; } catch(e) { sessionStorage.removeItem('currentUser'); } }
+      const savedUser = localStorage.getItem('loggedInUser');
+      if (savedUser) { try { loginUser(JSON.parse(savedUser), true); } catch(e) { localStorage.removeItem('loggedInUser'); } }
+    }
+
+    function loginUser(user, isAutoLogin = false) {
+      appState.currentUser = user;
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+      sessionStorage.setItem('currentUser', JSON.stringify(user));
+      if (elements.userNavItem) elements.userNavItem.style.display = "block";
+      if (elements.loginNavItem) elements.loginNavItem.style.display = "none";
+      if (elements.usernameDisplay) elements.usernameDisplay.textContent = user.Name;
+      if (elements.loginPopup) elements.loginPopup.style.display = "none";
+      [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.remove('locked'); });
+      if (!isAutoLogin || !sessionStorage.getItem('hasShownWelcome')) {
+        setTimeout(() => showAlert("ACCESS GRANTED", `Welcome back, ${user.Name}!`, { confirm: true }), 800);
+      }
+      sessionStorage.setItem('hasShownWelcome', 'true');
+    }
+
+    function logoutUser() {
+      showAlert(
+        "CONFIRM LOGOUT",
+        "Are you sure you want to log out?",
+        {
+          confirm: true,
+          confirmText: "LOGOUT",
+          onConfirm: () => {
+            localStorage.removeItem('loggedInUser');
+            sessionStorage.removeItem('currentUser');
+            appState.currentUser = null;
+            if (elements.userNavItem) elements.userNavItem.style.display = "none";
+            if (elements.loginNavItem) elements.loginNavItem.style.display = "block";
+            [elements.courseNavItem, elements.quizNavItem, elements.resourcesNavItem].forEach(el => { if (el) el.classList.add('locked'); });
+            window.location.href = '../index.html';
+          },
+          cancel: true
+        }
+      );
+    }
+
+    async function loadUsersFromExcel() {
+      try {
+        const response = await fetch('../users.xlsx');
+        if (!response.ok) throw new Error(`Failed to fetch Excel file: HTTP ${response.status}`);
+        const arrayBuffer = await response.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const excelData = XLSX.utils.sheet_to_json(worksheet);
+        userDatabase = excelData.map(row => ({
+          ID: String(row.ID || '').trim(),
+          Name: String(row.Name || '').trim(),
+          Mobile: String(row.Mobile || '').trim(),
+          Role: String(row.Role || 'student').trim()
+        })).filter(user => user.ID && user.Name && user.Mobile);
+      } catch (error) {
+        console.error('Error loading Excel:', error);
+        userDatabase = [
+          { ID: "STU101", Name: "Test Student", Mobile: "01712345678", Role: "student" },
+          { ID: "TEACH202", Name: "Test Teacher", Mobile: "01876543210", Role: "teacher" }
+        ];
+        const persistedUser = sessionStorage.getItem('currentUser') || localStorage.getItem('loggedInUser');
+        if (!persistedUser) {
+          showAlert("NOTE", "Using test data - Login with ID: STU101, Mobile: 01712345678", { confirm: true });
+        }
+      }
+    }
+
+    function normalizeMobile(mobile) {
+      let digits = mobile.replace(/\D/g, '');
+      if (digits.startsWith('880')) digits = digits.substring(3);
+      else if (digits.startsWith('+880')) digits = digits.substring(4);
+      if (digits.length !== 11) throw new Error('Mobile must be exactly 11 digits');
+      return digits;
+    }
+
+    function validateUser(id, mobile) {
+      try {
+        const normalizedMobile = normalizeMobile(mobile);
+        const user = userDatabase.find(u => u.ID === id.trim() && normalizeMobile(u.Mobile) === normalizedMobile);
+        if (!user) throw new Error('No matching user found');
+        return user;
+      } catch (error) {
+        console.error('Validation error:', error);
+        return null;
+      }
+    }
+
+    function setupLoginEventListeners() {
+      if (elements.loginBtn) elements.loginBtn.addEventListener("click", () => { elements.loginPopup.style.display = "block"; elements.loginId && elements.loginId.focus(); });
+      if (elements.closeBtn) elements.closeBtn.addEventListener("click", () => { elements.loginPopup.style.display = "none"; });
+      if (elements.loginMobile) elements.loginMobile.addEventListener('input', function() { this.value = this.value.replace(/\D/g, ''); });
+      if (elements.loginForm) elements.loginForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const id = elements.loginId.value;
+        const mobile = elements.loginMobile.value;
+        if (!id || !mobile) { showAlert("ERROR", "Both ID and Mobile are required", { confirm: true }); return; }
+        const user = validateUser(id, mobile);
+        if (user) { loginUser(user); } else { showAlert("ACCESS DENIED", "Invalid ID or Mobile. Must be exact 11-digit number.", { confirm: true }); }
+      });
+      if (elements.logoutBtn) elements.logoutBtn.addEventListener("click", logoutUser);
+
+      document.querySelectorAll('.nav-item.locked .nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          if (!appState.currentUser) {
+            e.preventDefault();
+            showAlert(
+              "LOGIN REQUIRED",
+              "Please login to access this section.",
+              { confirm: true, confirmText: "LOGIN", onConfirm: () => { elements.loginPopup.style.display = "block"; } }
+            );
+          }
+        });
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target === elements.loginPopup) elements.loginPopup.style.display = "none";
+        if (e.target === elements.alertOverlay) hideAlert();
+      });
+    }
+
+    (async function initializeLogin() {
+      try {
+        await loadUsersFromExcel();
+        setupLoginEventListeners();
+        checkLoggedInUser();
+        window.addEventListener('beforeunload', () => {
+          if (!sessionStorage.getItem('currentUser')) {
+            sessionStorage.removeItem('hasShownWelcome');
+          }
+        });
+      } catch (error) {
+        console.error('Initialization error:', error);
+        showAlert("INIT ERROR", "Failed to initialize login: " + error.message, { confirm: true, confirmText: "RELOAD", onConfirm: () => window.location.reload() });
+      }
+    })();
+  </script>
+</body>
+</html>
